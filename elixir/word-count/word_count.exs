@@ -18,7 +18,8 @@ defmodule Words do
   end
 
   defp split_into_words(sentence) do
-    String.split(String.downcase(sentence), [" ", "_", ","])    
+    String.downcase(sentence)
+    |> String.split([" ", "_", ","])
   end
 
   defp drop_empty_words(words) do
