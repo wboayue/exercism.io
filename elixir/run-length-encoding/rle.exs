@@ -7,8 +7,31 @@ defmodule RunLengthEncoder do
   "1H1O1R1S1E" => "HORSE"
   """
   @spec encode(String.t) :: String.t
-  def encode(string) do
+  def encode("") do
+    ""
+  end
 
+  def encode(string) do
+    state = %{current: nil, run_length: 0, encoded: ""}
+    
+    String.codepoints(string)
+    |> Enum.reduce(state, &encode/2)
+    |> format_encoded_string
+  end
+
+  def encode(char, state) do
+    cond do
+      state[:current] == nil ->
+        %{ state | :current => char, run_length: 1 }
+      state[:current] == char ->
+        %{ state | :run_length => (state[:run_length] + 1) }
+      true ->
+        %{ state | :encoded => "#{state[:encoded]}#{state[:run_length]}#{state[:current]}", :current => char, :run_length => 1 }
+    end
+  end
+
+  defp format_encoded_string(state) do
+    "#{state[:encoded]}#{state[:run_length]}#{state[:current]}"    
   end
 
   @spec decode(String.t) :: String.t
