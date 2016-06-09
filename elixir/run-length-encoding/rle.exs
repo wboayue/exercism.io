@@ -36,6 +36,23 @@ defmodule RunLengthEncoder do
 
   @spec decode(String.t) :: String.t
   def decode(string) do
-
+    decode(String.codepoints(string), "", "")
   end
+
+  def decode([], _, decoded) do
+    decoded
+  end
+
+  def decode([code_point | rest], run_length, decoded) do
+    if String.match?(code_point, ~r/\d+/) do
+      decode(rest, run_length <> code_point, decoded)
+    else
+      decode(rest, "", decoded <> explode(run_length, code_point))
+    end
+  end
+
+  defp explode(run_length, code_point) do
+    Enum.reduce(1..String.to_integer(run_length), "", fn (n, state) -> code_point <> state end)
+  end
+
 end
