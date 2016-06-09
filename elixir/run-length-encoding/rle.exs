@@ -13,22 +13,27 @@ defmodule RunLengthEncoder do
     state = %{current: nil, run_length: 0, encoded: ""}
     
     String.codepoints(plain_string)
-    |> Enum.reduce(state, &encode/2)
-    |> format_encoded_string
+    |> Enum.reduce(state, &do_encode/2)
+    |> encode_state
   end
 
-  defp encode(char, state) do
+  defp do_encode(char, state) do
     cond do
-      state[:current] == nil ->
+      first_character?(state) ->
         %{ state | :current => char, run_length: 1 }
-      state[:current] == char ->
+      run_continues?(state, char) ->
         %{ state | :run_length => (state[:run_length] + 1) }
+      # character changed
       true ->
-        %{ state | :encoded => "#{state[:encoded]}#{state[:run_length]}#{state[:current]}", :current => char, :run_length => 1 }
+        %{ state | :current => char, :run_length => 1, :encoded => encode_state(state) }
     end
   end
 
-  defp format_encoded_string(state) do
+  defp first_character?(state), do: state[:current] == nil 
+
+  defp run_continues?(state, char), do: state[:current] == char 
+
+  defp encode_state(state) do
     "#{state[:encoded]}#{state[:run_length]}#{state[:current]}"    
   end
 
