@@ -11,15 +11,15 @@ defmodule RunLengthEncoder do
     ""
   end
 
-  def encode(string) do
+  def encode(plain_string) do
     state = %{current: nil, run_length: 0, encoded: ""}
     
-    String.codepoints(string)
+    String.codepoints(plain_string)
     |> Enum.reduce(state, &encode/2)
     |> format_encoded_string
   end
 
-  def encode(char, state) do
+  defp encode(char, state) do
     cond do
       state[:current] == nil ->
         %{ state | :current => char, run_length: 1 }
@@ -47,7 +47,7 @@ defmodule RunLengthEncoder do
     if digit?(code_point) do
       run_length = run_length <> code_point
     else
-      decoded = decoded <> explode(String.to_integer(run_length), code_point)
+      decoded = decoded <> String.duplicate(code_point, String.to_integer(run_length))
       run_length = ""
     end
 
@@ -56,10 +56,6 @@ defmodule RunLengthEncoder do
 
   defp digit?(code_point) do
     String.match?(code_point, ~r/\d+/)
-  end
-
-  defp explode(run_length, code_point) do
-    Enum.reduce(1..run_length, "", fn(_, exploded) -> code_point <> exploded end)
   end
 
 end
