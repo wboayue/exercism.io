@@ -29,7 +29,7 @@ defmodule ListOps do
   end
 
   defp do_reverse([head | tail], reversed) do
-    do_count(tail, [head | reversed])
+    do_reverse(tail, [head | reversed])
   end
 
   @spec map(list, (any -> any)) :: list
@@ -78,7 +78,15 @@ defmodule ListOps do
 
   @spec append(list, list) :: list
   def append(a, b) do
+    do_append(Enum.reverse(a), b)
+  end
 
+  defp do_append(a, []) do
+    Enum.reverse(a)
+  end
+
+  defp do_append(a, [head | tail]) do
+    do_append([head | a], tail)
   end
 
   @spec concat([[any]]) :: [any]
