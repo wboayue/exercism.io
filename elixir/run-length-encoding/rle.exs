@@ -8,7 +8,6 @@ defmodule RunLengthEncoder do
   """
   @spec encode(String.t) :: String.t
   def encode(""),  do: ""
-
   def encode(plain_string) do
     state = %{current: nil, run_length: 0, encoded: ""}
     
@@ -23,8 +22,7 @@ defmodule RunLengthEncoder do
         %{ state | :current => char, run_length: 1 }
       run_continues?(state, char) ->
         %{ state | :run_length => (state[:run_length] + 1) }
-      # character changed
-      true ->
+      :character_changed ->
         %{ state | :current => char, :run_length => 1, :encoded => encode_state(state) }
     end
   end
