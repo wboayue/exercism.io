@@ -24,12 +24,12 @@ defmodule ListOps do
     do_reverse(list, [])
   end
 
-  defp do_reverse([], reversed) do
-    reversed
+  defp do_reverse([], result) do
+    result
   end
 
-  defp do_reverse([head | tail], reversed) do
-    do_reverse(tail, [head | reversed])
+  defp do_reverse([head | tail], result) do
+    do_reverse(tail, [head | result])
   end
 
   @spec map(list, (any -> any)) :: list
@@ -37,12 +37,12 @@ defmodule ListOps do
     do_map(list, func, [])
   end
 
-  defp do_map([], func, mapped) do
-    Enum.reverse(mapped)
+  defp do_map([], _, result) do
+    reverse(result)
   end
 
-  defp do_map([head | tail], func, mapped) do
-    do_map(tail, func, [func.(head) | mapped])
+  defp do_map([head | tail], func, result) do
+    do_map(tail, func, [func.(head) | result])
   end
 
   @spec filter(list, (any -> as_boolean(term))) :: list
@@ -50,16 +50,16 @@ defmodule ListOps do
     do_filter(list, func, [])
   end
 
-  defp do_filter([], func, filtered) do
-    Enum.reverse(filtered)
+  defp do_filter([], _, result) do
+    reverse(result)
   end
 
-  defp do_filter([head | tail], func, filtered) do
+  defp do_filter([head | tail], func, result) do
     if func.(head) do
-      filtered = [head | filtered]
+      result = [head | result]
     end
 
-    do_filter(tail, func, filtered)
+    do_filter(tail, func, result)
   end
 
   @type acc :: any
@@ -68,7 +68,7 @@ defmodule ListOps do
     do_reduce(list, acc, func)
   end
 
-  defp do_reduce([], acc, func) do
+  defp do_reduce([], acc, _) do
     acc
   end
 
@@ -82,7 +82,7 @@ defmodule ListOps do
   end
 
   defp do_append(a, []) do
-    Enum.reverse(a)
+    reverse(a)
   end
 
   defp do_append(a, [head | tail]) do
@@ -90,7 +90,28 @@ defmodule ListOps do
   end
 
   @spec concat([[any]]) :: [any]
-  def concat(ll) do
-
+  def concat([]) do
+    []
   end
+
+  def concat(ll) do
+    do_concat(ll, [])
+  end
+
+  defp do_concat([], result) do
+    reverse(result)
+  end
+
+  defp do_concat([[] | tail], result) do
+    do_concat(tail, result)
+  end
+
+  defp do_concat([[head | nested] | tail], result) do
+    do_concat([nested | tail], [head | result])
+  end
+
+  defp do_concat([head | tail], result) do
+    do_concat(tail, [head | result])
+  end
+
 end
