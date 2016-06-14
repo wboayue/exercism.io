@@ -15,8 +15,8 @@ defmodule ListOps do
     count
   end
 
-  defp do_count([_ | tail], count) do
-    do_count(tail, count + 1)
+  defp do_count(list, count) do
+    do_count(tl(list), count + 1)
   end
 
   @spec reverse(list) :: list
@@ -78,7 +78,7 @@ defmodule ListOps do
 
   @spec append(list, list) :: list
   def append(a, b) do
-    do_append(Enum.reverse(a), b)
+    do_append(reverse(a), b)
   end
 
   defp do_append(a, []) do
