@@ -6,15 +6,16 @@ defmodule Sublist do
   def compare([], []), do: :equal
   def compare([], _), do: :sublist
   def compare(_, []), do: :superlist
-  def compare(a, b) do
-    if Enum.count(a) > Enum.count(b) do
-      case sublist(a, b, 0) do
-        :sublist -> :superlist
-        x -> x
-      end
-    else
-      sublist(b, a, 0)
-    end
+  def compare(a, b) when length(a) > length(b), do: sublist(a, b, 0, :superlist)
+  def compare(a, b), do: sublist(b, a, 0, :sublist)
+
+  def sublist([], _b, _offset, _result_tag), do: :unequal
+  def sublist(a, b, offset, result_tag) do
+    case starts_with(a, b) do
+      :equal -> if offset == 0, do: :equal, else: result_tag
+      :starts_with -> result_tag
+      :unequal -> sublist(tl(a), b, offset + 1, result_tag)
+    end     
   end
 
   def starts_with([], []), do: :equal
@@ -25,15 +26,6 @@ defmodule Sublist do
       hd(a) === hd(b) -> starts_with(tl(a), tl(b))
       true -> :unequal
     end
-  end
-
-  def sublist([], _b, _offset), do: :unequal
-  def sublist(a, b, offset) do
-    case starts_with(a, b) do
-      :equal -> if offset == 0, do: :equal, else: :sublist
-      :starts_with -> :sublist
-      :unequal -> sublist(tl(a), b, offset + 1)
-    end     
   end
 
 end
