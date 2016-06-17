@@ -7,23 +7,33 @@ defmodule Sublist do
   def compare([], _), do: :sublist
   def compare(_, []), do: :superlist
   def compare(a, b) do
-    do_compare(Enum.sort(a), Enum.sort(b), [], [])
+    if Enum.count(a) > Enum.count(b) do
+      case sublist(a, b, 0) do
+        :sublist -> :superlist
+        x -> x
+      end
+    else
+      sublist(b, a, 0)
+    end
   end
 
-  defp do_compare([], [], [], []), do: :equal
-  defp do_compare([], _, [], _), do: :sublist
-  defp do_compare(_, [], _, []), do: :superlist
-  defp do_compare([], _, _, _), do: :unequal
-  defp do_compare(_, [], _, _), do: :unequal
-  defp do_compare(a, b, rem_a, rem_b) do
+  def starts_with([], []), do: :equal
+  def starts_with(_, []), do: :starts_with
+  def starts_with([], _), do: :unequal
+  def starts_with(a, b) do
     cond do
-      hd(a) === hd(b) ->
-        do_compare(tl(a), tl(b), rem_a, rem_b)
-      hd(a) < hd(b) ->
-        do_compare(tl(a), b, [hd(a) | rem_a], rem_b)
-      :hd_a_gt_hd_b ->
-        do_compare(a, tl(b), rem_a, [hd(b) | rem_b])
-    end  
+      hd(a) === hd(b) -> starts_with(tl(a), tl(b))
+      :unequal -> :unequal
+    end
+  end
+
+  def sublist([], _b, _offset), do: :unequal
+  def sublist(a, b, offset) do
+    case starts_with(a, b) do
+      :equal -> if offset == 0, do: :equal, else: :sublist
+      :starts_with -> :sublist
+      :unequal -> sublist(tl(a), b, offset + 1)
+    end     
   end
 
 end
