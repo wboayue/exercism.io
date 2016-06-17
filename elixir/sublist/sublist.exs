@@ -23,7 +23,7 @@ defmodule Sublist do
   def starts_with(a, b) do
     cond do
       hd(a) === hd(b) -> starts_with(tl(a), tl(b))
-      :unequal -> :unequal
+      true -> :unequal
     end
   end
 
