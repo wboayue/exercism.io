@@ -4,16 +4,26 @@ defmodule Anagram do
   """
   @spec match(String.t, [String.t]) :: [String.t]
   def match(base, candidates) do
-    base_bag = base |> word_bag
-
-    candidates
-    |> Enum.filter(&(String.downcase(base) != String.downcase(&1) && word_bag(&1) == base_bag))
+    match(base, letter_bag(base), candidates)
   end
 
-  defp word_bag(word) do
+  defp match(base, base_bag, candidates) do
+    candidates
+    |> Enum.filter(&(!equal_ignore_case?(base, &1) && anagram?(base_bag, &1)))
+  end
+
+  defp equal_ignore_case?(a, b) do
+    String.downcase(a) == String.downcase(b)
+  end
+
+  defp anagram?(base_bag, word) do
+    base_bag == letter_bag(word) 
+  end
+
+  defp letter_bag(word) do
     word
     |> String.downcase
-    |> String.codepoints
+    |> String.to_char_list
     |> Enum.sort
   end
 end
