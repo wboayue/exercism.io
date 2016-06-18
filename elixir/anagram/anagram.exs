@@ -7,17 +7,17 @@ defmodule Anagram do
     match(base, letter_list_sorted(base), candidates)
   end
 
-  defp match(base, base_list, candidates) do
+  defp match(base, base_list_sorted, candidates) do
     candidates
-    |> Enum.filter(&(!equal_ignore_case?(base, &1) && anagram?(base_list, &1)))
+    |> Enum.filter(&(!equal_ignore_case?(base, &1) && anagram?(base_list_sorted, &1)))
   end
 
   defp equal_ignore_case?(a, b) do
     String.downcase(a) == String.downcase(b)
   end
 
-  defp anagram?(base_bag, word) do
-    base_bag == letter_list_sorted(word) 
+  defp anagram?(base_list_sorted, word) do
+    base_list_sorted == letter_list_sorted(word) 
   end
 
   defp letter_list_sorted(word) do
