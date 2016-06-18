@@ -4,12 +4,12 @@ defmodule Anagram do
   """
   @spec match(String.t, [String.t]) :: [String.t]
   def match(base, candidates) do
-    match(base, letter_bag(base), candidates)
+    match(base, letter_list_sorted(base), candidates)
   end
 
-  defp match(base, base_bag, candidates) do
+  defp match(base, base_list, candidates) do
     candidates
-    |> Enum.filter(&(!equal_ignore_case?(base, &1) && anagram?(base_bag, &1)))
+    |> Enum.filter(&(!equal_ignore_case?(base, &1) && anagram?(base_list, &1)))
   end
 
   defp equal_ignore_case?(a, b) do
@@ -17,10 +17,10 @@ defmodule Anagram do
   end
 
   defp anagram?(base_bag, word) do
-    base_bag == letter_bag(word) 
+    base_bag == letter_list_sorted(word) 
   end
 
-  defp letter_bag(word) do
+  defp letter_list_sorted(word) do
     word
     |> String.downcase
     |> String.to_char_list
