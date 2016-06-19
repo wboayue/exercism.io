@@ -21,20 +21,19 @@ defmodule RunLengthEncoder do
   end
 
   @spec decode(String.t) :: String.t
-  def decode(encoded_string), do: do_decode(String.codepoints(encoded_string), "", "")
-
-  defp do_decode([], decoded, _), do: decoded
-  defp do_decode([code_point | rest], decoded, run_length) do
-    if digit?(code_point) do
-      run_length = run_length <> code_point
-    else
-      decoded = decoded <> String.duplicate(code_point, String.to_integer(run_length))
-      run_length = ""
-    end
-
-    do_decode(rest, decoded, run_length)
+  def decode(encoded_string) do
+    encoded_string
+    |> String.codepoints
+    |> Stream.chunk_by(&(digit?(&1)))
+    |> Stream.chunk(2)
+    |> Enum.map(&decode_run/1)
+    |> Enum.join
   end
 
   defp digit?(code_point), do: String.match?(code_point, ~r/\d+/)
+
+  defp decode_run([length, letter]) do
+    String.duplicate(hd(letter), String.to_integer(Enum.join(length)))
+  end
 
 end
