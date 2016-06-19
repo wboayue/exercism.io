@@ -7,40 +7,24 @@ defmodule RunLengthEncoder do
   "1H1O1R1S1E" => "HORSE"
   """
   @spec encode(String.t) :: String.t
-  def encode(""),  do: ""
+  def encode(""), do: ""
   def encode(plain_string) do
-    state = %{current: nil, run_length: 0, encoded: ""}
-    
-    String.codepoints(plain_string)
-    |> Enum.reduce(state, &do_encode/2)
-    |> encode_state
+    plain_string
+    |> String.codepoints
+    |> Stream.chunk_by(&(&1))
+    |> Enum.map(&encode_run/1)
+    |> Enum.join
   end
 
-  defp do_encode(char, state) do
-    cond do
-      first_character?(state) ->
-        %{ state | :current => char, run_length: 1 }
-      run_continues?(state, char) ->
-        %{ state | :run_length => (state[:run_length] + 1) }
-      :character_changed ->
-        %{ state | :current => char, :run_length => 1, :encoded => encode_state(state) }
-    end
-  end
-
-  defp first_character?(state), do: state[:current] == nil 
-
-  defp run_continues?(state, char), do: state[:current] == char 
-
-  defp encode_state(state) do
-    "#{state[:encoded]}#{state[:run_length]}#{state[:current]}"    
+  defp encode_run(letters) do 
+    "#{Enum.count(letters)}#{hd(letters)}"
   end
 
   @spec decode(String.t) :: String.t
-  def decode(encoded_string), do: decode(String.codepoints(encoded_string), "", "")
+  def decode(encoded_string), do: do_decode(String.codepoints(encoded_string), "", "")
 
-  defp decode([], decoded, _), do: decoded
-
-  defp decode([code_point | rest], decoded, run_length) do
+  defp do_decode([], decoded, _), do: decoded
+  defp do_decode([code_point | rest], decoded, run_length) do
     if digit?(code_point) do
       run_length = run_length <> code_point
     else
@@ -48,7 +32,7 @@ defmodule RunLengthEncoder do
       run_length = ""
     end
 
-    decode(rest, decoded, run_length)
+    do_decode(rest, decoded, run_length)
   end
 
   defp digit?(code_point), do: String.match?(code_point, ~r/\d+/)
