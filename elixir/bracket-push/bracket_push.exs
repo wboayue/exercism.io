@@ -23,12 +23,12 @@ defmodule BracketPush do
     Enum.member?(@all_brackets, token)  
   end
 
-  defp process_bracket(_codepoint, state = %{:valid => false}), do: state
-  defp process_bracket(codepoint, state) do
-    case codepoint do
-      bracket when bracket in @open_brackts -> push(state, bracket)
-      bracket when bracket in @close_brackets -> pop(state, bracket)
-    end
+  defp process_bracket(_bracket, state = %{:valid => false}), do: state  
+  defp process_bracket(bracket, state) when bracket in @open_brackts do
+    push(state, bracket)
+  end
+  defp process_bracket(bracket, state) when bracket in @close_brackets do
+    pop(state, bracket)
   end
 
   defp push(state = %{:valid => false}, _), do: state
@@ -37,11 +37,11 @@ defmodule BracketPush do
   end
 
   defp pop(state = %{:valid => false}, _), do: state
+  defp pop(state = %{:stack => []}, _), do: %{state | :valid => false}
   defp pop(%{:stack => stack} = state, bracket) do
     cond do
-      stack == [] -> %{state | :valid => false}
       hd(stack) == @bracket_pairs[bracket] -> %{state | :stack => tl(stack)}
-      true -> %{state | :valid => false}
+      :unbalanced -> %{state | :valid => false}
     end
   end
 
