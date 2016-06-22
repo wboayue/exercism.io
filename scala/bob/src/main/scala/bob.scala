@@ -11,12 +11,8 @@ class Bob {
     phrase == ""
   }
 
-  def has_letter(phrase: String): Boolean = {
-    phrase.exists(_.isLetter)
-  }
-
   def shouting(phrase: String): Boolean = {
-    has_letter(phrase) && phrase.toUpperCase == phrase
+    phrase.exists(_.isLetter) && !phrase.exists(Character.isLowerCase(_))
   }
 
   def questioning(phrase: String): Boolean = {

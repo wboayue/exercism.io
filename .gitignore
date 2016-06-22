@@ -2,3 +2,5 @@ build
 babel-output
 node_modules
 target
+__pycache__
+*.pyc
