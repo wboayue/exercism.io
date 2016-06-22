@@ -12,7 +12,7 @@ class Bob {
   }
 
   def has_letter(phrase: String): Boolean = {
-    "\\p{L}+".r == phrase
+    ("\\p{L}+".r findFirstIn phrase) != None
   }
 
   def shouting(phrase: String): Boolean = {
