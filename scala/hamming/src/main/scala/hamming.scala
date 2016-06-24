@@ -4,7 +4,7 @@ object Hamming {
     require(strand1.length == strand2.length, "Strands must be equal lengths.")
 
     strand1.zip(strand2).
-      count({ nucleotide => nucleotide._1 != nucleotide._2 })
+      count{case (n1, n2) => n1 != n2}
   }
 
 }
