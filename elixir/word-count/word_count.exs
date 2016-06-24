@@ -7,27 +7,14 @@ defmodule Words do
   @spec count(String.t) :: map
   def count(sentence) do
     sentence
-    |> strip_punctuation
     |> split_into_words
-    |> drop_empty_words
-    |> count_words
-  end
-
-  defp strip_punctuation(sentence) do
-    String.replace(sentence, ~r/[:!&@$%^]/, "")
+    |> count_words(%{})
   end
 
   defp split_into_words(sentence) do
-    String.downcase(sentence)
-    |> String.split([" ", "_", ","])
-  end
-
-  defp drop_empty_words(words) do
-    Enum.reject(words, &(&1 == ""))  
-  end
-
-  defp count_words(words) do
-    count_words(words, %{})
+    sentence
+    |> String.downcase
+    |> String.split(~r/[:!&@$%^ _,]+/, trim: true)
   end
 
   defp count_words([], counts) do
