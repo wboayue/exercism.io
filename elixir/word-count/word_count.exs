@@ -8,7 +8,7 @@ defmodule Words do
   def count(sentence) do
     sentence
     |> split_into_words
-    |> count_words(%{})
+    |> count_words
   end
 
   defp split_into_words(sentence) do
@@ -17,12 +17,12 @@ defmodule Words do
     |> String.split(~r/[:!&@$%^ _,]+/, trim: true)
   end
 
-  defp count_words([], counts) do
-    counts
+  defp count_words(words) do
+    Enum.reduce(words, %{}, &update_counts/2)
   end
 
-  defp count_words([word | rest], counts) do
-    count_words(rest, Map.update(counts, word, 1, &(&1 + 1)))
+  defp update_counts(word, counts) do
+    Map.update(counts, word, 1, &(&1 + 1))
   end
 
 end
