@@ -9,10 +9,9 @@ class Phrase(text: String) {
   }
 
   private def splitIntoWords(phrase: String): List[String] = {
-    stripPunctuation(phrase).
+    phrase.
       toLowerCase().
-      split("[ _,]").
-      filter(w => w.size > 0).
+      split("[^\\w']+").
       toList
   }
 
