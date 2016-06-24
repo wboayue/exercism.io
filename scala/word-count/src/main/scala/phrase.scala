@@ -8,7 +8,7 @@ class Phrase(text: String) {
     words.groupBy(w => w).mapValues(_.size)
   }
 
-  def splitIntoWords(phrase: String): List[String] = {
+  private def splitIntoWords(phrase: String): List[String] = {
     stripPunctuation(phrase).
       toLowerCase().
       split("[ _,]").
@@ -16,7 +16,7 @@ class Phrase(text: String) {
       toList
   }
 
-  def stripPunctuation(phrase: String): String = {
+  private def stripPunctuation(phrase: String): String = {
     phrase.trim.replaceAll("[:!&@$%^.]", "")
   }
 
