@@ -5,7 +5,7 @@ class Phrase(text: String) {
   }
 
   private def countWords(words: List[String]): Map[String, Int] = {
-    words.groupBy(w => w).mapValues(_.size)
+    words.groupBy(identity).mapValues(_.size)
   }
 
   private def splitIntoWords(phrase: String): List[String] = {
@@ -13,10 +13,6 @@ class Phrase(text: String) {
       toLowerCase().
       split("[^\\w']+").
       toList
-  }
-
-  private def stripPunctuation(phrase: String): String = {
-    phrase.trim.replaceAll("[:!&@$%^.]", "")
   }
 
 }
