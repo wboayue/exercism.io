@@ -1,6 +1,7 @@
 class Anagram(base: String) {
 
   val baseLower = base.toLowerCase
+  val baseSorted = baseLower.sorted
 
   def matches(words: Seq[String]): Seq[String] = {
     words.filter(word => isAnagram(word))
@@ -12,7 +13,7 @@ class Anagram(base: String) {
     if (baseLower == wordLower) {
       false
     } else {
-      baseLower.sorted == wordLower.sorted
+      baseSorted == wordLower.sorted
     }
   }
 }
