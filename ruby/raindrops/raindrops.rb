@@ -1,5 +1,3 @@
-require 'prime'
-
 module Raindrops
 
   RAIN_DROPS = {
