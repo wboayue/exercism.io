@@ -2,19 +2,22 @@ require 'prime'
 
 module Raindrops
 
+  RAIN_DROPS = {
+    3 => "Pling",
+    5 => "Plang",
+    7 => "Plong"
+  }
+
   def self.convert(num)
-    prime_factors = factorize(num)
-    result = ""
+    melody = RAIN_DROPS.reduce("") do |melody, (factor, sound)|
+      if num % factor == 0
+        melody + sound
+      else
+        melody
+      end
+    end
 
-    result += "Pling" if prime_factors.include?(3)
-    result += "Plang" if prime_factors.include?(5)
-    result += "Plong" if prime_factors.include?(7)
-
-    result.empty? ? num.to_s : result
-  end
-
-  def self.factorize(num)
-    Prime.prime_division(num).flatten    
+    melody.empty? ? num.to_s : melody
   end
 
 end
