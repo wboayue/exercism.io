@@ -9,15 +9,15 @@ module Raindrops
   }
 
   def self.convert(num)
-    melody = RAIN_DROPS.reduce("") do |melody, (factor, sound)|
-      if num % factor == 0
-        melody + sound
-      else
-        melody
-      end
-    end
+    melody = RAIN_DROPS
+      .select { |(factor, sound)| num % factor == 0 }
+      .map { |(factor, sound)| sound }
 
-    melody.empty? ? num.to_s : melody
+    if melody.empty?
+      num.to_s
+    else
+      melody.join
+    end
   end
 
 end
