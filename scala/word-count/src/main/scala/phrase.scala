@@ -4,15 +4,14 @@ class Phrase(text: String) {
     countWords(splitIntoWords(text))
   }
 
-  private def countWords(words: List[String]): Map[String, Int] = {
+  private def countWords(words: Seq[String]): Map[String, Int] = {
     words.groupBy(identity).mapValues(_.size)
   }
 
-  private def splitIntoWords(phrase: String): List[String] = {
-    phrase.
-      toLowerCase().
-      split("[^\\w']+").
-      toList
+  private def splitIntoWords(phrase: String): Seq[String] = {
+    phrase
+      .toLowerCase()
+      .split("[^\\w']+")
   }
 
 }
