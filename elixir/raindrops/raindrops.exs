@@ -27,7 +27,7 @@ defmodule Raindrops do
 
   defp map_sound({_, sound}), do: sound
 
-  defp format_melody([], number), do: "#{number}"
-  defp format_melody(melody, number), do: Enum.join(melody)
+  defp format_melody([], number), do: Integer.to_string(number)
+  defp format_melody(melody, _), do: Enum.join(melody)
 
 end
