@@ -17,12 +17,15 @@ defmodule Raindrops do
   """
   @spec convert(pos_integer) :: String.t
   def convert(number) do
-    melody = @drops
-    |> Enum.filter(fn ({factor, _}) -> rem(number, factor) == 0 end)
-    |> Enum.map(fn ({_, sound}) -> sound end)
+    @drops
+    |> Enum.filter(&(divisible_by?(number, &1)))
+    |> Enum.map(&map_sound/1)
+    |> format_melody(number)
+ end
 
-    format_melody(melody, number)
-  end
+  defp divisible_by?(number, {factor, _}), do: rem(number, factor) == 0
+
+  defp map_sound({_, sound}), do: sound
 
   defp format_melody([], number), do: "#{number}"
   defp format_melody(melody, number), do: Enum.join(melody)
