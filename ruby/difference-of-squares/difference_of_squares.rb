@@ -1,17 +1,17 @@
 class Squares
 
-  attr_reader :number
+  attr_reader :number_range
 
   def initialize(number)
-    @number = number
+    @number_range = (1..number)
   end
 
   def square_of_sum
-    (1..number).reduce(0, :+) ** 2
+    number_range.reduce(0, :+) ** 2
   end
 
   def sum_of_squares
-    (1..number).reduce(0) do |sum, x|
+    number_range.reduce(0) do |sum, x|
       sum + (x ** 2)
     end
   end
