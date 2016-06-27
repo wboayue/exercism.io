@@ -1,11 +1,15 @@
 module Hamming
 
   def self.compute(strand1, strand2)
-    raise ArgumentError, "strand lengths must be equal" if strand1.size != strand2.size
+    check_lengths!(strand1, strand2)
 
     combine_strands(strand1, strand2).count do |nucleotide1, nucleotide2|
       nucleotide1 != nucleotide2
     end
+  end
+
+  def self.check_lengths!(strand1, strand2)
+    raise ArgumentError, "strand lengths must be equal" if strand1.size != strand2.size
   end
 
   def self.combine_strands(strand1, strand2)
