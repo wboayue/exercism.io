@@ -5,7 +5,9 @@ class Phrase(text: String) {
   }
 
   private def countWords(words: Seq[String]): Map[String, Int] = {
-    words.groupBy(identity).mapValues(_.size)
+    words.foldLeft(Map[String, Int]()) {
+      (counts, word) => counts + (word -> (counts.getOrElse(word, 0) + 1))
+    }
   }
 
   private def splitIntoWords(phrase: String): Seq[String] = {
