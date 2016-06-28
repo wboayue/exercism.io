@@ -20,11 +20,16 @@ defmodule Phone do
   def number(raw) do
     raw
     |> strip_punctuation
+    |> coerce_number
   end
 
   defp strip_punctuation(raw) do
-    String.replace(raw, ~r/^[[:alphanum:]]+/, "")  
+    String.replace(raw, ~r/[^[:digit:][:alpha:]]+/, "")  
   end
+
+  defp coerce_number(<< number::binary-size(10) >>), do: number
+  defp coerce_number(<< "1", number::binary-size(10) >>), do: number
+  defp coerce_number(_), do: "0000000000"
 
   @doc """
   Extract the area code from a phone number
@@ -45,8 +50,12 @@ defmodule Phone do
   """
   @spec area_code(String.t) :: String.t
   def area_code(raw) do
-  
+    raw
+    |> number
+    |> extract_area_code
   end
+
+  defp extract_area_code(<< npa_code::binary-size(3) >> <> _), do: npa_code
 
   @doc """
   Pretty print a phone number
