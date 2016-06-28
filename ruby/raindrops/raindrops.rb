@@ -8,14 +8,10 @@ module Raindrops
 
   def self.convert(num)
     melody = RAIN_DROPS
-      .select { |(factor, sound)| num % factor == 0 }
+      .select { |(factor, sound)| (num % factor).zero? }
       .map { |(factor, sound)| sound }
 
-    if melody.empty?
-      num.to_s
-    else
-      melody.join
-    end
+    melody.empty? ? num.to_s :  melody.join
   end
 
 end

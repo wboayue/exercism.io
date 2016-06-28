@@ -18,7 +18,12 @@ defmodule Phone do
   """
   @spec number(String.t) :: String.t
   def number(raw) do
+    raw
+    |> strip_punctuation
+  end
 
+  defp strip_punctuation(raw) do
+    String.replace(raw, ~r/^[[:alphanum:]]+/, "")  
   end
 
   @doc """
@@ -62,6 +67,16 @@ defmodule Phone do
   """
   @spec pretty(String.t) :: String.t
   def pretty(raw) do
-  
+    raw
+    |> number
+    |> format_number
+  end
+
+  defp format_number(<< npa_code::binary-size(3), co_code::binary-size(3), number::binary-size(4) >>) do
+    format_number(npa_code, co_code, number)  
+  end
+
+  defp format_number(npa_code, co_code, number) do
+    "(#{npa_code}) #{co_code}-#{number}" 
   end
 end
