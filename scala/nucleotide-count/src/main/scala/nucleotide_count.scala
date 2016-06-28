@@ -12,7 +12,7 @@ class DNA(strand: String) {
   }
 
   def nucleotideCounts(nucleotide: Char): Int = {
-    require(isValidNucleotide(nucleotide), s"Valid nucleotides are ACGT")
+    require(isValidNucleotide(nucleotide), "Valid nucleotides are ACGT")
 
     strand.count(_ == nucleotide)
   }
