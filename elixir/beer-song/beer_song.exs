@@ -7,38 +7,33 @@ defmodule BeerSong do
     bottles_of_beer_lyrics(number) <> take_one_down_lyrics(number)
   end
 
-  defp pluralize(word, count, none \\ "no more") do
+  defp bottles_of_beer_lyrics(verse_number) do
+    bottle_count = verse_number - 1
+    sentence_case("#{beer_on_the_wall(bottle_count)}, #{pluralize("bottle", bottle_count)} of beer.\n")
+  end
+
+  defp pluralize(word, count) do
     case count do
-      0 -> "#{none} #{word}s"
+      0 -> "no more #{word}s"
       1 -> "1 #{word}"
       _ -> "#{count} #{word}s"
     end
   end
 
-  def bottles_of_beer_lyrics(verse_number) do
-    bottle_count = verse_number - 1
-
-    sentence_case("#{beer_on_the_wall(bottle_count)}, #{pluralize("bottle", bottle_count)} of beer.\n")
-  end
-
-  def sentence_case(<< first_letter::binary-size(1) >> <> rest) do
+  defp sentence_case(<< first_letter::binary-size(1) >> <> rest) do
     String.upcase(first_letter) <> rest
   end
 
-  def beer_on_the_wall(bottle_count) do
+  defp beer_on_the_wall(bottle_count) do
     "#{pluralize("bottle", bottle_count)} of beer on the wall"
   end
 
-  def take_one_down_lyrics(1) do
-    "Go to the store and buy some more, 99 bottles of beer on the wall.\n"
-  end
-
-  def take_one_down_lyrics(2) do
-    "Take it down and pass it around, #{beer_on_the_wall(0)}.\n"
-  end
-
-  def take_one_down_lyrics(number) do
-    "Take one down and pass it around, #{beer_on_the_wall(number - 2)}.\n"
+  defp take_one_down_lyrics(number) do
+    case number do
+      1 -> "Go to the store and buy some more, 99 bottles of beer on the wall.\n"
+      2 -> "Take it down and pass it around, no more bottles of beer on the wall.\n"
+      _ -> "Take one down and pass it around, #{beer_on_the_wall(number - 2)}.\n"
+    end
   end
 
   @doc """
@@ -51,7 +46,6 @@ defmodule BeerSong do
     |> Enum.join("\n")
   end
 
-  def lyrics do
-    lyrics(100..1)
-  end
+  def lyrics, do: lyrics(100..1)
+
 end
