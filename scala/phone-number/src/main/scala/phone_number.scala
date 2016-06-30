@@ -1,22 +1,10 @@
+import collection.immutable.ListMap
+
 class PhoneNumber(raw: String) {
 
-  lazy val number: String = {
-    filtered match {
-      case num if PhoneNumber.isValidTenDigits(num) => num
-      case num if PhoneNumber.isValidElevenDigits(num) => num.tail
-      case _ => PhoneNumber.InvalidNumber
-    }
-  }
+  val (areaCode, prefix, lineNumber) = PhoneNumber.parse(raw)
 
-  private lazy val filtered: String = {
-    raw.filter(_.isLetterOrDigit)
-  }
-
-  lazy val areaCode: String = number.take(3)
-
-  private lazy val prefix: String = number.substring(3, 6)
-
-  private lazy val lineNumber: String = number.drop(6)
+  val number: String = s"${areaCode}${prefix}${lineNumber}"
 
   override def toString: String = {
     s"(${areaCode}) ${prefix}-${lineNumber}"
@@ -26,14 +14,16 @@ class PhoneNumber(raw: String) {
 
 object PhoneNumber {
 
-  val InvalidNumber = "0" * 10
+  val InvalidNumber = ("000", "000", "0000")
+  val PhoneNumberPattern = s"""1?(\\d{3})(\\d{3})(\\d{4})""".r
 
-  private def isValidTenDigits(num: String): Boolean = {
-    num.length == 10
-  }
+  def parse(raw: String): (String, String, String) = {
+    val digits = raw.filter(_.isDigit)
 
-  private def isValidElevenDigits(num: String): Boolean = {
-    num.head == '1' && num.length == 11
+    digits match {
+      case PhoneNumberPattern(areaCode, prefix, lineNumber) => (areaCode, prefix, lineNumber)
+      case _ => InvalidNumber
+    }
   }
 
 }
