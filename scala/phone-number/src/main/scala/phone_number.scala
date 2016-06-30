@@ -28,11 +28,11 @@ object PhoneNumber {
 
   val InvalidNumber = "0" * 10
 
-  def isValidTenDigits(num: String): Boolean = {
+  private def isValidTenDigits(num: String): Boolean = {
     num.length == 10
   }
 
-  def isValidElevenDigits(num: String): Boolean = {
+  private def isValidElevenDigits(num: String): Boolean = {
     num.head == '1' && num.length == 11
   }
 
