@@ -1,5 +1,3 @@
-import collection.immutable.ListMap
-
 class PhoneNumber(raw: String) {
 
   val (areaCode, prefix, lineNumber) = PhoneNumber.parse(raw)
