@@ -4,7 +4,7 @@ class School {
 
   private var classes = TreeMap[Int, Seq[String]]()
 
-  def db = classes
+  def db: Map[Int, Seq[String]] = classes
 
   def add(name: String, grade: Int): Unit = {
     val students: Seq[String] = classes.getOrElse(grade, List[String]())
