@@ -4,7 +4,7 @@ class Robot {
   private val digits = new RandomBag(0 to 9)
   private var generatedName = genrateRandomName
 
-  def name = generatedName
+  def name() = generatedName
 
   def reset(): Unit = {
     generatedName = genrateRandomName
@@ -21,7 +21,7 @@ class RandomBag[T](items: IndexedSeq[T]) extends Iterator[T] {
   private val numbers = new scala.util.Random
   private val range = items.size  
 
-  def randomIndex: Int = numbers.nextInt(range)
+  def randomIndex(): Int = numbers.nextInt(range)
 
   def next(): T = items(randomIndex)
 
