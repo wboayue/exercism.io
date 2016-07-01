@@ -1,14 +1,13 @@
-import scala.collection.immutable.TreeMap
+import scala.collection.immutable.SortedMap
 
 class School {
 
-  private var classes = TreeMap[Int, Seq[String]]()
+  private var classes = SortedMap[Int, Seq[String]]().withDefaultValue(List[String]())
 
   def db: Map[Int, Seq[String]] = classes
 
-  def add(name: String, grade: Int): Unit = {
-    val students: Seq[String] = classes.getOrElse(grade, List[String]())
-    classes = classes + (grade -> (students :+ name))
+  def add(name: String, grade: Int): Unit = {    
+    classes += (grade -> (classes(grade) :+ name))
   }
 
   def grade(number: Int): Seq[String] = {
