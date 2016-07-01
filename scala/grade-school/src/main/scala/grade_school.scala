@@ -2,20 +2,20 @@ import scala.collection.immutable.SortedMap
 
 class School {
 
-  private var classes = SortedMap[Int, Seq[String]]().withDefaultValue(List[String]())
+  private var students = SortedMap[Int, Seq[String]]().withDefaultValue(Vector[String]())
 
-  def db: Map[Int, Seq[String]] = classes
+  def db: Map[Int, Seq[String]] = students
 
   def add(name: String, grade: Int): Unit = {    
-    classes += (grade -> (classes(grade) :+ name))
+    students += (grade -> (students(grade) :+ name))
   }
 
-  def grade(number: Int): Seq[String] = {
-    classes.getOrElse(number, Seq.empty)
+  def grade(grade: Int): Seq[String] = {
+    students(grade)
   }
 
   def sorted(): Map[Int, Seq[String]] = {
-    classes.mapValues(_.sorted)
+    students.mapValues(_.sorted)
   } 
 
 }
