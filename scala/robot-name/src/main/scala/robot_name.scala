@@ -4,7 +4,7 @@ class Robot {
   private val digits = new RandomBag(0 to 9)
   private var generatedName = generateRandomName
 
-  def name() = generatedName
+  def name(): String = generatedName
 
   def reset(): Unit = {
     generatedName = generateRandomName
