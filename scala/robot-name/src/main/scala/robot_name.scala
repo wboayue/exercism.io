@@ -2,15 +2,15 @@ class Robot {
 
   private val letters = new RandomBag('A' to 'Z')
   private val digits = new RandomBag(0 to 9)
-  private var generatedName = genrateRandomName
+  private var generatedName = generateRandomName
 
   def name() = generatedName
 
   def reset(): Unit = {
-    generatedName = genrateRandomName
+    generatedName = generateRandomName
   }
 
-  def genrateRandomName(): String = {
+  def generateRandomName(): String = {
     letters.take(2).mkString ++ digits.take(3).mkString
   }
 
