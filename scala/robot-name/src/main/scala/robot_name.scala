@@ -27,15 +27,15 @@ class UniqueFilter(stream: Iterator[String]) extends Iterator[String] {
   private var used: Set[String] = Set.empty
 
   @tailrec
-  def next(): String = {
+  final def next(): String = {
     val item = stream.next
 
     if (used.contains(item)) {
       next()
-    } 
-
-    used += item
-    item   
+    } else {
+      used += item
+      item   
+    }
   }
 
   def hasNext(): Boolean = true
