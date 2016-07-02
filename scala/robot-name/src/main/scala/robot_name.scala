@@ -1,3 +1,5 @@
+import scala.annotation.tailrec
+
 class Robot {
 
   private var generatedName = Robot.nextName
@@ -12,12 +14,32 @@ class Robot {
 
 object Robot {
 
-  private val names = new RandomNames()
+  private val names = new UniqueFilter(new RandomNames())
   
   def nextName(): String = {
     names.next
   }
-  
+
+}
+
+class UniqueFilter(stream: Iterator[String]) extends Iterator[String] {
+
+  private var used: Set[String] = Set.empty
+
+  @tailrec
+  def next(): String = {
+    val item = stream.next
+
+    if (used.contains(item)) {
+      next()
+    } 
+
+    used += item
+    item   
+  }
+
+  def hasNext(): Boolean = true
+
 }
 
 class RandomNames extends Iterator[String] {
@@ -38,9 +60,9 @@ class RandomBag[T](items: IndexedSeq[T]) extends Iterator[T] {
   private val numbers = new scala.util.Random
   private val range = items.size  
 
-  def randomIndex(): Int = numbers.nextInt(range)
-
   def next(): T = items(randomIndex)
+
+  def randomIndex(): Int = numbers.nextInt(range)
 
   def hasNext(): Boolean = true
   
