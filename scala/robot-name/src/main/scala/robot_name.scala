@@ -1,12 +1,21 @@
 class Robot {
 
-  private val names = new RandomNames()
-  private var generatedName = names.next
+  private var generatedName = Robot.nextName
 
   def name(): String = generatedName
 
   def reset(): Unit = {
-    generatedName = names.next
+    generatedName = Robot.nextName
+  }
+
+}
+
+object Robot {
+
+  private val names = new RandomNames()
+  
+  def nextName(): String = {
+    names.next
   }
   
 }
