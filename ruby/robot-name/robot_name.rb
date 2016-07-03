@@ -1,29 +1,54 @@
+require 'set'
+
 class RandomNames
 
   attr_reader :letters, :digits
 
   def initialize
-    @letters = RandomBag.new
-    @digits = RandomBag.new
+    @letters = RandomNames.random_stream('A'.upto('Z'))
+    @digits = RandomNames.random_stream(0.upto(9))
   end
 
   def next
-    (letters.take(2) + digits.take(4)).join
+    (letters.take(2) + digits.take(3)).join
+  end
+
+  def self.random_stream(items)
+    Enumerator.new do |y|
+      items = items.to_a
+
+      loop do
+        y << items.sample
+      end
+    end
   end
 
 end
 
-class RandomBag
-  def take(n)
-    ['a']
+class UniqueStream
+
+  attr_reader :stream, :used
+
+  def initialize(stream)
+    @used = Set.new
+    @stream = stream
   end
+
+  def next
+    loop do
+      item = stream.next
+      
+      return item if used.add?(item)
+    end
+  end
+
 end
 
 class Robot
 
   attr_reader :name, :names
 
-  @@names = RandomNames.new
+  @@names = UniqueStream.new(RandomNames.new)
 
   def initialize
     reset
