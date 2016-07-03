@@ -10,6 +10,10 @@ class RandomNames
   end
 
   def next
+    generate_name
+  end
+
+  def generate_name
     (letters.take(2) + digits.take(3)).join
   end
 
@@ -27,8 +31,6 @@ end
 
 class UniqueStream
 
-  attr_reader :stream, :used
-
   def initialize(stream)
     @used = Set.new
     @stream = stream
@@ -36,9 +38,9 @@ class UniqueStream
 
   def next
     loop do
-      item = stream.next
-      
-      return item if used.add?(item)
+      item = @stream.next
+
+      return item if @used.add?(item)
     end
   end
 
@@ -55,12 +57,9 @@ class Robot
   end
 
   def reset
-    @name = names.next
+    @name = @@names.next
   end
 
-  def names
-    @@names
-  end
 end
 
 module BookKeeping
