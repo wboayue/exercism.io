@@ -5,8 +5,8 @@ class RandomNames
   attr_reader :letters, :digits
 
   def initialize
-    @letters = RandomNames.random_stream('A'.upto('Z'))
-    @digits = RandomNames.random_stream(0.upto(9))
+    @letters = 'A'.upto('Z').to_a
+    @digits = 0.upto(9).to_a
   end
 
   def next
@@ -14,17 +14,11 @@ class RandomNames
   end
 
   def generate_name
-    (letters.take(2) + digits.take(3)).join
+    (take_random(2, letters) + take_random(3, digits)).join
   end
 
-  def self.random_stream(items)
-    Enumerator.new do |y|
-      items = items.to_a
-
-      loop do
-        y << items.sample
-      end
-    end
+  def take_random(num, items)
+    1.upto(num).map { |i| items.sample }
   end
 
 end
@@ -48,7 +42,7 @@ end
 
 class Robot
 
-  attr_reader :name, :names
+  attr_reader :name
 
   @@names = UniqueStream.new(RandomNames.new)
 
