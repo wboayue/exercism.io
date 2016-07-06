@@ -6,9 +6,8 @@ class Raindrops {
 
   def convert(number: Int): String = {
     val melody = Raindrops.Drops
-      .keys
-      .filter(_.isFactorOf(number))
-      .map(Raindrops.Drops(_))
+      .filterKeys(_.isFactorOf(number))
+      .values
 
     if (melody.isEmpty) {
       number.toString
