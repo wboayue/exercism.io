@@ -1,8 +1,14 @@
 import scala.collection.SortedMap
 
-class Raindrops {
+object Raindrops {
 
-  import Raindrops.RaindropsUtils
+  def apply() = this
+
+  val Drops = SortedMap(
+    (3 -> "Pling"),
+    (5 -> "Plang"),
+    (7 -> "Plong")
+  )
 
   def convert(number: Int): String = {
     val melody = Raindrops.Drops
@@ -15,18 +21,6 @@ class Raindrops {
       melody.mkString
     }
   }
-
-}
-
-object Raindrops {
-
-  def apply(): Raindrops = new Raindrops()
-
-  val Drops = SortedMap(
-    (3 -> "Pling"),
-    (5 -> "Plang"),
-    (7 -> "Plong")
-  )
 
   implicit class RaindropsUtils(val factor: Int) {
     def isFactorOf(number: Int): Boolean = number % factor == 0
