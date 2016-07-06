@@ -1,3 +1,5 @@
+import scala.collection.SortedMap
+
 class Raindrops {
 
   import Raindrops.RaindropsUtils
@@ -21,7 +23,7 @@ object Raindrops {
 
   def apply(): Raindrops = new Raindrops()
 
-  val Drops: Map[Int, String] = Map(
+  val Drops = SortedMap(
     (3 -> "Pling"),
     (5 -> "Plang"),
     (7 -> "Plong")
