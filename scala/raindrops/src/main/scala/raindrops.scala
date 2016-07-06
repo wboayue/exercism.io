@@ -11,7 +11,7 @@ object Raindrops {
   )
 
   def convert(number: Int): String = {
-    val melody = Raindrops.Drops
+    val melody = Drops
       .filterKeys(_.isFactorOf(number))
       .values
 
