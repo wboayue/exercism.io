@@ -16,9 +16,7 @@ object PhoneNumber {
   val PhoneNumberPattern = s"""1?(\\d{3})(\\d{3})(\\d{4})""".r
 
   def parse(raw: String): (String, String, String) = {
-    val digits = raw.filter(_.isDigit)
-
-    digits match {
+    raw.filter(_.isDigit) match {
       case PhoneNumberPattern(areaCode, prefix, lineNumber) => (areaCode, prefix, lineNumber)
       case _ => InvalidNumber
     }
