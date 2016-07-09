@@ -2,68 +2,51 @@ import scala.annotation.tailrec
 
 class Robot {
 
-  private var generatedName = Robot.nextName
+  private var generatedName = Robot.nextUniqueName
 
   def name(): String = generatedName
 
   def reset(): Unit = {
-    generatedName = Robot.nextName
+    generatedName = Robot.nextUniqueName
   }
 
 }
 
 object Robot {
 
-  private val names = new UniqueFilter(new RandomNames())
+  private var usedNames = scala.collection.mutable.Set.empty
+  private val names: Stream[String] = RandomNames().stream
   
-  def nextName(): String = {
-    names.next
+  def nextUniqueName(): String = {
+    names.take(1).mkString
   }
 
 }
 
-class UniqueFilter(stream: Iterator[String]) extends Iterator[String] {
+case class RandomNames() {
 
-  private var used: Set[String] = Set.empty
+  private val letters = new RandomBag('A' to 'Z').stream
+  private val digits = new RandomBag(0 to 9).stream
 
-  @tailrec
-  final def next(): String = {
-    val item = stream.next
-
-    if (used.contains(item)) {
-      next()
-    } else {
-      used += item
-      item   
-    }
-  }
-
-  def hasNext(): Boolean = true
-
-}
-
-class RandomNames extends Iterator[String] {
-
-  private val letters = new RandomBag('A' to 'Z')
-  private val digits = new RandomBag(0 to 9)
-
-  def next(): String = {
+  def generateName(): String = {
     letters.take(2).mkString ++ digits.take(3).mkString
   }
 
-  def hasNext(): Boolean = true
+  def stream: Stream[String] = {
+    Stream.continually(generateName)
+  }
 
 }
 
-class RandomBag[T](items: IndexedSeq[T]) extends Iterator[T] {
+class RandomBag[T](items: IndexedSeq[T]) {
 
   private val numbers = new scala.util.Random
   private val range = items.size  
 
-  def next(): T = items(randomIndex)
+  def randomIndex = numbers.nextInt(range)
 
-  def randomIndex(): Int = numbers.nextInt(range)
-
-  def hasNext(): Boolean = true
+  def stream: Stream[T] = {
+    Stream.continually(items(randomIndex))
+  }
   
 }
