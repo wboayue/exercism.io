@@ -15,11 +15,12 @@ class SpaceAge(val seconds: BigDecimal) {
 
 sealed class Planet(coefficient: Double) {
 
-  val secondsInYear: BigDecimal  = SpaceAge.EarthYearInSeconds * coefficient
+  val orbitalPeriod: BigDecimal  = SpaceAge.EarthOrbitalPeriod * coefficient
 
 }
 
 object Planet {
+
   val Earth = new Planet(1.0)
   val Mercury = new Planet(0.2408467)
   val Venus = new Planet(0.61519726)
@@ -28,15 +29,16 @@ object Planet {
   val Saturn = new Planet(29.447498)
   val Uranus = new Planet(84.016846)
   val Neptune = new Planet(164.79132)
+
 }
 
 object SpaceAge {
 
-  val EarthYearInSeconds: BigDecimal = 31557600
+  val EarthOrbitalPeriod: BigDecimal = 31557600
 
   def apply(seconds: Double) = new SpaceAge(seconds)
 
   def ageOn(seconds: BigDecimal, planet: Planet): BigDecimal = {
-    (seconds / planet.secondsInYear).setScale(2, RoundingMode.HALF_UP)
+    (seconds / planet.orbitalPeriod).setScale(2, RoundingMode.HALF_UP)
   }
 }
