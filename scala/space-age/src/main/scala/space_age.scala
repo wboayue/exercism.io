@@ -2,24 +2,41 @@ import scala.math.BigDecimal.RoundingMode
 
 class SpaceAge(val seconds: BigDecimal) {
 
-  lazy val onEarth = SpaceAge.convert(seconds)
-  lazy val onMercury = SpaceAge.convert(seconds, earthRatio = 0.2408467)
-  lazy val onVenus = SpaceAge.convert(seconds, earthRatio = 0.61519726)
-  lazy val onMars = SpaceAge.convert(seconds, earthRatio = 1.8808158)
-  lazy val onJupiter = SpaceAge.convert(seconds, earthRatio = 11.862615)
-  lazy val onSaturn = SpaceAge.convert(seconds, earthRatio = 29.447498)
-  lazy val onUranus = SpaceAge.convert(seconds, earthRatio = 84.016846)
-  lazy val onNeptune = SpaceAge.convert(seconds, earthRatio = 164.79132)
+  lazy val onEarth = SpaceAge.ageOn(seconds, Planet.Earth)
+  lazy val onMercury = SpaceAge.ageOn(seconds, Planet.Mercury)
+  lazy val onVenus = SpaceAge.ageOn(seconds, Planet.Venus)
+  lazy val onMars = SpaceAge.ageOn(seconds, Planet.Mars)
+  lazy val onJupiter = SpaceAge.ageOn(seconds, Planet.Jupiter)
+  lazy val onSaturn = SpaceAge.ageOn(seconds, Planet.Saturn)
+  lazy val onUranus = SpaceAge.ageOn(seconds, Planet.Uranus)
+  lazy val onNeptune = SpaceAge.ageOn(seconds, Planet.Neptune)
 
+}
+
+sealed class Planet(coefficient: Double) {
+
+  val secondsInYear: BigDecimal  = Planet.EarthYearInSeconds * coefficient
+
+}
+
+object Planet {
+  val EarthYearInSeconds: BigDecimal = 31557600
+
+  val Earth = new Planet(1.0)
+  val Mercury = new Planet(0.2408467)
+  val Venus = new Planet(0.61519726)
+  val Mars = new Planet(1.8808158)
+  val Jupiter = new Planet(11.862615)
+  val Saturn = new Planet(29.447498)
+  val Uranus = new Planet(84.016846)
+  val Neptune = new Planet(164.79132)
 }
 
 object SpaceAge {
 
   def apply(seconds: Double) = new SpaceAge(seconds)
 
-  val EarthYear: BigDecimal = 31557600
-
-  def convert(seconds: BigDecimal, earthRatio: BigDecimal = 1): BigDecimal = {
-    (seconds / (EarthYear * earthRatio)).setScale(2, RoundingMode.HALF_UP)
+  def ageOn(seconds: BigDecimal, planet: Planet): BigDecimal = {
+    (seconds / planet.secondsInYear).setScale(2, RoundingMode.HALF_UP)
   }
 }
