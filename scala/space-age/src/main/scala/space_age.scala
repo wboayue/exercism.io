@@ -15,13 +15,11 @@ class SpaceAge(val seconds: BigDecimal) {
 
 sealed class Planet(coefficient: Double) {
 
-  val secondsInYear: BigDecimal  = Planet.EarthYearInSeconds * coefficient
+  val secondsInYear: BigDecimal  = SpaceAge.EarthYearInSeconds * coefficient
 
 }
 
 object Planet {
-  val EarthYearInSeconds: BigDecimal = 31557600
-
   val Earth = new Planet(1.0)
   val Mercury = new Planet(0.2408467)
   val Venus = new Planet(0.61519726)
@@ -33,6 +31,8 @@ object Planet {
 }
 
 object SpaceAge {
+
+  val EarthYearInSeconds: BigDecimal = 31557600
 
   def apply(seconds: Double) = new SpaceAge(seconds)
 
