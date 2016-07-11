@@ -2,15 +2,16 @@ import scala.math.BigDecimal.RoundingMode
 
 class SpaceAge(val seconds: BigDecimal) {
   import SpaceAge.SpaceAgeBigDecimal
+  import Planet._
 
-  lazy val onEarth = seconds.toYears(Planet.Earth)
-  lazy val onMercury = seconds.toYears(Planet.Mercury)
-  lazy val onVenus = seconds.toYears(Planet.Venus)
-  lazy val onMars = seconds.toYears(Planet.Mars)
-  lazy val onJupiter = seconds.toYears(Planet.Jupiter)
-  lazy val onSaturn = seconds.toYears(Planet.Saturn)
-  lazy val onUranus = seconds.toYears(Planet.Uranus)
-  lazy val onNeptune = seconds.toYears(Planet.Neptune)
+  lazy val onEarth = seconds toYearsOn Earth
+  lazy val onMercury = seconds toYearsOn Mercury
+  lazy val onVenus = seconds toYearsOn Venus
+  lazy val onMars = seconds toYearsOn Mars
+  lazy val onJupiter = seconds toYearsOn Jupiter
+  lazy val onSaturn = seconds toYearsOn Saturn
+  lazy val onUranus = seconds toYearsOn Uranus
+  lazy val onNeptune = seconds toYearsOn Neptune
 }
 
 sealed class Planet(coefficient: Double) {
@@ -34,7 +35,7 @@ object SpaceAge {
   def apply(seconds: Double) = new SpaceAge(seconds)
 
   implicit class SpaceAgeBigDecimal(seconds: BigDecimal) {
-    def toYears(planet: Planet): BigDecimal = {
+    def toYearsOn(planet: Planet): BigDecimal = {
       (seconds / planet.orbitalPeriod).setScale(2, RoundingMode.HALF_UP)
     }
   }
