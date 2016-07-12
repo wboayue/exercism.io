@@ -5,9 +5,7 @@ object Grains {
 
   val CommonRatio = BigInt(2)
 
-  def square(n: Int): BigInt = {
-    CommonRatio.pow(n - 1)
-  }
+  def square(n: Int): BigInt = BigInt(0).setBit(n - 1)
 
   lazy val total = (1 - CommonRatio.pow(64)) / (1 - CommonRatio)
   
