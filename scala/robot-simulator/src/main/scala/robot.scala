@@ -1,34 +1,32 @@
 case class Robot(bearing: Bearing, coordinates: (Int, Int)) {
 
   def advance() = (bearing, coordinates) match {
-    case (Bearing.North, (x, y)) => Robot(bearing, (x, y + 1))
-    case (Bearing.South, (x, y)) => Robot(bearing, (x, y - 1))
-    case (Bearing.East, (x, y)) => Robot(bearing, (x + 1, y))
-    case (Bearing.West, (x, y)) => Robot(bearing, (x - 1, y))
+    case (Bearing.North, (x, y)) => copy(coordinates=(x, y + 1))
+    case (Bearing.South, (x, y)) => copy(coordinates=(x, y - 1))
+    case (Bearing.East, (x, y)) => copy(coordinates=(x + 1, y))
+    case (Bearing.West, (x, y)) => copy(coordinates=(x - 1, y))
   }
 
   def turnLeft() = bearing match {
-    case Bearing.North => Robot(Bearing.West, coordinates)
-    case Bearing.South => Robot(Bearing.East, coordinates)
-    case Bearing.East => Robot(Bearing.North, coordinates)
-    case Bearing.West => Robot(Bearing.South, coordinates)
+    case Bearing.North => copy(bearing=Bearing.West)
+    case Bearing.South => copy(bearing=Bearing.East)
+    case Bearing.East => copy(bearing=Bearing.North)
+    case Bearing.West => copy(bearing=Bearing.South)
   }
 
   def turnRight() = bearing match {
-    case Bearing.North => Robot(Bearing.East, coordinates)
-    case Bearing.South => Robot(Bearing.West, coordinates)
-    case Bearing.East => Robot(Bearing.South, coordinates)
-    case Bearing.West => Robot(Bearing.North, coordinates)
+    case Bearing.North => copy(bearing=Bearing.East)
+    case Bearing.South => copy(bearing=Bearing.West)
+    case Bearing.East => copy(bearing=Bearing.South)
+    case Bearing.West => copy(bearing=Bearing.North)
   }
 
   def simulate(actions: String): Robot = {
     actions.foldLeft(this) {
-      case (robot, action) => action match {
-        case 'A' => robot.advance
-        case 'L' => robot.turnLeft
-        case 'R' => robot.turnRight
-        case _ => throw new IllegalArgumentException(s"Unsupported robot action '#{action}'")
-      }
+      case (robot, 'A') => robot.advance
+      case (robot, 'L') => robot.turnLeft
+      case (robot, 'R') => robot.turnRight
+      case _ => throw new IllegalArgumentException(s"Unsupported robot action '#{action}'")
     }
   }
 
