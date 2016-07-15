@@ -1,25 +1,8 @@
 case class Robot(bearing: Bearing, coordinates: (Int, Int)) {
 
-  def advance() = (bearing, coordinates) match {
-    case (Bearing.North, (x, y)) => copy(coordinates=(x, y + 1))
-    case (Bearing.South, (x, y)) => copy(coordinates=(x, y - 1))
-    case (Bearing.East, (x, y)) => copy(coordinates=(x + 1, y))
-    case (Bearing.West, (x, y)) => copy(coordinates=(x - 1, y))
-  }
-
-  def turnLeft() = bearing match {
-    case Bearing.North => copy(bearing=Bearing.West)
-    case Bearing.South => copy(bearing=Bearing.East)
-    case Bearing.East => copy(bearing=Bearing.North)
-    case Bearing.West => copy(bearing=Bearing.South)
-  }
-
-  def turnRight() = bearing match {
-    case Bearing.North => copy(bearing=Bearing.East)
-    case Bearing.South => copy(bearing=Bearing.West)
-    case Bearing.East => copy(bearing=Bearing.South)
-    case Bearing.West => copy(bearing=Bearing.North)
-  }
+  def advance() = copy(coordinates=bearing.advance(coordinates))
+  def turnLeft() = copy(bearing=bearing.turnLeft)
+  def turnRight() = copy(bearing=bearing.turnRight)
 
   def simulate(actions: String): Robot = {
     actions.foldLeft(this) {
@@ -32,11 +15,28 @@ case class Robot(bearing: Bearing, coordinates: (Int, Int)) {
 
 }
 
-sealed abstract class Bearing
+class Bearing(left: String, right: String, x: Int, y: Int) {
+
+  def turnLeft = Bearing.Bearings(left)
+  def turnRight = Bearing.Bearings(right)
+
+  def advance(coordinates: (Int, Int)) = {
+    coordinates match {
+      case (current_x, current_y) => (current_x + x, current_y + y)
+    }
+  }
+}
 
 object Bearing {
-  case object North extends Bearing
-  case object South extends Bearing
-  case object East extends Bearing
-  case object West extends Bearing
+  case object North extends Bearing(left="west", right="east", x=0, y=1)
+  case object South extends Bearing(left="east", right="west", x=0, y=(-1))
+  case object East extends Bearing(left="north", right="south", x=1, y=0)
+  case object West extends Bearing(left="south", right="north", x=(-1), y=0)
+
+  val Bearings: Map[String, Bearing] = Map[String, Bearing](
+    ("north" -> North),
+    ("south" -> South),
+    ("east" -> East),
+    ("west" -> West)
+  )
 }
