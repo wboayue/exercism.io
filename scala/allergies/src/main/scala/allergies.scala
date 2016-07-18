@@ -1,15 +1,7 @@
 class Allergies() {
 
   def allergies(score: BigInt): List[Allergen] = {
-    def checkAllergen(allergen: Allergen): List[Allergen] = {
-      if (score testBit allergen.bit) {
-        List(allergen)
-      } else {
-        List.empty[Allergen]
-      }
-    }
-
-    Allergen.Allergens.flatMap(checkAllergen(_))
+    Allergen.Allergens.filter(isAllergicTo(_, score))
   }
 
   def isAllergicTo(allergen: Allergen, score: BigInt): Boolean = {
