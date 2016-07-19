@@ -5,10 +5,8 @@ class Meetup(month: Int, year: Int) {
   import Meetup.MeetupCalendar
   import Meetup.MeetupInt
 
-  val startOfMonth: Calendar = Meetup.startOfMonth(month, year)
-
   def first(weekday: WeekDay): Calendar = {
-    startOfMonth next weekday
+    Meetup.startOfMonth(month, year) next weekday
   }
 
   def second(weekday: WeekDay): Calendar = {
@@ -24,7 +22,7 @@ class Meetup(month: Int, year: Int) {
   }
 
   def teenth(weekday: WeekDay): Calendar = {
-    startOfMonth teenth weekday
+    Meetup.startOfMonth(month, year) teenth weekday
   }
 
   def last(weekday: WeekDay): Calendar = {
@@ -58,6 +56,8 @@ object Meetup {
 
   implicit class MeetupCalendar(date: Calendar) {
 
+    val Teenths = 13 to 19
+
     def next(weekday: WeekDay): Calendar = {
       val result = date.clone().asInstanceOf[Calendar]
       while (result.get(Calendar.DAY_OF_WEEK) != weekday.day) {
@@ -76,7 +76,13 @@ object Meetup {
 
     def teenth(weekday: WeekDay): Calendar = {
       val result = date.clone().asInstanceOf[Calendar]
-//      result.add(Calendar.SECOND, duration)
+      val day = Teenths.filter{
+        (num) => {
+          result.set(Calendar.DATE, num)
+          result.get(Calendar.DAY_OF_WEEK) == weekday.day
+        }
+      }
+      result.set(Calendar.DATE, day.head)
       result
     }
 
