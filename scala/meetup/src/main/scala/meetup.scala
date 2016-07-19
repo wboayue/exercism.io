@@ -4,9 +4,8 @@ class Meetup(month: Int, year: Int) {
   import Meetup.WeekDay
   import Meetup.MeetupCalendar
   import Meetup.MeetupInt
-  
+
   val startOfMonth: Calendar = Meetup.startOfMonth(month, year)
-//  val startDayOfWeek: WeekDay = startOfMonth.dayOfWeek
 
   def first(weekday: WeekDay): Calendar = {
     startOfMonth next weekday
@@ -29,7 +28,7 @@ class Meetup(month: Int, year: Int) {
   }
 
   def last(weekday: WeekDay): Calendar = {
-    startOfMonth last weekday
+    Meetup.endOfMonth(month, year) last weekday
   }
 
 }
@@ -39,29 +38,39 @@ object Meetup {
   def apply(month: Int, year: Int) = new Meetup(month, year)
 
   def startOfMonth(month: Int, year: Int): Calendar = {
-    new GregorianCalendar(year, month, 1)
+    new GregorianCalendar(year, month - 1, 1)
   }
 
-  sealed trait WeekDay
-  case object Mon extends WeekDay
-  case object Tue extends WeekDay
-  case object Wed extends WeekDay
-  case object Thu extends WeekDay
-  case object Fri extends WeekDay
-  case object Sat extends WeekDay
-  case object Sun extends WeekDay
+  def endOfMonth(month: Int, year: Int): Calendar = {
+    val monthsEnd = new GregorianCalendar(year, month, 1)
+    monthsEnd.add(Calendar.DATE, -1)
+    monthsEnd
+  }
+
+  sealed abstract class WeekDay(val day: Int)
+  case object Mon extends WeekDay(Calendar.MONDAY)
+  case object Tue extends WeekDay(Calendar.TUESDAY)
+  case object Wed extends WeekDay(Calendar.WEDNESDAY)
+  case object Thu extends WeekDay(Calendar.THURSDAY)
+  case object Fri extends WeekDay(Calendar.FRIDAY)
+  case object Sat extends WeekDay(Calendar.SATURDAY)
+  case object Sun extends WeekDay(Calendar.SUNDAY)
 
   implicit class MeetupCalendar(date: Calendar) {
 
     def next(weekday: WeekDay): Calendar = {
       val result = date.clone().asInstanceOf[Calendar]
-//      result.add(Calendar.SECOND, duration)
+      while (result.get(Calendar.DAY_OF_WEEK) != weekday.day) {
+        result.add(Calendar.DATE, 1)
+      }
       result
     }
 
     def last(weekday: WeekDay): Calendar = {
       val result = date.clone().asInstanceOf[Calendar]
-//      result.add(Calendar.SECOND, duration)
+      while (result.get(Calendar.DAY_OF_WEEK) != weekday.day) {
+        result.add(Calendar.DATE, -1)
+      }
       result
     }
 
@@ -77,7 +86,7 @@ object Meetup {
 
     def weeksFrom(date: Calendar): Calendar = {
       val result = date.clone().asInstanceOf[Calendar]
-//      result.add(Calendar.SECOND, duration)
+      result.add(Calendar.DATE, num * 7)
       result
     }
 

@@ -3,89 +3,89 @@ import java.util.GregorianCalendar
 
 class MeetupTest extends FunSuite with Matchers {
   //Note: Java uses 0-indexed months for GregorianCalendar
-  test ("monteenth of may 2013") {
-    Meetup(5, 2013).teenth(Meetup.Mon) should be (new GregorianCalendar(2013, 4, 13))
-  }
+  // test ("monteenth of may 2013") {
+  //   Meetup(5, 2013).teenth(Meetup.Mon) should be (new GregorianCalendar(2013, 4, 13))
+  // }
 
-  test ("monteenth of august 2013") {
-    Meetup(8, 2013).teenth(Meetup.Mon) should be (new GregorianCalendar(2013, 7, 19))
-  }
+  // test ("monteenth of august 2013") {
+  //   Meetup(8, 2013).teenth(Meetup.Mon) should be (new GregorianCalendar(2013, 7, 19))
+  // }
 
-  test ("monteenth of september 2013") {
-    Meetup(9, 2013).teenth(Meetup.Mon) should be (new GregorianCalendar(2013, 8, 16))
-  }
+  // test ("monteenth of september 2013") {
+  //   Meetup(9, 2013).teenth(Meetup.Mon) should be (new GregorianCalendar(2013, 8, 16))
+  // }
 
-  test ("tuesteenth of march 2013") {
-    Meetup(3, 2013).teenth(Meetup.Tue) should be (new GregorianCalendar(2013, 2, 19))
-  }
+  // test ("tuesteenth of march 2013") {
+  //   Meetup(3, 2013).teenth(Meetup.Tue) should be (new GregorianCalendar(2013, 2, 19))
+  // }
 
-  test ("tuesteenth of april 2013") {
-    Meetup(4, 2013).teenth(Meetup.Tue) should be (new GregorianCalendar(2013, 3, 16))
-  }
+  // test ("tuesteenth of april 2013") {
+  //   Meetup(4, 2013).teenth(Meetup.Tue) should be (new GregorianCalendar(2013, 3, 16))
+  // }
 
-  test ("tuesteenth of august 2013") {
-    Meetup(8, 2013).teenth(Meetup.Tue) should be (new GregorianCalendar(2013, 7, 13))
-  }
+  // test ("tuesteenth of august 2013") {
+  //   Meetup(8, 2013).teenth(Meetup.Tue) should be (new GregorianCalendar(2013, 7, 13))
+  // }
 
-  test ("wednesteenth of january 2013") {
-    Meetup(1, 2013).teenth(Meetup.Wed) should be (new GregorianCalendar(2013, 0, 16))
-  }
+  // test ("wednesteenth of january 2013") {
+  //   Meetup(1, 2013).teenth(Meetup.Wed) should be (new GregorianCalendar(2013, 0, 16))
+  // }
 
-  test ("wednesteenth of february 2013") {
-    Meetup(2, 2013).teenth(Meetup.Wed) should be (new GregorianCalendar(2013, 1, 13))
-  }
+  // test ("wednesteenth of february 2013") {
+  //   Meetup(2, 2013).teenth(Meetup.Wed) should be (new GregorianCalendar(2013, 1, 13))
+  // }
 
-  test ("wednesteenth of june 2013") {
-    Meetup(6, 2013).teenth(Meetup.Wed) should be (new GregorianCalendar(2013, 5, 19))
-  }
+  // test ("wednesteenth of june 2013") {
+  //   Meetup(6, 2013).teenth(Meetup.Wed) should be (new GregorianCalendar(2013, 5, 19))
+  // }
 
-  test ("thursteenth of may 2013") {
-    Meetup(5, 2013).teenth(Meetup.Thu) should be (new GregorianCalendar(2013, 4, 16))
-  }
+  // test ("thursteenth of may 2013") {
+  //   Meetup(5, 2013).teenth(Meetup.Thu) should be (new GregorianCalendar(2013, 4, 16))
+  // }
 
-  test ("thursteenth of june 2013") {
-    Meetup(6, 2013).teenth(Meetup.Thu) should be (new GregorianCalendar(2013, 5, 13))
-  }
+  // test ("thursteenth of june 2013") {
+  //   Meetup(6, 2013).teenth(Meetup.Thu) should be (new GregorianCalendar(2013, 5, 13))
+  // }
 
-  test ("thursteenth of september 2013") {
-    Meetup(9, 2013).teenth(Meetup.Thu) should be (new GregorianCalendar(2013, 8, 19))
-  }
+  // test ("thursteenth of september 2013") {
+  //   Meetup(9, 2013).teenth(Meetup.Thu) should be (new GregorianCalendar(2013, 8, 19))
+  // }
 
-  test ("friteenth of april 2013") {
-    Meetup(4, 2013).teenth(Meetup.Fri) should be (new GregorianCalendar(2013, 3, 19))
-  }
+  // test ("friteenth of april 2013") {
+  //   Meetup(4, 2013).teenth(Meetup.Fri) should be (new GregorianCalendar(2013, 3, 19))
+  // }
 
-  test ("friteenth of august 2013") {
-    Meetup(8, 2013).teenth(Meetup.Fri) should be (new GregorianCalendar(2013, 7, 16))
-  }
+  // test ("friteenth of august 2013") {
+  //   Meetup(8, 2013).teenth(Meetup.Fri) should be (new GregorianCalendar(2013, 7, 16))
+  // }
 
-  test ("friteenth of september 2013") {
-    Meetup(9, 2013).teenth(Meetup.Fri) should be (new GregorianCalendar(2013, 8, 13))
-  }
+  // test ("friteenth of september 2013") {
+  //   Meetup(9, 2013).teenth(Meetup.Fri) should be (new GregorianCalendar(2013, 8, 13))
+  // }
 
-  test ("saturteenth of february 2013") {
-    Meetup(2, 2013).teenth(Meetup.Sat) should be (new GregorianCalendar(2013, 1, 16))
-  }
+  // test ("saturteenth of february 2013") {
+  //   Meetup(2, 2013).teenth(Meetup.Sat) should be (new GregorianCalendar(2013, 1, 16))
+  // }
 
-  test ("saturteenth of april 2013") {
-    Meetup(4, 2013).teenth(Meetup.Sat) should be (new GregorianCalendar(2013, 3, 13))
-  }
+  // test ("saturteenth of april 2013") {
+  //   Meetup(4, 2013).teenth(Meetup.Sat) should be (new GregorianCalendar(2013, 3, 13))
+  // }
 
-  test ("saturteenth of october 2013") {
-    Meetup(10, 2013).teenth(Meetup.Sat) should be (new GregorianCalendar(2013, 9, 19))
-  }
+  // test ("saturteenth of october 2013") {
+  //   Meetup(10, 2013).teenth(Meetup.Sat) should be (new GregorianCalendar(2013, 9, 19))
+  // }
 
-  test ("sunteenth of map 2013") {
-    Meetup(5, 2013).teenth(Meetup.Sun) should be (new GregorianCalendar(2013, 4, 19))
-  }
+  // test ("sunteenth of map 2013") {
+  //   Meetup(5, 2013).teenth(Meetup.Sun) should be (new GregorianCalendar(2013, 4, 19))
+  // }
 
-  test ("sunteenth of june 2013") {
-    Meetup(6, 2013).teenth(Meetup.Sun) should be (new GregorianCalendar(2013, 5, 16))
-  }
+  // test ("sunteenth of june 2013") {
+  //   Meetup(6, 2013).teenth(Meetup.Sun) should be (new GregorianCalendar(2013, 5, 16))
+  // }
 
-  test ("sunteenth of october 2013") {
-    Meetup(10, 2013).teenth(Meetup.Sun) should be (new GregorianCalendar(2013, 9, 13))
-  }
+  // test ("sunteenth of october 2013") {
+  //   Meetup(10, 2013).teenth(Meetup.Sun) should be (new GregorianCalendar(2013, 9, 13))
+  // }
 
   test ("first monday of march 2013") {
     Meetup(3, 2013).first(Meetup.Mon) should be (new GregorianCalendar(2013, 2, 4))
