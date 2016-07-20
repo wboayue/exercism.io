@@ -4,41 +4,39 @@ class Meetup(month: Int, year: Int) {
   import Meetup._
 
   def first(weekday: WeekDay): Calendar = {
-    WeekDaySeq(month, year, weekday).head
+    findAll(weekday).in(month, year).head
   }
 
   def second(weekday: WeekDay): Calendar = {
-    WeekDaySeq(month, year, weekday).drop(1).head
+    findAll(weekday).in(month, year)(1)
   }
 
   def third(weekday: WeekDay): Calendar = {
-    WeekDaySeq(month, year, weekday).drop(2).head
+    findAll(weekday).in(month, year)(2)
   }
 
   def fourth(weekday: WeekDay): Calendar = {
-    WeekDaySeq(month, year, weekday).drop(3).head
+    findAll(weekday).in(month, year)(3)
   }
 
   def teenth(weekday: WeekDay): Calendar = {
-    WeekDaySeq(month, year, weekday)
-      .filter(Meetup.Teenths contains _.get(Calendar.DATE))
+    findAll(weekday).in(month, year)
+      .filter(Teenths contains _.get(Calendar.DATE))
       .head
   }
 
   def last(weekday: WeekDay): Calendar = {
-    WeekDaySeq(month, year, weekday).last
+    findAll(weekday).in(month, year).last
   }
 
 }
 
-object WeekDaySeq {
-  import Meetup.WeekDay
+class CalendarQuery(weekday: Meetup.WeekDay) {
 
-  def apply(month: Int, year: Int, weekday: WeekDay): Seq[Calendar] = {
+  def in(month: Int, year: Int): IndexedSeq[Calendar] = {
     val startOfMonth = new GregorianCalendar(year, month - 1, 1)
     val endOfMonth = new GregorianCalendar(year, month, 1)
-
-    var weekdays = Array.empty[Calendar]
+    var weekdays = Vector.empty[Calendar]
 
     while (startOfMonth != endOfMonth) {
       if (startOfMonth.get(Calendar.DAY_OF_WEEK) == weekday.day) {
@@ -47,16 +45,20 @@ object WeekDaySeq {
       startOfMonth.add(Calendar.DATE, 1)
     }
 
-    weekdays
+    weekdays    
   }
 
 }
 
 object Meetup {
 
-  val Teenths = (13 to 19).toSet
-
   def apply(month: Int, year: Int) = new Meetup(month, year)
+
+  def findAll(weekday: WeekDay): CalendarQuery = {
+    new CalendarQuery(weekday)
+  }
+
+  val Teenths = (13 to 19).toSet
 
   sealed abstract class WeekDay(val day: Int)
   case object Mon extends WeekDay(Calendar.MONDAY)
