@@ -45,14 +45,14 @@ class CalendarQuery(weekday: Meetup.WeekDay) {
       startOfMonth.add(Calendar.DATE, 1)
     }
 
-    weekdays    
+    weekdays
   }
 
 }
 
 object Meetup {
 
-  def apply(month: Int, year: Int) = new Meetup(month, year)
+  def apply(month: Int, year: Int): Meetup = new Meetup(month, year)
 
   def findAll(weekday: WeekDay): CalendarQuery = {
     new CalendarQuery(weekday)
