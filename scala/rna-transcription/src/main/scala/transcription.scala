@@ -10,7 +10,7 @@ object Dna {
   )
 
   def toRna(dna: String): String = {
-    dna.map(DnaRna(_))
+    dna map DnaRna
   }
 
 }
