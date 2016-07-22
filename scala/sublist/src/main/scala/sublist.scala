@@ -26,7 +26,7 @@ object Sublist {
 
     def isSublistOf(b: List[T]): Boolean = {
       a.isEmpty ||
-        b.sliding(a.size, 1).exists(b => a == b)
+        b.sliding(a.size, 1).exists(a == _)
     }
 
   }
