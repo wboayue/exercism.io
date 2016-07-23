@@ -1,25 +1,26 @@
 class Triangle(a: Int, b: Int, c: Int) {
 
   def triangleType(): TriangleType.Value = {
-    if (!isIllogical) {
+    if (isIllogical) {
       TriangleType.Illogical      
-    } else if (a == b && b == c) {
+    } else if (isEquilateral) {
       TriangleType.Equilateral
-    } else if (a == b || a == c || b == c) {
+    } else if (isIsosceles) {
       TriangleType.Isosceles
     } else {
       TriangleType.Scalene
     }
   }
 
-  def isIllogical(): Boolean = {
-    val x = a + b
-    val y = b + c
-    val z = c + a
-
-    x > c && y > a && z > b
+  private def isIllogical(): Boolean = {
+    List(a, b, c)
+      .permutations
+      .exists{case List(d, e, f) => d + e < f} 
   }
 
+  private lazy val isEquilateral = a == b && b == c
+
+  private lazy val isIsosceles = a == b || a == c || b == c
 }
 
 object Triangle {
