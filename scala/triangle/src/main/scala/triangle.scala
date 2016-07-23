@@ -4,19 +4,17 @@ class Triangle(a: Int, b: Int, c: Int) {
 
   def triangleType(): TriangleType.Value = {
     if (isIllogical) { TriangleType.Illogical }
-    else {
-      sides.toSet.size match {
-        case 1 => TriangleType.Equilateral
-        case 2 => TriangleType.Isosceles
-        case 3 => TriangleType.Scalene
-      }
-    }
+    else sides.toSet.size match {
+      case 1 => TriangleType.Equilateral
+      case 2 => TriangleType.Isosceles
+      case 3 => TriangleType.Scalene
+    }    
   }
 
   private def isIllogical(): Boolean = {
     sides
       .permutations
-      .exists{case List(d, e, f) => d + e < f} 
+      .exists{case List(d, e, f) => d + e < f}
   }
 
 }
