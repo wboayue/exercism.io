@@ -3,9 +3,9 @@ class Binary(number: String) {
 
   def toDecimal(): Int = {
     if (isValid) {
-      number.reverse.zipWithIndex.foldLeft(0) {
-        case (acc, ('1', i))     => acc + BigInt(2).pow(i).toInt
-        case (acc, (_digit, _i)) => acc
+      number.foldLeft(0) {
+        case (acc, '1') => acc * 2 + 1
+        case (acc, '0') => acc * 2
       }
     } else {
       0
