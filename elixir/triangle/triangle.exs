@@ -25,9 +25,9 @@ defmodule Triangle do
   end
 
   defp determine_type(sides) do
-    distinct_sides = MapSet.new(sides) |> MapSet.size
+    uniq_sides = Enum.uniq(sides) |> Enum.count
 
-    case distinct_sides do
+    case uniq_sides do
       1 -> { :ok, :equilateral } 
       2 -> { :ok, :isosceles } 
       3 -> { :ok, :scalene } 
