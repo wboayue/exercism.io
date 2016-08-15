@@ -20,15 +20,8 @@ defmodule Triangle do
   end
 
   defp illogical?(sides) do
-#    sides = [a, b, c]
-    [a, b, c] = sides
-
-    cond do
-      a + b <= c -> true
-      b + c <= a -> true
-      c + a <= b -> true
-      :logical -> false      
-    end  
+    total_length = Enum.sum(sides)
+    Enum.any?(sides, &(total_length - &1 <= &1))
   end
 
   defp determine_type(sides) do
