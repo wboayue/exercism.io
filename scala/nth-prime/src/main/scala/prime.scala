@@ -1,3 +1,4 @@
+import scala.annotation.tailrec
 import scala.collection.mutable.ArrayBuffer
 
 object Prime {
@@ -13,6 +14,7 @@ object Prime {
     var candidate: Int = 2
     val knownPrimes = ArrayBuffer.empty[Int]
 
+    @tailrec
     def nextPrime: Int = {
       if (knownPrimes.exists(isFactor(candidate, _))) {
         candidate += 1
