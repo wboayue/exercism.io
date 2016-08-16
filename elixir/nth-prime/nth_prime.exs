@@ -5,7 +5,6 @@ defmodule Prime do
   """
   @spec nth(non_neg_integer) :: non_neg_integer
   def nth(count) when count < 1, do: raise ArgumentError
-
   def nth(count), do: Enum.at(primes, count - 1) 
 
   defp primes do
