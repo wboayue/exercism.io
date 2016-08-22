@@ -1,30 +1,29 @@
 class Allergies() {
+  import Allergen.Allergen
 
   def allergies(score: BigInt): List[Allergen] = {
-    Allergen.Allergens.filter(isAllergicTo(_, score))
+    Allergen.values.filter(isAllergicTo(_, score)).toList
   }
 
-  def isAllergicTo(allergen: Allergen, score: BigInt): Boolean = {
-    score testBit allergen.bit
+  def isAllergicTo(allergen: Allergen.Allergen, score: BigInt): Boolean = {
+    score testBit allergen.id
   }
 
-}
-
-sealed class Allergen(val bit: Int)
-
-object Allergen {
-  val Eggs = new Allergen(0)
-  val Peanuts = new Allergen(1)
-  val Shellfish = new Allergen(2)
-  val Strawberries = new Allergen(3)
-  val Tomatoes = new Allergen(4)
-  val Chocolate = new Allergen(5)
-  val Pollen = new Allergen(6)
-  val Cats = new Allergen(7)
-
-  val Allergens = List(Eggs, Peanuts, Shellfish, Strawberries, Tomatoes, Chocolate, Pollen, Cats)
 }
 
 object Allergies {
   def apply() = new Allergies()
+}
+
+object Allergen extends Enumeration {
+  type Allergen = Value
+
+  val Eggs = Value(0)
+  val Peanuts = Value(1)
+  val Shellfish = Value(2)
+  val Strawberries = Value(3)
+  val Tomatoes = Value(4)
+  val Chocolate = Value(5)
+  val Pollen = Value(6)
+  val Cats = Value(7)
 }
