@@ -36,13 +36,19 @@ object RomanNumeral {
   }
 
   def toRoman(tuple: (Int, Int)): String = {
-    tuple match {
-      case (digit, power) if List(1, 2, 3) contains digit => numeral(power) * digit
-      case (digit, power) if 4 == digit => numeral(power) + midNumeral(power)
-      case (digit, power) if 5 == digit => midNumeral(power)
-      case (digit, power) if List(6, 7, 8) contains digit => midNumeral(power) + (numeral(power) * (digit - 5)) 
-      case (digit, power) if 9 == digit => numeral(power) + numeral(power + 1)
+    val (digit, power) = tuple
+
+    digit match {
+      case 1 | 2 | 3 => duplicate(numeral(power), digit)
+      case 4         => numeral(power) + midNumeral(power)
+      case 5         => midNumeral(power)
+      case 6 | 7 | 8 => midNumeral(power) + duplicate(numeral(power), digit - 5) 
+      case 9         => numeral(power) + numeral(power + 1)
     }
+  }
+
+  def duplicate(s: String, times: Int) = {
+    s * times
   }
 
   def numeral(power: Int) = power match {
