@@ -5,27 +5,24 @@ object Prime {
 
   def nth(count: Int) = {
     require(count > 0, "count must be greater than zero")
-    primes.apply(count - 1)
+    primes(count - 1)
   }
 
   def isFactor(num: Int, factor: Int): Boolean = num % factor == 0
 
-  def primes(): Stream[Int] = {
-    var candidate: Int = 2
+  lazy val primes: Stream[Int] = {
     val knownPrimes = ArrayBuffer.empty[Int]
 
-    @tailrec
-    def nextPrime: Int = {
+    def isPrime(candidate: Int): Boolean = {
       if (knownPrimes.exists(isFactor(candidate, _))) {
-        candidate += 1
-        nextPrime
+        false
       } else {
         knownPrimes.append(candidate)
-        candidate
+        true
       }
     }
 
-    Stream.continually(nextPrime)
+    Stream.from(2) filter isPrime
   }
 
 }
