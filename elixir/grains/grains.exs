@@ -14,8 +14,6 @@ defmodule Grains do
   """
   @spec total :: pos_integer
   def total do
-    (1..64)
-    |> Enum.map(&square/1)
-    |> Enum.sum
+    square(65) - 1
   end
 end
