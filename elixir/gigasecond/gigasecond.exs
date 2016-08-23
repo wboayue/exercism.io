@@ -7,7 +7,9 @@ defmodule Gigasecond do
   """
   @spec from({{pos_integer, pos_integer, pos_integer}, {pos_integer, pos_integer, pos_integer}}) :: :calendar.datetime
   def from(date_time) do
-    gregorian_seconds = :calendar.datetime_to_gregorian_seconds(date_time)
-    :calendar.gregorian_seconds_to_datetime(gregorian_seconds + @giga_second)
+    date_time
+    |> :calendar.datetime_to_gregorian_seconds
+    |> Kernel.+(@giga_second)
+    |> :calendar.gregorian_seconds_to_datetime
   end
 end
