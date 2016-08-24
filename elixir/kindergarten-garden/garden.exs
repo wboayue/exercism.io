@@ -8,49 +8,45 @@ defmodule Garden do
     that information in a map.
   """
 
-  @students [
-    :alice,
-    :bob,
-    :charlie,
-    :david,
-    :eve,
-    :fred,
-    :ginny,
-    :harriet,
-    :ileana,
-    :joseph,
-    :kincaid,
-    :larry
-  ]
-
-  @plants %{
-    "G" => :grass,
-    "C" => :clover,
-    "R" => :radishes,
-    "V" => :violets
-  }
+  @default_students ~w(alice bob charlie david eve fred ginny harriet ileana joseph kincaid larry)a
 
   @spec info(String.t(), list) :: map
-  def info(info_string, student_names \\ @students) do
+  def info(info_string, student_names \\ @default_students) do
     do_info(info_string, Enum.sort(student_names))
   end
 
-  defp do_info(info_string, names) do
-    gardens = Enum.into(names, %{}, fn name -> {name, {}} end)
-    rows = String.split(info_string, "\n")
-
-    Enum.reduce(rows, gardens, fn row, gardens ->
-      planted_row = row |> String.graphemes |> Enum.with_index
-      assign_plants(gardens, planted_row, names)
-    end)
+  defp do_info(info_string, students) do
+    info_string
+    |> build_garden(students)
+    |> populate(default_garden(students))
   end
 
-  defp assign_plants(gardens, planted_row, names) do
-    Enum.reduce(planted_row, gardens, fn {plant_id, index}, gardens ->
-      student = Enum.at(names, div(index, 2))
-      plant_name = @plants[plant_id]
+  defp default_garden(students) do
+    Enum.into(students, %{}, fn name -> {name, {}} end)
+  end
 
-      Map.update!(gardens, student, fn plants -> Tuple.append(plants, plant_name) end)
+  defp build_garden(info_string, students) do
+    String.split(info_string, "\n")
+    |> Enum.flat_map(&(parse_row(&1, students)))
+    |> Enum.group_by(&(elem(&1, 1)), &(elem(&1, 0)))
+  end
+
+  defp parse_row(row, students) do
+    row
+    |> String.graphemes
+    |> Enum.map(&parse_plant/1)
+    |> Enum.chunk(2)
+    |> Enum.zip(students)
+  end
+
+  defp parse_plant("G"), do: :grass
+  defp parse_plant("C"), do: :clover
+  defp parse_plant("R"), do: :radishes
+  defp parse_plant("V"), do: :violets
+
+  defp populate(garden, default) do
+    Enum.reduce(garden, default, fn {student, plants}, garden ->
+      Map.put(garden, student, plants |> List.flatten |> List.to_tuple)
     end)
   end
 end
