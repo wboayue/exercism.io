@@ -16,7 +16,7 @@ public class DNA {
   }
 
   public int count(char nucleotide) {
-    if (!VALID_NUCLEOTIDES.contains(nucleotide)) {
+    if (!this.nucleotides.keySet().contains(nucleotide)) {
       throw new IllegalArgumentException();
     }
 
@@ -35,14 +35,6 @@ public class DNA {
     }
 
     return counts;
-  }
-
-  private static Set<Character> VALID_NUCLEOTIDES = new HashSet<>();
-  static {
-    VALID_NUCLEOTIDES.add('A');
-    VALID_NUCLEOTIDES.add('C');
-    VALID_NUCLEOTIDES.add('G');
-    VALID_NUCLEOTIDES.add('T');
   }
 
 }
