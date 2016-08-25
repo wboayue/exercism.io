@@ -7,7 +7,7 @@ public class Pangrams {
 
   public static boolean isPangram(String setence) {
     String normalized = setence.toLowerCase();
-    return ALPHABETS.stream().allMatch(letter -> normalized.contains(letter));
+    return ALPHABETS.stream().allMatch(normalized::contains);
   }
 
 }
