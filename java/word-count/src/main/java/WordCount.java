@@ -1,18 +1,17 @@
 import java.util.Map;
-import java.util.HashMap;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.function.Function;
 
 public class WordCount {
 
   public Map<String, Integer> phrase(String sentence) {
-    Map<String, Integer> counts = new HashMap<> ();
+    Stream<String> words = Pattern.compile("[^\\w\\d]+").splitAsStream(sentence.toLowerCase());
 
-    String[] words = sentence.toLowerCase().split("[^\\w-]+");
-
-    for (String word : words) {
-      counts.merge(word, 1, (count, step) -> count + step);
-    }
-
-    return counts;
+    return words.collect(
+      Collectors.groupingBy(Function.identity(), Collectors.summingInt(word -> 1))
+    );
   }
 
 }
