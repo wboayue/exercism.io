@@ -1,29 +1,22 @@
 class Acronym(phrase: String) {
 
-  val abbreviate: String = {
-    val (acronym, previous) = phrase.foldLeft(("", ' ')) {
-      (accumulator: (String, Char), current: Char) =>
-        accumulator match {
-          case (acronym, previous) if Acronym.isBreakPoint(current, previous)
-            => (acronym + Character.toUpperCase(current), current)
-          case (acronym, _)
-            => (acronym, current)
-        }
-    }
-
-    acronym
+  lazy val abbreviate: String = {
+    val a = Acronym.SplitPattern
+      .split(phrase)
+      .filter(!_.isEmpty)
+      // .map(_.head)
+      // .mkString
+      // .toUpperCase
+      println(a.toList)
+      a.mkString
   }
 
 }
 
 object Acronym {
 
-  val Separators = Set(' ', '-')
+  val SplitPattern = """(?=[A-Z][A-Z]?)|[ -]""".r
 
   def apply(phrase: String) = new Acronym(phrase)
-
-  def isBreakPoint(current: Char, previous: Char): Boolean = {
-    Separators.contains(previous) || (current.isUpper && previous.isLower)
-  }
 
 }

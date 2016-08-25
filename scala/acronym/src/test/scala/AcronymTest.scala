@@ -2,6 +2,7 @@ import org.scalatest.{FlatSpec, Matchers}
 
 class AcronymTest extends FlatSpec with Matchers {
   private val acronyms = List(
+    ("PHP: Hypertext Preprocessor", "PHP"),
     ("Portable Network Graphics", "PNG"),
     ("Ruby on Rails", "ROR"),
     ("HyperText Markup Language", "HTML"),
