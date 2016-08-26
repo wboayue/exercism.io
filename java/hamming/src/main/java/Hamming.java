@@ -1,3 +1,5 @@
+import java.util.stream.IntStream;
+
 public class Hamming {
 
   public static int compute(String strand1, String strand2) {
@@ -5,15 +7,9 @@ public class Hamming {
       throw new IllegalArgumentException("stands not equals");
     }
 
-    int distance = 0;
-
-    for (int i = 0; i < strand1.length(); ++i) {
-      if (strand1.charAt(i) != strand2.charAt(i)) {
-        distance += 1;
-      }
-    }
-
-    return distance;
+    return (int) IntStream.range(0, strand1.length())
+      .filter(i -> strand1.charAt(i) != strand2.charAt(i))
+      .count();
   }
 
 }
