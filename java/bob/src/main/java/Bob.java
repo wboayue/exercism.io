@@ -15,7 +15,7 @@ class Bob {
   }
 
   private boolean isSilence(String phrase) {
-    return phrase.trim().equals("");
+    return phrase.trim().isEmpty();
   }
 
   private boolean isQuestion(String phrase) {
@@ -23,11 +23,11 @@ class Bob {
   }
 
   private boolean isShouting(String phrase) {
-    return !isNumbersOnly(phrase) && phrase.toUpperCase().equals(phrase);
+    return hasLetter(phrase) && phrase.toUpperCase().equals(phrase);
   }
 
-  private boolean isNumbersOnly(String phrase) {
-    return phrase.chars().allMatch(c -> Character.isDigit(c) || Character.isSpaceChar(c) || c == ',' || c == '?');
+  private boolean hasLetter(String phrase) {
+    return phrase.chars().anyMatch(Character::isLetter);
   }
 
 }
