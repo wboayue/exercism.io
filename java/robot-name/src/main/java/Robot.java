@@ -25,7 +25,6 @@ class Robot {
 
     private Random random = new Random();
     private Set<String> generatedNames = new TreeSet<String> ();
-    private static final String LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     public String next() {
       String nextName;
@@ -51,7 +50,7 @@ class Robot {
     private String letters() {
       return this.random.ints(0, 26)
         .limit(2)
-        .mapToObj(i -> String.valueOf(LETTERS.charAt(i)))
+        .mapToObj(i -> String.format("%c", 'A' + i))
         .collect(Collectors.joining());
     }
 
