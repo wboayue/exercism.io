@@ -1,47 +1,65 @@
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.YearMonth;
-import java.tile.LocalDate;
+import java.time.ZoneId;
+
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.joda.time.DateTime;
 
 public class Meetup {
-  
-  private YearMonth month;
+
+  private int year;
+  private int month;
 
   public Meetup(int month, int year) {
-    this.month = YearMonth.of(year, month);
+    this.month = month;
+    this.year = year;
   }
 
-  public String day(int weekday, MeetupSchedule schedule) {
-    List<LocalDate> days = findDaysOfWeek(this.month, DayOfWeek.of(weekday));
-    return matchSchedule(days, schedule);
+  public DateTime day(int weekday, MeetupSchedule schedule) {
+    List<LocalDate> days = Meetup.findDays(this.year, this.month, DayOfWeek.of(weekday));
+    LocalDate day = matchSchedule(days, schedule);
+    return new DateTime(day.getYear(), day.getMonthValue(), day.getDayOfMonth(), 0, 0);
   }
 
   private LocalDate matchSchedule(List<LocalDate> days, MeetupSchedule schedule) {
     switch (schedule) {
-      case MeetupSchedule.FIRST:
+      case FIRST:
         return days.get(0);
-      case MeetupSchedule.SECOND:
-        return matchingDays.get(1);
-      case MeetupSchedule.THIRD:
-        return matchingDays.get(2);
-      case MeetupSchedule.FOURTH:
-        return matchingDays.get(3);
-      case MeetupSchedule.LAST:
-        return matchingDays.get(matchingDays.size() - 1);
+      case SECOND:
+        return days.get(1);
+      case THIRD:
+        return days.get(2);
+      case FOURTH:
+        return days.get(3);
+      case LAST:
+        return days.get(days.size() - 1);
+      default:
+        throw new IllegalArgumentException(String.format("Unsupport option: %s", schedule));
     }
-
-    return null;
   }
 
-  private List<LocalDate> findDaysOfWeek(YearMonth month, DayOfWeek dayOfWeek) {
-    LocalDate firstDayOfMonth = LocalDate.of(month.getYear(), month.getMonth(), 1); 
-    LocalDate lastDayOfMonth = LocalDate.of(month.getYear(), month.getMonth(), firstDayOfMonth.lengthOfMonth())
+  private static List<LocalDate> findDays(int year, int month, DayOfWeek dayOfWeek) {
+    return Meetup.daysInMonth(year, month)
+      .filter(day -> day.getDayOfWeek() == dayOfWeek)
+      .collect(Collectors.toList());
+  }
+
+  private static Stream<LocalDate> daysInMonth(int year, int month) {
+    LocalDate firstDay = LocalDate.of(year, month, 1);
+    LocalDate lastDay = LocalDate.of(year, month, firstDay.lengthOfMonth());
+
     List<LocalDate> matches = new ArrayList<> ();
-    for (LocalDate day = firstDayOfMonth; !day.isAfter(lastDayOfMonth); day.plusDays(1)) {
-      if (day.getDayOfWeek() == dayOfWeek) {
-        matches.add(day);
-      }
+    for (LocalDate day = firstDay; !day.isAfter(lastDay); day = day.plusDays(1)) {
+      matches.add(day);
     }
-    return matches;
+
+    return matches.stream();
   }
+
 }
 
