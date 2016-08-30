@@ -25,11 +25,11 @@ public class School {
       Collections.sort(students);
       sorted.put(entry.getKey(), students); 
     }
-    return sorted;
+    return Collections.unmodifiableMap(sorted);
   }
 
   public List<String> grade(int number) {
-    return this.db.getOrDefault(number, Collections.EMPTY_LIST);
+    return Collections.unmodifiableList(this.db.getOrDefault(number, Collections.EMPTY_LIST));
   }
 
 }
