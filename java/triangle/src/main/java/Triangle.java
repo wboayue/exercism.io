@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -28,7 +29,6 @@ public class Triangle {
   }
 
   private TriangleKind determineType(Set<Double> sides) {
-
     if (sides.size() == 1) {
       return TriangleKind.EQUILATERAL;
     } else if (sides.size() == 2) {
@@ -41,25 +41,13 @@ public class Triangle {
   }
 
   private List<Double> sorted(double x, double y, double z) {
-    List<Double> sides = new ArrayList<>();
-
-    sides.add(x);
-    sides.add(y);
-    sides.add(z);
-
+    List<Double> sides = Arrays.asList(x, y, z);
     Collections.sort(sides);
-
     return sides;
   }
 
   private Set<Double> unique(double x, double y, double z) {
-    Set<Double> sides = new TreeSet<>();
-
-    sides.add(x);
-    sides.add(y);
-    sides.add(z);
-    
-    return sides;
+    return new TreeSet<>(Arrays.asList(x, y, z));
   }
 
 } 
