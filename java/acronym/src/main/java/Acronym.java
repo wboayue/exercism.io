@@ -25,8 +25,4 @@ public class Acronym {
       .toString();
   }
 
-  private static boolean isSignificant(int current, int previous) {
-    return (Character.isLetter(current) && !Character.isLetterOrDigit(previous))
-      || (Character.isUpperCase(current) && Character.isLowerCase(previous));
-  }
 }
