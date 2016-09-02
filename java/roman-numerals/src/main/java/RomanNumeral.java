@@ -1,3 +1,4 @@
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.TreeMap;
@@ -12,24 +13,23 @@ public class RomanNumeral {
   }
 
   public String getRomanNumeral() {
-    StringBuilder translated = new StringBuilder();
+    StringBuilder romanNumeral = new StringBuilder();
 
-    int remaining = this.number;
-    for (Map.Entry<Integer, String> entry : NUMBER_MAP) {
-      int abrabic = entry.getKey();
+    int remainingArabic = this.number;
+
+    for (Map.Entry<Integer, String> entry : NUMBER_MAP.entrySet()) {
+      int factor = entry.getKey();
       String roman = entry.getValue();
 
-      translated.append();
+      romanNumeral.append(repeat(roman, remainingArabic / factor));
+      remainingArabic = remainingArabic % factor;
     }
 
-    return translated.toString();
+    return romanNumeral.toString();
+  }
 
-
-      (numerals + (roman * (number / abrabic)), number % abrabic)
-    }
-
-    translated
-
+  private String repeat(String s, int n) {
+    return String.join("", Collections.nCopies(n, s));
   }
 
   private static Map<Integer, String> buildNumberMap() {
