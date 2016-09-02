@@ -4,15 +4,15 @@ import java.util.stream.Collectors;
 
 public class Scrabble {
 
-  private String phrase;
+  private String word;
   private static final Map<Integer, Integer> scores = buildScoreMap();
 
-  public Scrabble(String phrase) {
-    this.phrase = phrase == null ? "" : phrase;
+  public Scrabble(String word) {
+    this.word = word == null ? "" : word;
   }
 
   public int getScore() {
-    return this.phrase.chars()
+    return this.word.chars()
       .map(this::scoreLetter)
       .sum();
   }
