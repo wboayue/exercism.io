@@ -8,17 +8,9 @@ public class Binary {
 
   public int getDecimal() {
     if (isValid()) {
-      int decimal = 0;
-
-      for (char digit : this.number.toCharArray()) {
-        decimal *= 2;
-
-        if (digit == '1') {
-          decimal += 1;
-        }
-      };
-
-      return decimal;
+      return this.number.chars()
+        .map(Character::getNumericValue)
+        .reduce(0, (sum, digit) -> sum * 2 + digit);
     } else {
       return 0;
     }
