@@ -1,0 +1,15 @@
+plugins {
+  id "net.carlosgsouza.console" version "1.0.1"
+}
+
+apply plugin: "java"
+apply plugin: "eclipse"
+apply plugin: "idea"
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  testCompile "junit:junit:4.12"
+}
