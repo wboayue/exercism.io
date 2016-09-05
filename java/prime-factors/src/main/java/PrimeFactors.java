@@ -5,11 +5,11 @@ public class PrimeFactors {
 
   public static List<Long> getForNumber(long number) {
     List<Long> primes = new ArrayList();
-    
+
     long factor = 2;
     long remainder = number;
 
-    while (remainder != 1 && factor <= number) {
+    while (remainder > 1) {
       if (remainder % factor == 0) {
         remainder /= factor;
         primes.add(factor);
