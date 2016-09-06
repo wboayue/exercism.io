@@ -11,7 +11,7 @@ public class Allergies {
   }
 
   public boolean isAllergicTo(Allergen allergen) {
-    return (allergen.getScore() & this.score) != 0;
+    return (allergen.getScore() & this.score) == allergen.getScore();
   }
 
   public List getList() {
