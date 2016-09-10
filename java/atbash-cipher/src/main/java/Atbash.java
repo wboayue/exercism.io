@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Atbash {
   
   public static String encode(String plain) {
@@ -31,13 +34,16 @@ public class Atbash {
     return plain.toLowerCase().replaceAll("[^a-z0-9]", "");
   }
 
+  private static final int CHUNK_SIZE = 5;
+
   private static String format(String cipher) {
-    StringBuilder formatted = new StringBuilder();
-    for (int i = 0; i < cipher.length(); ++i) {
-      if (i != 0 && i % 5 == 0) {
+    StringBuffer formatted = new StringBuffer();
+    int len = cipher.length();
+    for (int i = 0; i < len; i += CHUNK_SIZE) {
+      if (i != 0) {
         formatted.append(" ");
       }
-      formatted.append(cipher.charAt(i));
+      formatted.append(cipher.substring(i, Math.min(len, i + CHUNK_SIZE)));
     }
     return formatted.toString();
   }
