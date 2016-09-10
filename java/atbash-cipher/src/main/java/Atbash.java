@@ -34,18 +34,17 @@ public class Atbash {
     return plain.toLowerCase().replaceAll("[^a-z0-9]", "");
   }
 
-  private static final int CHUNK_SIZE = 5;
-
   private static String format(String cipher) {
-    StringBuffer formatted = new StringBuffer();
-    int len = cipher.length();
-    for (int i = 0; i < len; i += CHUNK_SIZE) {
-      if (i != 0) {
-        formatted.append(" ");
-      }
-      formatted.append(cipher.substring(i, Math.min(len, i + CHUNK_SIZE)));
+    return String.join(" ", chunk(cipher, 5));
+  }
+
+  private static List<String> chunk(String text, int chunkSize) {
+    List<String> chunks = new ArrayList<>();
+    int len = text.length();
+    for (int i = 0; i < len; i += chunkSize) {
+      chunks.add(text.substring(i, Math.min(len, i + chunkSize)));
     }
-    return formatted.toString();
+    return chunks;
   }
 
 }
