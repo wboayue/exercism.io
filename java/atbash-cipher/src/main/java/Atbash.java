@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Atbash {
   
@@ -15,11 +16,10 @@ public class Atbash {
   private static int Z = Character.codePointAt(new char[] {'z'}, 0);
 
   private static String rotate(String text) {
-    int[] rotated = strip(text).chars()
+    return strip(text).chars()
       .map(Atbash::rotate)
-      .toArray();
-
-    return new String(rotated, 0, rotated.length);
+      .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+      .toString();
   }
 
   private static int rotate(int codePoint) {
