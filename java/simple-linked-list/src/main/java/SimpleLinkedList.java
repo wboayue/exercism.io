@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-public class SimpleLinkedList {
+public class SimpleLinkedList<T> {
 
   private Node head = null;
   private int size = 0;
@@ -12,8 +12,8 @@ public class SimpleLinkedList {
   public SimpleLinkedList() {
   }
 
-  public SimpleLinkedList(Integer[] items) {
-    for (Integer item : reverse(items)) {
+  public SimpleLinkedList(T[] items) {
+    for (T item : reverse(items)) {
       push(item);
     }
   }
@@ -22,18 +22,18 @@ public class SimpleLinkedList {
     return this.size;
   }
 
-  public SimpleLinkedList push(Integer item) {
+  public SimpleLinkedList push(T item) {
     this.head = new Node(item, this.head);
     this.size += 1;
     return this;
   }
 
-  public Integer pop() {
+  public T pop() {
     if (this.head == null) {
       throw new NoSuchElementException();
     }
 
-    Integer item = (Integer) this.head.item;
+    T item = (T) this.head.item;
     this.head = this.head.next;
     this.size -= 1;
 
@@ -41,13 +41,10 @@ public class SimpleLinkedList {
   }
 
   public SimpleLinkedList reverse() {
-    Integer[] items = asArray(Integer.class);
-    this.head = null;
-
-    for (Integer item : items) {
-      push(item);
+    Node old = this.head;
+    for (this.head = null; old != null; old = old.next) {
+      this.head = new Node(old.item, this.head);
     }
-
     return this;
   }
 
@@ -64,18 +61,18 @@ public class SimpleLinkedList {
     return result;
   }
 
-  private static class Node {
-    private Object item;
+  private static class Node<T> {
+    private T item;
     private Node next;
 
-    private Node(Object item, Node next) {
+    private Node(T item, Node next) {
       this.item = item;
       this.next = next;
     }
   }
 
-  private List<Integer> reverse(Integer[] items) {
-    List<Integer> list = Arrays.asList(items);
+  private List<T> reverse(T[] items) {
+    List<T> list = Arrays.asList(items);
     Collections.reverse(list);
     return list;
   }
