@@ -1,4 +1,3 @@
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,9 +18,10 @@ public class Anagram {
   }
 
   private String sort(String word) {
-    char[] letters = word.toLowerCase().toCharArray();
-    Arrays.sort(letters);
-    return new String(letters);
+    return word.toLowerCase().chars()
+      .sorted()
+      .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+      .toString();
   }
 
   private boolean isAnagram(String candidate) {
