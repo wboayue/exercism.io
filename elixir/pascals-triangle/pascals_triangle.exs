@@ -5,15 +5,12 @@ defmodule PascalsTriangle do
   """
   @spec rows(integer) :: [[integer]]
   def rows(num) do
-    (0 .. num - 1) |> Enum.map(&build_row/1)
+    Stream.iterate([1], &build_row/1) |> Enum.take(num)
   end
 
-  defp build_row(row) do
-    (0 .. row) |> Enum.map(fn col -> cell(row, col) end)
+  defp build_row(previous) do
+    Enum.chunk([0 | previous], 2, 1, [0])
+    |> Enum.map(&Enum.sum/1)
   end
-
-  defp cell(_, 0), do: 1
-  defp cell(x, x), do: 1
-  defp cell(row, col), do: cell(row - 1, col) + cell(row - 1, col - 1)
 
 end
