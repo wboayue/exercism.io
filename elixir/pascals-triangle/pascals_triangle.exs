@@ -5,7 +5,8 @@ defmodule PascalsTriangle do
   """
   @spec rows(integer) :: [[integer]]
   def rows(num) do
-    Stream.iterate([1], &build_row/1) |> Enum.take(num)
+    Stream.iterate([1], &build_row/1)
+    |> Enum.take(num)
   end
 
   defp build_row(previous) do
