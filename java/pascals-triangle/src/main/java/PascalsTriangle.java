@@ -1,45 +1,30 @@
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 public class PascalsTriangle {
 
   public static int[][] computeTriangle(int rows) {
-    if (rows < 0) {
-      throw new IllegalArgumentException();
-    }
+    if (rows < 0) throw new IllegalArgumentException();
 
-    int[][] triangle = buildTriangle(rows);
-
-    for (int row = 0; row < rows; ++row) {
-      for (int col = 0; col <= row; ++col) {
-        triangle[row][col] = valueAt(row, col);
-      }
-    }
-
-    return triangle;
+    return IntStream.range(0, rows)
+      .mapToObj(PascalsTriangle::buildRow)
+      .toArray(int[][]::new);
   }
 
-  public static boolean isTriangle(int[][] triangle) {
-
-    for (int row = 0; row < triangle.length; ++row) {
-      for (int col = 0; col <= row; ++col) {
-        if (triangle[row][col] != valueAt(row, col)) {
-          return false;
-        };
-      }
-    }
-
-    return true;
+  public static boolean isTriangle(final int[][] triangle) {
+    return IntStream.range(0, triangle.length)
+      .allMatch(row -> isValidRow(row, triangle[row]));
   }
 
-  private static int[][] buildTriangle(int rows) {
-    if (rows == 0) {
-      return new int[][]{};
-    }
+  public static int[] buildRow(int row) {
+    return IntStream.rangeClosed(0, row)
+      .map(col -> valueAt(row, col))
+      .toArray();
+  }
 
-    int[][] result = new int[rows][];
-    for (int i = 0; i < rows; ++i) {
-      result[i] = new int[i+1];
-    }
-
-    return result;
+  public static boolean isValidRow(int rowNum, int[] row) {
+    return IntStream.rangeClosed(0, rowNum)
+      .allMatch(col -> row[col] == valueAt(rowNum, col));
   }
 
   private static int valueAt(int row, int col) {
@@ -47,11 +32,7 @@ public class PascalsTriangle {
   }
 
   private static int factorial(int n) {
-    if (n < 2) {
-      return 1; 
-    } else {
-      return n * factorial(n - 1);
-    }
+    return IntStream.rangeClosed(1, n).reduce(1, (a, b) -> a * b);
   }
 
 }
