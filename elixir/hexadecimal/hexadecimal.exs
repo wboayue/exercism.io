@@ -27,26 +27,10 @@ defmodule Hexadecimal do
   defp convert(string) do
     string
     |> String.graphemes
-    |> Enum.reduce(0, fn digit, accum ->
-      accum * 16 + to_integer(digit)
+    |> Enum.reduce(0, fn (digit, accum) ->
+      accum * 16 + String.to_integer(digit, 16)
     end)
   end
 
-  defp to_integer("0"), do: 0
-  defp to_integer("1"), do: 1
-  defp to_integer("2"), do: 2
-  defp to_integer("3"), do: 3
-  defp to_integer("4"), do: 4
-  defp to_integer("5"), do: 5
-  defp to_integer("6"), do: 6
-  defp to_integer("7"), do: 7
-  defp to_integer("8"), do: 8
-  defp to_integer("9"), do: 9
-  defp to_integer("A"), do: 10
-  defp to_integer("B"), do: 11
-  defp to_integer("C"), do: 12
-  defp to_integer("D"), do: 13
-  defp to_integer("E"), do: 14
-  defp to_integer("F"), do: 15
 end
 
