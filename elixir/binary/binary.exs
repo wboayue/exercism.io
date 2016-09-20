@@ -15,7 +15,11 @@ defmodule Binary do
   defp convert(string) do
     string
     |> String.graphemes
-    |> Enum.reduce(0, fn digit, accum -> accum * 2 + String.to_integer(digit) end)
+    |> Enum.reduce(0, fn digit, accum ->
+      accum * 2 + to_integer(digit)
+    end)
   end
 
+  defp to_integer("0"), do: 0
+  defp to_integer("1"), do: 1
 end
