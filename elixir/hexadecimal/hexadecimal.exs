@@ -19,7 +19,7 @@ defmodule Hexadecimal do
   def to_decimal(hex) do
     normalized_hex = String.upcase(hex)
     cond do
-      String.match?(normalized_hex, ~r/[^0123456789ABCDEF]/) -> 0
+      String.match?(normalized_hex, ~r/[^0-9A-F]/) -> 0
       true -> convert(normalized_hex)
     end
   end
