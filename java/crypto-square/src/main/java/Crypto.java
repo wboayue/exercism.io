@@ -1,8 +1,5 @@
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class Crypto {
 
@@ -23,33 +20,41 @@ public class Crypto {
 
   public List<String> getPlaintextSegments() {
     List<String> segments = new ArrayList<>();
+
     for (int i = 0; i < this.normalizedPlaintext.length(); i += getSquareSize()) {
       segments.add(this.normalizedPlaintext.substring(i, Math.min(i + getSquareSize(), this.normalizedPlaintext.length())));
     }
+
     return segments;
   }
 
   public String getCipherText() {
-    return generateCipherText(false);
+    return generateCipherText(CipherFlag.FLAT);
   }
 
   public String getNormalizedCipherText() {
-    return generateCipherText(true);
+    return generateCipherText(CipherFlag.NORMALIZED);
   }
 
-  private String generateCipherText(boolean normalize) {
+  private String generateCipherText(CipherFlag flag) {
     StringBuilder result = new StringBuilder();
+
     for (int i = 0; i < getSquareSize(); ++i) {
+      if (i != 0 && CipherFlag.NORMALIZED == flag) {
+        result.append(" ");
+      }
+
       for (String segment : getPlaintextSegments()) {
         if (i < segment.length()) {
           result.append(segment.charAt(i));
         }
       }
-      if (normalize) {
-        result.append(" ");
-      }
     }
-    return result.toString().trim();
+
+    return result.toString();
   }
 
+  public static enum CipherFlag {
+    NORMALIZED, FLAT
+  }
 }
