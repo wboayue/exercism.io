@@ -41,6 +41,7 @@ public class CryptoSquareTest {
         assertEquals(expectedOutput, crypto.getSquareSize());
     }
 
+    @Test
     public void sizeOfTextWhoseLengthIsPerfectSquareIsItsSquareRoot() {
         Crypto crypto = new Crypto("123456789");
         int expectedOutput = 3;
@@ -96,7 +97,6 @@ public class CryptoSquareTest {
         assertEquals(expectedOutput, crypto.getCipherText());
     }
 
-    @Ignore
     @Test
     public void normalizedCipherTextIsSplitByHeightOfSquare() {
         Crypto crypto = new Crypto("Vampires are people too!");

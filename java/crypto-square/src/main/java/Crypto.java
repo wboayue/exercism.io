@@ -21,10 +21,6 @@ public class Crypto {
     return (int) Math.ceil(Math.sqrt(this.normalizedPlaintext.length()));
   }
 
-  public int getColSize() {
-    return (int) Math.ceil((double)this.normalizedPlaintext.length() / getSquareSize());
-  }
-
   public List<String> getPlaintextSegments() {
     List<String> segments = new ArrayList<>();
     for (int i = 0; i < this.normalizedPlaintext.length(); i += getSquareSize()) {
@@ -34,6 +30,14 @@ public class Crypto {
   }
 
   public String getCipherText() {
+    return generateCipherText(false);
+  }
+
+  public String getNormalizedCipherText() {
+    return generateCipherText(true);
+  }
+
+  private String generateCipherText(boolean normalize) {
     StringBuilder result = new StringBuilder();
     for (int i = 0; i < getSquareSize(); ++i) {
       for (String segment : getPlaintextSegments()) {
@@ -41,20 +45,11 @@ public class Crypto {
           result.append(segment.charAt(i));
         }
       }
-    }
-    return result.toString();
-  }
-
-  public String getNormalizedCipherText() {
-    StringBuilder result = new StringBuilder();
-    String cipherText = getCipherText();
-    for (int i = 0; i < cipherText.length(); ++i) {
-      if (i != 0 && i % getColSize() == 0) {
+      if (normalize) {
         result.append(" ");
       }
-      result.append(cipherText.charAt(i));
     }
-    return result.toString();
+    return result.toString().trim();
   }
 
 }
