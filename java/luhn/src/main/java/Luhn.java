@@ -9,7 +9,7 @@ public class Luhn {
   }
 
   public static int[] toDigits(long number) {
-    return String.valueOf(number).chars().map(d -> d - '0').toArray();
+    return String.valueOf(number).chars().map(Character::getNumericValue).toArray();
   }
 
   public int getCheckDigit() {
