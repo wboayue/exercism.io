@@ -14,7 +14,6 @@ public class SubstitutionCipherTest {
         this.cipher = new Cipher(KEY);
     }
 
-
     @Test
     public void cipherKeepsTheSubmittedKey() {
         assertEquals(KEY, cipher.getKey());

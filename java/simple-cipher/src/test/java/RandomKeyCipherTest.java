@@ -14,7 +14,6 @@ public class RandomKeyCipherTest {
         this.cipher = new Cipher();
     }
 
-
     @Test
     public void cipherKeyIsMadeOfLetters() {
         assertTrue(cipher.getKey().matches("[a-z]+"));
