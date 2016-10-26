@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
+import string
 
-alphabet = set([chr(x) for x in xrange(ord('a'), ord('z'))])
+alphabet = set([x for x in string.ascii_lowercase])
 
 def is_pangram(sentence):
   sentence = sentence.lower()
-  letters = set([sentence[i] for i in xrange(len(sentence))])
+  letters = set([x for x in sentence])
   return alphabet.issubset(letters)
