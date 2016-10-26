@@ -2,7 +2,7 @@ class Clock:
 
   def __init__(self, hours, minutes):
     self.minutes = minutes % 60
-    self.hours = (hours + (minutes / 60)) % 24
+    self.hours = (hours + (minutes // 60)) % 24
 
   def __str__(self):
     return u"{:02d}:{:02d}".format(self.hours, self.minutes)
