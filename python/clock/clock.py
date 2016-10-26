@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 class Clock:
 
   def __init__(self, hours, minutes):

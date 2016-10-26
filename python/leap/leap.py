@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 def is_leap_year(year):
 
   def divisible_by(x, y):
