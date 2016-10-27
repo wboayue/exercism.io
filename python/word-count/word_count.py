@@ -2,7 +2,11 @@
 import re
 from collections import Counter
 
+SPLIT_RE = re.compile(r'[\W_]+', re.UNICODE)
+
+def words(sentence):
+  words = SPLIT_RE.split(unicode(sentence, 'utf-8').lower())
+  return [ word for word in words if word != '' ]
+
 def word_count(sentence):
-  words = re.split(ur"[\s_.,!&@$%^&:🖖]+", unicode(sentence.lower(), 'utf-8'), re.UNICODE)
-  words = [ word for word in words if word != '' ]
-  return dict(Counter(words))
+  return dict(Counter(words(sentence)))
