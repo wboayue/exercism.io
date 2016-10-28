@@ -17,7 +17,4 @@ def is_question(phrase):
   return phrase.strip().endswith("?")
 
 def is_shouting(phrase):
-  return has_letter(phrase) and phrase.upper() == phrase
-
-def has_letter(phrase):
-  return any([c.isalpha() for c in phrase])
+  return phrase.isupper()
