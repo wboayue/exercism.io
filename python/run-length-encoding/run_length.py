@@ -1,44 +1,14 @@
 # -*- coding: utf-8 -*-
-from itertools import groupby
+import re
 
 def encode(plain):
-  return ''.join([encode_chunk(*chunk) for chunk in chunks(plain)])
+  def encode_match(match):
+    return u"{0}{1}".format(len(match.group(0)), match.group(1))
 
-def chunks(plain):
-  return [(run_type, len(list(run))) for run_type, run in groupby(plain)]
-
-def encode_chunk(run_type, run_length):
-  if run_length == 1:
-    return run_type
-  else:
-    return u"{0}{1}".format(run_length, run_type)
+  return re.sub(r"(.)\1+", encode_match, plain) # match 2 or more characters
 
 def decode(compressed):
-  chunks = [decode_chunk(*chunk) for chunk in groupby(compressed, lambda x: x.isdigit())]
-  return expand_chunks(chunks)
+  def decode_match(match):
+    return match.group(2) * int(match.group(1))
 
-def decode_chunk(is_digit, chunk):
-  chunk = ''.join(list(chunk))
-  if is_digit:
-    return int(chunk)
-  else:
-    return chunk
-
-def expand_chunks(chunks):
-  plain = ''
-  run_length = None
-
-  for token in chunks:
-    if isinstance(token, (long, int)):
-      run_length = token
-    else:
-      plain += decode_run(run_length, token)
-      run_length = None
-
-  return plain
-
-def decode_run(run_length, token):
-  if run_length:
-    return (token[0] * run_length) + token[1:]
-  else:
-    return token
+  return re.sub(r"(\d+)(\D)", decode_match, compressed)
