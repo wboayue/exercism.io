@@ -15,21 +15,7 @@ def encode_chunk(run_type, run_length):
 
 def decode(compressed):
   chunks = [decode_chunk(*chunk) for chunk in groupby(compressed, lambda x: x.isdigit())]
-  plain = ''
-  run_length = None
-  for token in chunks:
-    if isinstance(token, (long, int)):
-      run_length = token
-    else:
-      if run_length:
-        plain += token[0] * run_length
-        if len(token) > 1:
-          plain += token[1:]
-        run_length = None
-      else:
-        plain += token
-
-  return plain
+  return expand_chunks(chunks)
 
 def decode_chunk(is_digit, chunk):
   chunk = ''.join(list(chunk))
@@ -37,4 +23,22 @@ def decode_chunk(is_digit, chunk):
     return int(chunk)
   else:
     return chunk
- 
+
+def expand_chunks(chunks):
+  plain = ''
+  run_length = None
+
+  for token in chunks:
+    if isinstance(token, (long, int)):
+      run_length = token
+    else:
+      plain += decode_run(run_length, token)
+      run_length = None
+
+  return plain
+
+def decode_run(run_length, token):
+  if run_length:
+    return (token[0] * run_length) + token[1:]
+  else:
+    return token
