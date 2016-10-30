@@ -28,30 +28,35 @@ public class Cipher {
 
   public String encode(String plain) {
     return IntStream.range(0, plain.length())
-      .mapToObj(i -> shift(plain.charAt(i), key.charAt(i)))
+      .mapToObj(i -> shift(plain.charAt(i), offset(key.charAt(i))))
       .collect(Collectors.joining());
   }
 
-  private String shift(char plain, char key) {
-    int cipher = (plain + (key - 'a'));
-    if (cipher > 'z') {
-      cipher -= 26;
+  private int offset(char key) {
+    return key - 'a';
+  }
+
+  private String shift(char plain, int offset) {
+    return wrapLetter(plain + offset);
+  }
+
+  private String wrapLetter(int letter) {
+    if (letter > 'z') {
+      letter -= 26;
+    } else if (letter < 'a') {
+      letter += 26;
     }
-    return String.valueOf((char)cipher);
+    return String.valueOf((char) letter);
   }
 
   public String decode(String cipher) {
     return IntStream.range(0, cipher.length())
-      .mapToObj(i -> unshift(cipher.charAt(i), key.charAt(i)))
+      .mapToObj(i -> unshift(cipher.charAt(i), offset(key.charAt(i))))
       .collect(Collectors.joining());
   }
 
-  private String unshift(char cipher, char key) {
-    int plain = (cipher - (key - 'a'));
-    if (plain < 'a') {
-      plain += 26;
-    }
-    return String.valueOf((char)plain);
+  private String unshift(char cipher, int offset) {
+    return wrapLetter(cipher - offset);
   }
 
   public String getKey() {
