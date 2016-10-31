@@ -1,6 +1,7 @@
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 public class PigLatin {
 
@@ -26,15 +27,25 @@ public class PigLatin {
     return Pattern.matches("^([aeiuo]|yt|xr).*", word);
   }
 
-  static String[] CONSONANTS = {"sch", "thr", "ch", "qu", "th"};
+  static Pattern[] CONSONANT_PATTERNS = {
+    Pattern.compile("^(sch).*"),
+    Pattern.compile("^(thr).*"),
+    Pattern.compile("^(\\w?qu).*"),
+    Pattern.compile("^(ch).*"),
+    Pattern.compile("^(th).*"),
+    Pattern.compile("^(\\w).*"),
+  };
 
   public static String rotate(String word) {
-    for (String consonant : CONSONANTS) {
-      if (word.startsWith(consonant)) {
-        return word.substring(consonant.length()) + consonant;
+    for (Pattern pattern : CONSONANT_PATTERNS) {
+      Matcher matcher = pattern.matcher(word);
+      if (matcher.matches()) {
+        String consonantSound = matcher.group(1);
+        return word.substring(consonantSound.length()) + consonantSound;
       }
     }
-    return word.substring(1) + word.charAt(0);
+
+    throw new IllegalArgumentException("don't know how to rotate: " + word);
   }
 
 }
