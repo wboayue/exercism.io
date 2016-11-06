@@ -1,8 +1,8 @@
 object SumOfMultiples {
 
   def sumOfMultiples(multiples: List[Int], num: Int): Int = {
-    val uniqueMultiples = multiples.flatMap(mutiple => List.range(mutiple, num, mutiple)).toSet
-    uniqueMultiples.sum
+    def isMultiple(x: Int) = multiples.exists(x % _ == 0) 
+    List.range(1, num).filter(isMultiple).sum
   }
 
 }
