@@ -1,7 +1,7 @@
-return function (items, map)
+return function (items, f)
   local results = {}
   for i, item in ipairs(items) do
-    results[i] = map(item)
+    results[i] = f(item)
   end
   return results
 end
