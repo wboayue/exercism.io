@@ -1,7 +1,7 @@
-local exports = {}
+local M = {}
 
-function exports.hello(name)
-  return "Hello, " .. (name or "world") .. "!"
+function M.hello(name)
+  return string.format("Hello, %s!", (name or "world"))
 end
 
-return exports
+return M
