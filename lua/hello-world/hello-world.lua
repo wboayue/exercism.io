@@ -1,8 +1,7 @@
-function hello(name)
-  name = name or "world"
-  return "Hello, " .. name .. "!"
+local exports = {}
+
+function exports.hello(name)
+  return "Hello, " .. (name or "world") .. "!"
 end
 
-return { 
-  hello = hello
-}
+return exports
