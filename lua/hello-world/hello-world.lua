@@ -1,6 +1,6 @@
 function hello(name)
   name = name or "world"
-	return "Hello, " .. name .. "!"
+  return "Hello, " .. name .. "!"
 end
 
 return { 
