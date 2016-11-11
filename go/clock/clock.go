@@ -14,18 +14,18 @@ func floorDiv(x, y int) int {
 }
 
 func floorMod(x, y int) int {
-  return x - (floorDiv(x, y) * y)
+	return x - (floorDiv(x, y) * y)
 }
 
 func normalize(hour, minute int) (int, int) {
-	minute = floorMod(minute, 60)
-	hour = floorMod(hour + floorDiv(minute, 60), 24)
-	return hour, minute
+	m := floorMod(minute, 60)
+	h := floorMod(hour+floorDiv(minute, 60), 24)
+	return h, m
 }
 
 func New(hour, minute int) Clock {
-	hour, minute = normalize(hour, minute)
-	return Clock{hour, minute}
+	h, m := normalize(hour, minute)
+	return Clock{h, m}
 }
 
 func (c Clock) String() string {
