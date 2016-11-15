@@ -21,8 +21,8 @@ func Convert(x int) string {
 	}
 
 	if converted == "" {
-    return strconv.Itoa(x)
+		return strconv.Itoa(x)
 	} else {
-    return converted
+		return converted
 	}
 }
