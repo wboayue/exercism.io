@@ -20,9 +20,9 @@ func Convert(x int) string {
 		}
 	}
 
-	if converted != "" {
-		return converted
+	if converted == "" {
+    return strconv.Itoa(x)
 	} else {
-		return strconv.Itoa(x)
+    return converted
 	}
 }
