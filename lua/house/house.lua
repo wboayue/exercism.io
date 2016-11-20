@@ -21,7 +21,7 @@ M.verse = function(num)
   for i = num, 1, -1 do
     noun, verb = unpack(noun_verb_pairs[i])
     seperator = i == 1 and " " or "\n"
-    verse = verse .. string.format(" the %s%sthat %s", noun, seperator, verb)
+    verse = verse .. " the " .. noun .. seperator .. "that " .. verb
   end
 
   return "This is" .. verse
