@@ -1,6 +1,6 @@
 local M = {}
 
-local items = {
+local noun_verb_pairs = {
   {"house", "Jack built."},
   {"malt", "lay in"},
   {"rat", "ate"},
@@ -19,7 +19,7 @@ M.verse = function(num)
   local rhyme = ""
 
   for i = num, 1, -1 do
-    noun, verb = unpack(items[i])
+    noun, verb = unpack(noun_verb_pairs[i])
     seperator = i == 1 and " " or "\n"
     rhyme = rhyme .. string.format(" the %s%sthat %s", noun, seperator, verb)
   end
@@ -29,7 +29,7 @@ end
 
 M.recite = function()
   local verses = {}
-  for i = 1, 12 do
+  for i = 1, #noun_verb_pairs do
     verses[i] = M.verse(i)
   end
   return table.concat(verses, '\n')
