@@ -16,15 +16,15 @@ local noun_verb_pairs = {
 }
 
 M.verse = function(num)
-  local rhyme = ""
+  local verse = ""
 
   for i = num, 1, -1 do
     noun, verb = unpack(noun_verb_pairs[i])
     seperator = i == 1 and " " or "\n"
-    rhyme = rhyme .. string.format(" the %s%sthat %s", noun, seperator, verb)
+    verse = verse .. string.format(" the %s%sthat %s", noun, seperator, verb)
   end
 
-  return "This is" .. rhyme
+  return "This is" .. verse
 end
 
 M.recite = function()
