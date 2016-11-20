@@ -26,9 +26,7 @@ local generate_verse = function(num)
     end
   end
 
-  rhyme = rhyme .. "house that Jack built."
-
-  return rhyme  
+  return rhyme .. "house that Jack built."
 end
 
 M.verse = function(num)
