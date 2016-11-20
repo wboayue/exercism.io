@@ -1,7 +1,7 @@
 local M = {}
 
 local items = {
-  {"", ""},
+  {"house", "Jack built."},
   {"malt", "lay in"},
   {"rat", "ate"},
   {"cat", "killed"},
@@ -15,26 +15,16 @@ local items = {
   {"horse and the hound and the horn", "belonged to"},
 }
 
-local generate_verse = function(num)
-  local rhyme = string.format("This is the %s\n", items[num][1])
-
-  for i = num, 2, -1 do
-    rhyme = rhyme .. string.format("that %s the %s", items[i][2], items[i-1][1])
-
-    if i > 2 then
-      rhyme = rhyme .. "\n"
-    end
-  end
-
-  return rhyme .. "house that Jack built."
-end
-
 M.verse = function(num)
-  if num == 1 then
-    return "This is the house that Jack built."
-  else
-    return generate_verse(num)
+  local rhyme = ""
+
+  for i = num, 1, -1 do
+    noun, verb = unpack(items[i])
+    seperator = i == 1 and " " or "\n"
+    rhyme = rhyme .. string.format(" the %s%sthat %s", noun, seperator, verb)
   end
+
+  return "This is" .. rhyme
 end
 
 M.recite = function()
