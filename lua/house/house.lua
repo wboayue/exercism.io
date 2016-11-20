@@ -16,12 +16,9 @@ local items = {
 }
 
 local generate_verse = function(num)
-  local rhyme = "This is "
+  local rhyme = string.format("This is the %s\n", items[num][1])
 
   for i = num, 2, -1 do
-    if i == num then
-      rhyme = rhyme .. string.format("the %s\n", items[i][1])
-    end
     rhyme = rhyme .. string.format("that %s the %s", items[i][2], items[i-1][1])
 
     if i > 2 then
