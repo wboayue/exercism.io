@@ -14,9 +14,5 @@ return function(num)
     end
   end
 
-  if melody == "" then
-    return tostring(num)
-  else
-    return melody
-  end 
+  return melody == "" and tostring(num) or melody
 end
