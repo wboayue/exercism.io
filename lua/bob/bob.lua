@@ -9,8 +9,7 @@ local function is_shouting(sentence)
 end
 
 local function is_question(sentence)
-  local size = string.len(sentence)
-  return string.sub(sentence, size, size + 1) == "?"
+  return string.sub(sentence, -1) == "?"
 end
 
 M.hey = function(sentence)
