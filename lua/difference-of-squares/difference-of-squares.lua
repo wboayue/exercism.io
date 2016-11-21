@@ -1,7 +1,7 @@
 local M = {}
 
 M.square_of_sums = function(x)
-  sum = 0
+  local sum = 0
   for i = 1, x do
     sum = sum + i
   end
@@ -9,7 +9,7 @@ M.square_of_sums = function(x)
 end
 
 M.sum_of_squares = function(x)
-  sum = 0
+  local sum = 0
   for i = 1, x do
     sum = sum + i * i
   end
