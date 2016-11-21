@@ -15,7 +15,7 @@ return function(num)
   end
 
   if melody == "" then
-    return string.format("%s", num)
+    return tostring(num)
   else
     return melody
   end 
