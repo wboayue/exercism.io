@@ -3,8 +3,8 @@ Anagram.__index = Anagram
 
 local function sort_letters(word)
   local letters = {}
-  for c in string.lower(word):gmatch(".") do
-    table.insert(letters, c)
+  for letter in string.lower(word):gmatch(".") do
+    table.insert(letters, letter)
   end
   table.sort(letters)
   return table.concat(letters)
