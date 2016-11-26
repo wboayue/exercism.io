@@ -7,9 +7,9 @@ local function to_decimal(number)
 
   local decimal = 0
   for digit in string.gmatch(number, ".") do
-    decimal = (decimal * 8) + tonumber(digit)
+    decimal = (decimal * 8) + digit
   end
-  
+
   return decimal
 end
 
