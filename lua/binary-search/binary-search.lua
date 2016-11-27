@@ -1,7 +1,7 @@
 local function do_find(items, target, lower_bound, upper_bound)
   if lower_bound > upper_bound then return -1 end
 
-  local mid_ndx = math.floor((lower_bound + upper_bound) / 2)
+  local mid_ndx = (lower_bound + upper_bound) // 2
   local mid_val = items[mid_ndx]
 
   if mid_val == target then return mid_ndx end
