@@ -1,15 +1,13 @@
-local M = {}
+local open_brackets  = {['['] = ']', ['{'] = '}', ['('] = ')'}
+local close_brackets = {[']'] = '[', ['}'] = '{', [')'] = '('}
 
-local open_brackets  = {["["] = "]", ["{"] = "}", ["("] = ")"}
-local close_brackets = {["]"] = "[", ["}"] = "{", [")"] = "("}
-
-M.valid = function(tokens)
+local function valid(tokens)
   local stack = {}
 
-  for token in string.gmatch(tokens, ".") do
-    if open_brackets[token] ~= nil then
+  for token in string.gmatch(tokens, '.') do
+    if open_brackets[token] then
       table.insert(stack, token)
-    elseif close_brackets[token] ~= nil then
+    elseif close_brackets[token] then
       if #stack == 0 or stack[#stack] ~= close_brackets[token] then
         return false -- unbalanced
       end
@@ -20,4 +18,4 @@ M.valid = function(tokens)
   return #stack == 0
 end
 
-return M
+return { valid = valid }
