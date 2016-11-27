@@ -1,15 +1,19 @@
-function flatten(acc, source)
-  for _, item in ipairs(source) do
-    if type(item) == 'table' then
-      flatten(acc, item)
-    else
-      table.insert(acc, item)
-    end
+local function concat(list1, list2)
+  for _, item in ipairs(list2) do
+    table.insert(list1, item)
   end
 end
 
-return function(source)
-  local r = {}
-  flatten(r, source)
-  return r
+local function flatten(items)
+  local results = {}
+  for _, item in ipairs(items) do
+    if type(item) == 'table' then
+      concat(results, flatten(item))
+    else
+      table.insert(results, item)
+    end
+  end
+  return results
 end
+
+return flatten
