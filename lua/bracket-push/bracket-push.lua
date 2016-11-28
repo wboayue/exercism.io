@@ -1,10 +1,10 @@
-local open_brackets  = {['['] = ']', ['{'] = '}', ['('] = ')'}
+local open_brackets  = {['['] = true, ['{'] = true, ['('] = true}
 local close_brackets = {[']'] = '[', ['}'] = '{', [')'] = '('}
 
 local function valid(tokens)
   local stack = {}
 
-  for token in string.gmatch(tokens, '.') do
+  for token in tokens:gmatch('.') do
     if open_brackets[token] then
       table.insert(stack, token)
     elseif close_brackets[token] then
