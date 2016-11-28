@@ -7,9 +7,7 @@ local function count_letters(sentence)
 end
 
 local function contains_all_aplhabet(counts)
-  local alphabet = string.gmatch('abcdefghijklmnopqrstuvwxyz', '.')
-
-  for letter in alphabet do
+  for letter in string.gmatch('abcdefghijklmnopqrstuvwxyz', '.') do
     if not counts[letter] then return false end
   end
   return true
