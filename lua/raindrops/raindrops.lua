@@ -5,10 +5,10 @@ local sounds = {
 }
 
 return function(num)
-  melody = ""
+  local melody = ""
 
   for _, tuple in ipairs(sounds) do
-    factor, sound = unpack(tuple)
+    local factor, sound = unpack(tuple)
     if num % factor == 0 then
       melody = melody .. sound
     end
