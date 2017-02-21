@@ -1,18 +1,18 @@
 public class SumOfMultiples {
 
-  public static int sum(int number, int[] multiples) {
+  public static int sum(int number, int[] multipliers) {
     int sum = 0;
     for (int i = 1; i < number; ++i) {
-      if (isMultiple(i, multiples)) {
+      if (isMultiple(i, multipliers)) {
         sum += i;
       }
     }
     return sum;
   }
 
-  public static boolean isMultiple(int number, int[] multiples) {
-    for (int i = 0; i < multiples.length; ++i) {
-      if (number % multiples[i] == 0) {
+  public static boolean isMultiple(int number, int[] multipliers) {
+    for (int i = 0; i < multipliers.length; ++i) {
+      if (number % multipliers[i] == 0) {
         return true;
       }
     }
