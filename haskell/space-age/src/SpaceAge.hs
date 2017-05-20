@@ -10,14 +10,15 @@ data Planet = Mercury
             | Neptune
 
 ageOn :: Planet -> Float -> Float
-ageOn planet seconds =
-  case planet of Mercury -> earthYears / 0.2408467
-                 Venus   -> earthYears / 0.61519726
-                 Earth   -> earthYears
-                 Mars    -> earthYears / 1.8808158
-                 Jupiter -> earthYears / 11.862615
-                 Saturn  -> earthYears / 29.447498
-                 Uranus  -> earthYears / 84.016846
-                 Neptune -> earthYears / 164.79132
+ageOn planet seconds = earthYears / orbitalPeriod
   where
     earthYears = seconds / 31557600
+    orbitalPeriod = case planet of Mercury -> 0.2408467
+                                   Venus   -> 0.61519726
+                                   Earth   -> 1
+                                   Mars    -> 1.8808158
+                                   Jupiter -> 11.862615
+                                   Saturn  -> 29.447498
+                                   Uranus  -> 84.016846
+                                   Neptune -> 164.79132
+
