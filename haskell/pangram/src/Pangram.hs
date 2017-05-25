@@ -6,4 +6,4 @@ isPangram :: String -> Bool
 isPangram text = all hasLetter alphabet
   where
     alphabet    = ['a'..'z']
-    hasLetter x = any ((==) x) $ map toLower text
+    hasLetter x = elem x $ map toLower text
