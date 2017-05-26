@@ -1,9 +1,10 @@
 module Pangram (isPangram) where
 
+import qualified Data.Set as S
 import Data.Char (toLower)
 
 isPangram :: String -> Bool
-isPangram text = all hasLetter alphabet
+isPangram text = alphabet `S.isSubsetOf` sentence
   where
-    alphabet    = ['a'..'z']
-    hasLetter x = elem x $ map toLower text
+    alphabet = S.fromAscList(['a'..'z'])
+    sentence = S.fromList $ map toLower text
