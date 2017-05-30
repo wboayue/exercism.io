@@ -14,5 +14,5 @@ decode = fst . foldl decodeText ("", 1) . groupBy isConsecutiveDigits
 encode :: String -> String
 encode = foldl encodeRun "" . group
   where
-    encodeRun encoded (x:[]) = encoded ++ [x]
-    encodeRun encoded run = encoded ++ show (length run) ++ [(run !! 0)]
+    encodeRun encoded [x] = encoded ++ [x]
+    encodeRun encoded xs@(x:_) = encoded ++ show (length xs) ++ [x]
