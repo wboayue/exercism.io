@@ -12,7 +12,7 @@ decode = fst . foldl decodeText ("", 1) . groupBy isConsecutiveDigits
       | otherwise     = (decoded ++ replicate n (head x), 1)
 
 encode :: String -> String
-encode = foldl encodeRun "" . group
+encode = concatMap encodeRun . group
   where
-    encodeRun encoded [x] = encoded ++ [x]
-    encodeRun encoded xs@(x:_) = encoded ++ show (length xs) ++ [x]
+    encodeRun [x] = [x]
+    encodeRun xs@(x:_) = show (length xs) ++ [x]
