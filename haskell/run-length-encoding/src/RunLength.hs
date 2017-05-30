@@ -4,16 +4,15 @@ import Data.List
 import Data.Char
 
 decode :: String -> String
-decode "" = ""
-decode encodedText = fst $ foldl decodeRun ("", 1) $ groupBy areDigits encodedText
+decode = fst . foldl decodeText ("", 1) . groupBy isConsecutiveDigits
   where
-    areDigits x y = isDigit(x) && isDigit(y)
-    decodeRun (decoded, n) x
+    isConsecutiveDigits x y = isDigit(x) && isDigit(y)
+    decodeText (decoded, n) x
       | any isDigit x = (decoded, read x :: Int)
       | otherwise     = (decoded ++ replicate n (x !! 0), 1)
 
 encode :: String -> String
-encode "" = ""
-encode text = foldl encodeRun [] $ group text
+encode = foldl encodeRun "" . group
   where
-    encodeRun x acc = "a"
+    encodeRun encoded (x:[]) = encoded ++ [x]
+    encodeRun encoded run = encoded ++ show (length run) ++ [(run !! 0)]
