@@ -9,7 +9,7 @@ decode = fst . foldl decodeText ("", 1) . groupBy isConsecutiveDigits
     isConsecutiveDigits x y = isDigit(x) && isDigit(y)
     decodeText (decoded, n) x
       | any isDigit x = (decoded, read x :: Int)
-      | otherwise     = (decoded ++ replicate n (x !! 0), 1)
+      | otherwise     = (decoded ++ replicate n (head x), 1)
 
 encode :: String -> String
 encode = foldl encodeRun "" . group
