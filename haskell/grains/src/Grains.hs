@@ -1,12 +1,11 @@
 module Grains (square, total) where
 
+import Data.Maybe
+
 square :: Integer -> Maybe Integer
 square n
-  | n `elem` [1..64] = Just (grains n)
+  | n `elem` [1..64] = Just (2 ^ (n - 1))
   | otherwise        = Nothing
 
-grains :: Integer -> Integer
-grains n = 2 ^ (n - 1)
-
 total :: Integer
-total = sum $ map grains [1..64]
+total = sum $ mapMaybe square [1..64]
