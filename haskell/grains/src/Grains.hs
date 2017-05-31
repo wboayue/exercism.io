@@ -1,7 +1,5 @@
 module Grains (square, total) where
 
-import Data.Bits
-
 square :: Integer -> Maybe Integer
 square n
   | n `elem` [1..64] = Just (grains n)
