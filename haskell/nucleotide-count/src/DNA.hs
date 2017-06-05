@@ -12,4 +12,3 @@ nucleotideCounts xs = if isValidNucleotide
   where
     addToCounts counts x = insertWith (+) x 1 counts
     isValidNucleotide    = all (`elem` keys initialCounts) xs
-
