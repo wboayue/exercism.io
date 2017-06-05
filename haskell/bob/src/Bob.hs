@@ -12,4 +12,4 @@ responseFor xs
     yell     = (any isAlpha xs) && (map toUpper xs) == xs
     question = not (null stripped) && last stripped == '?' 
     silence  = all isSpace xs
-    stripped = reverse (dropWhile isSpace (reverse xs))
+    stripped = dropWhileEnd isSpace xs
