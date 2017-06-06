@@ -15,4 +15,4 @@ abbreviate' (abbreviation, Just last) x
       | isSpace last || isHyphen last = True
       | isUpper x && isLower last     = True
       | otherwise                     = False
-    isHyphen x = last == '-'
+    isHyphen x = x == '-'
