@@ -26,13 +26,17 @@ defmodule SecretHandshake do
 
   @spec commands(code :: integer) :: list(String.t())
   def commands(code) do
-    results = @actions
-    |> Enum.flat_map(fn {mask, action} -> if (code &&& mask) == mask, do: [action], else: [] end)
-
-    if (code &&& @reverse) == @reverse do
-      results |> Enum.reverse 
+    if bit_set?(code, @reverse) do
+      translate(code) |> Enum.reverse 
     else
-      results 
+      translate(code)
     end
+  end
+
+  def bit_set?(code, mask), do: (code &&& mask) == mask
+
+  def translate(code) do
+    @actions
+    |> Enum.flat_map(fn {mask, action} -> if bit_set?(code, mask), do: [action], else: [] end)    
   end
 end
