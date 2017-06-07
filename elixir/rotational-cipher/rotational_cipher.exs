@@ -10,7 +10,13 @@ defmodule RotationalCipher do
   def rotate(text, shift) do
     text
     |> to_charlist
-    |> Enum.map(&(&1 + shift))
+    |> Enum.map(&rotate_letter(&1, shift))
     |> to_string
   end
+
+  defp rotate_letter(letter, shift) when letter in ?a .. ?z, do: encode(?a, letter, shift)
+  defp rotate_letter(letter, shift) when letter in ?A .. ?Z, do: encode(?A, letter, shift)
+  defp rotate_letter(letter, _), do: letter
+
+  defp encode(base, letter, shift), do: base + rem((letter - base) + shift, 26)
 end
