@@ -40,10 +40,12 @@ defmodule PigLatin do
   ]
 
   defp rotate(word) do
-    case Enum.find(@consonants, fn re -> String.match?(word, re) end) do
-      nil -> word
-      re  -> [_, consonant, base] = Regex.run(re, word); base <> consonant
-    end
+    Enum.reduce_while(@consonants, nil, fn re, acc ->
+      case Regex.run(re, word) do
+        [_, consonant, base] -> {:halt, base <> consonant}
+        _                    -> {:cont, acc}
+      end
+    end)
   end
 end
 
