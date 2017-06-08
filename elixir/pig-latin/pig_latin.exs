@@ -30,22 +30,11 @@ defmodule PigLatin do
 
   defp starts_with_vowel?(word), do: String.match?(word, ~r/^([aeiuo]|yt|xr).*/u)
 
-  @consonants [
-    ~r/^(sch)(.*)/u,
-    ~r/^(thr)(.*)/u,
-    ~r/^(\w?qu)(.*)/u,
-    ~r/^(ch)(.*)/u,
-    ~r/^(th)(.*)/u,
-    ~r/^(\w)(.*)/u,
-  ]
+  @consonant_re ~r/^(sch|thr|\w?qu|ch|th|\w)(.*)/u 
 
   defp rotate(word) do
-    Enum.reduce_while(@consonants, nil, fn re, acc ->
-      case Regex.run(re, word) do
-        [_, consonant, base] -> {:halt, base <> consonant}
-        _                    -> {:cont, acc}
-      end
-    end)
+    [_, consonant, base] = Regex.run(@consonant_re, word)
+    base <> consonant
   end
 end
 
