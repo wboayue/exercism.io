@@ -6,17 +6,13 @@ defmodule Acronym do
   @spec abbreviate(String.t()) :: String.t()
   def abbreviate(string) do
     string
-    |> split_into_words
-    |> get_first_letter
-    |> Enum.join
+    |> String.split(~r/(?=[[:upper:]])|[ -]/u)
+    |> Enum.map_join(&capitalized_first/1)
   end
 
-  defp split_into_words(string) do
-    String.split(string, ~r/(?=[[:upper:]])|[ -]/u)
+  defp capitalized_first(word) do
+    word
+    |> String.first
+    |> String.capitalize
   end
-
-  defp get_first_letter(words) do
-    Enum.map(words, &(&1 |> String.first |> String.capitalize))
-  end
-
 end
