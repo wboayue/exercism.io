@@ -20,24 +20,25 @@ defmodule TwelveDays do
   """
   @spec verse(number :: integer) :: String.t()
   def verse(number) do
-    {day, _} = Map.get(@lyrics, number)
-
-    "On the #{day} day of Christmas my true love gave to me, "
+    "On the #{day(number)} of Christmas my true love gave to me, "
     <>
-    Enum.map_join(number..1, ", ", fn i ->
-      {_, item} = Map.get(@lyrics, i)
-
-      if number > 1 && i == 1 do
-        "and #{item}"
-      else
-        "#{item}"
-      end
-    end)
+    chorus(number)
     <>
     "."    
   end
 
+  defp day(number) do
+    {seq, _} = Map.get(@lyrics, number)
+    "#{seq} day"
+  end
   
+  defp chorus(number) do
+    Enum.map_join(number..1, ", ", fn i ->
+      {_, item} = Map.get(@lyrics, i)
+      if number > 1 && i == 1, do: "and #{item}", else: "#{item}"
+    end)    
+  end
+
   @doc """
   Given a `starting_verse` and an `ending_verse`, return the verses for each
   included day, one per line.
