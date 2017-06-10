@@ -26,5 +26,3 @@ defmodule Pangram do
     |> MapSet.size
   end
 end
-
-# Enum.into(%{a: 1}, %{b: 2})
