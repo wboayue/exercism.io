@@ -11,11 +11,20 @@ defmodule Pangram do
       true
 
   """
-
-  @alphabet ~w(a b c d e f g h i j k l m n o p q r s t u v w x y z)
   @spec pangram?(String.t) :: boolean
   def pangram?(sentence) do
-    letters = String.downcase(sentence) |> String.graphemes
-    Enum.all?(@alphabet, &(Enum.member?(letters, &1)))
+    count_unique_letters(sentence) == 26
+  end
+
+  defp alphabet?(c), do: ?a <= c && ?z >= c
+
+  defp count_unique_letters(sentence) do
+    String.downcase(sentence)
+    |> String.to_charlist
+    |> Enum.filter(&alphabet?/1)
+    |> Enum.into(MapSet.new)
+    |> MapSet.size
   end
 end
+
+# Enum.into(%{a: 1}, %{b: 2})
