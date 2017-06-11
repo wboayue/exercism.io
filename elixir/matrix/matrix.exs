@@ -6,9 +6,7 @@ defmodule Matrix do
   separated by single spaces, into a `Matrix` struct.
   """
   @spec from_string(input :: String.t()) :: %Matrix{}
-  def from_string(input) do
-    %Matrix{rows: to_rows(input)}
-  end
+  def from_string(input), do: %Matrix{rows: to_rows(input)}
 
   defp to_rows(string) do
     String.split(string, "\n")
@@ -16,9 +14,8 @@ defmodule Matrix do
   end
 
   defp to_row(string) do
-    string
-    |> String.split
-    |> Enum.map(fn s -> String.to_integer(s) end)    
+    String.split(string)
+    |> Enum.map(&String.to_integer/1)    
   end
 
   @doc """
@@ -34,17 +31,13 @@ defmodule Matrix do
   Given a `matrix`, return its rows as a list of lists of integers.
   """
   @spec rows(matrix :: %Matrix{}) :: list(list(integer))
-  def rows(%Matrix{rows: rows}) do
-    rows
-  end
+  def rows(%Matrix{rows: rows}), do: rows
 
   @doc """
   Given a `matrix` and `index`, return the row at `index`.
   """
   @spec row(matrix :: %Matrix{}, index :: integer) :: list(integer)
-  def row(%Matrix{rows: rows}, index) do
-    Enum.at(rows, index)
-  end
+  def row(%Matrix{rows: rows}, index), do: Enum.at(rows, index)
 
   @doc """
   Given a `matrix`, return its columns as a list of lists of integers.
@@ -63,4 +56,3 @@ defmodule Matrix do
     Enum.map(rows, &(Enum.at(&1, index)))
   end
 end
-
