@@ -1,5 +1,5 @@
 defmodule Matrix do
-  defstruct cells: nil, m: nil, n: nil, rows: nil
+  defstruct cells: nil, m: nil, n: nil
 
   @doc """
   Convert an `input` string, with rows separated by newlines and values
