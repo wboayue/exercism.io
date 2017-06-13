@@ -1,4 +1,6 @@
 defmodule SecretHandshake do
+  use Bitwise, only_operators: true
+
   @doc """
   Determine the actions of a secret handshake based on the binary
   representation of the given `code`.
@@ -13,25 +15,22 @@ defmodule SecretHandshake do
 
   10000 = Reverse the order of the operations in the secret handshake
   """
-  use Bitwise, only_operators: true
-
-  @actions [
-    {0x1, "wink"},
-    {0x2, "double blink"},
-    {0x4, "close your eyes"},
-    {0x8, "jump"}
-  ]
-
-  @reverse 0x10
-
   @spec commands(code :: integer) :: list(String.t())
-  def commands(code) when (code &&& @reverse) == @reverse do
-    translate(code) |> Enum.reverse
+  def commands(code) do
+    Enum.reduce(actions(), [], fn {mask, action}, acc ->
+      if (code &&& mask) == mask, do: action.(acc), else: acc
+    end)
   end
-  def commands(code), do: translate(code)
 
-  def translate(code) do
-    @actions
-    |> Enum.flat_map(fn {mask, action} -> if (code &&& mask) == mask, do: [action], else: [] end)    
+  defp actions do
+    [
+      {0x1, make_action("wink")},
+      {0x2, make_action("double blink")},
+      {0x4, make_action("close your eyes")},
+      {0x8, make_action("jump")},
+      {0x10, &Enum.reverse/1}
+    ]    
   end
+
+  defp make_action(action), do: &(&1 ++ [action]) 
 end
