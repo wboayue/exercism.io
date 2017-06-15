@@ -20,14 +20,7 @@ defmodule Scrabble do
     word
     |> String.downcase
     |> String.graphemes
-    |> Enum.map(&score_letter/1)
+    |> Enum.map(&(Map.get(@letter_values, &1, 0)))
     |> Enum.sum
-  end
-
-  defp score_letter(letter) do
-    case Map.fetch(@letter_values, letter) do
-      {:ok, value} -> value
-      _            -> 0
-    end
   end
 end
