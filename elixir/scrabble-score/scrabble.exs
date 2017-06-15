@@ -10,7 +10,7 @@ defmodule Scrabble do
     {"qz", 10},
   ]
 
-  @letter_values for {letters, score} <- @raw_letter_values, letter <- String.codepoints(letters), do: {letter, score}, into: %{}
+  @letter_values for {letters, score} <- @raw_letter_values, letter <- String.graphemes(letters), do: {letter, score}, into: %{}
 
   @doc """
   Calculate the scrabble score for the word.
@@ -19,9 +19,15 @@ defmodule Scrabble do
   def score(word) do
     word
     |> String.downcase
-    |> String.replace(~r/[^a-z]/, "")
-    |> String.codepoints
-    |> Enum.map(&(@letter_values[&1]))
+    |> String.graphemes
+    |> Enum.map(&score_letter/1)
     |> Enum.sum
+  end
+
+  defp score_letter(letter) do
+    case Map.fetch(@letter_values, letter) do
+      {:ok, value} -> value
+      _            -> 0
+    end
   end
 end
