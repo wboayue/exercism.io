@@ -30,7 +30,6 @@ defmodule AllYourBase do
     total
   end
 
-  defp digits(0, base), do: [0]
   defp digits(num, base) do
     if div(num, base) == 0 do
       [rem(num, base)]
