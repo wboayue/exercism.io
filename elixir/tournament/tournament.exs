@@ -84,14 +84,12 @@ defmodule Tournament do
   defp format_row({team, %{points: points, won: won, lost: lost, drawn: drawn}}) do
     String.pad_trailing(team, 30)
     <> " | "
-    <> String.pad_leading(Integer.to_string(won + lost + drawn), 2)
-    <> " | "
-    <> String.pad_leading(Integer.to_string(won), 2)
-    <> " | "
-    <> String.pad_leading(Integer.to_string(drawn), 2)
-    <> " | "
-    <> String.pad_leading(Integer.to_string(lost), 2)
-    <> " | "
-    <> String.pad_leading(Integer.to_string(points), 2)
+    <> format_datapoints([won + lost + drawn, won, drawn, lost, points])
+  end
+
+  defp format_datapoints(datapoints) do
+    datapoints
+    |> Enum.map(&(String.pad_leading(Integer.to_string(&1), 2)))
+    |> Enum.join(" | ")
   end
 end
