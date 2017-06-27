@@ -16,8 +16,8 @@ defmodule Change do
   """
 
   @spec generate(list, integer) :: {:ok, list} | {:error, String.t}
-  def generate(coins, 0), do: {:ok, []} 
-  def generate(coins, target) when target < 1, do: {:error, "cannot change"} 
+  def generate(coins, 0), do: {:ok, []}
+  def generate(coins, target) when target < 1, do: {:error, "cannot change"}
   def generate(coins, target) do
     candidates = permute(coins, target, [])
     if candidates == [] do
@@ -27,9 +27,46 @@ defmodule Change do
     end
   end
 
+  def build_tree(coins, target) do
+    coins
+    |> Enum.reduce([], fn coin, tree ->
+      permutations(coin, tree, target)
+    end)
+    |> Enum.filter(fn {_coins, score, _next} -> score == target end)
+  end
+
   def duplicate(_coin, 0), do: []
   def duplicate(coin, n) do
-    (1..n) |> Enum.map(fn _ -> coin end)  
+    (1..n) |> Enum.map(fn _ -> coin end)
+  end
+
+  def permutations(coin, [], target) do
+    (0..div(target, coin))
+    |> Enum.flat_map(fn i ->
+      if coin * i <= target do
+        [ { duplicate(coin, i), coin * i, {} } ]
+      else
+        []
+      end
+    end)
+  end
+
+  def permutations(coin, tree, target) do
+    (0..div(target, coin))
+    |> Enum.flat_map(fn i ->
+      if coin * i <= target do
+        tree
+        |> Enum.flat_map(fn node = {_, score, _} ->
+            if coin * i + score <= target do
+              [ { duplicate(coin, i), coin * i + score, node } ]
+            else
+              []
+            end
+          end)
+      else
+        []
+      end
+    end)
   end
 
   def permute([coin], target, candidate) do
