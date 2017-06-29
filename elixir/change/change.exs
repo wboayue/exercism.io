@@ -19,68 +19,48 @@ defmodule Change do
   def generate(coins, 0), do: {:ok, []}
   def generate(coins, target) when target < 1, do: {:error, "cannot change"}
   def generate(coins, target) do
-    candidates = permute(coins, target, [])
-    if candidates == [] do
-      {:error, "cannot change"}
-    else
-      {:ok, Enum.min_by(candidates, &Enum.count(&1))}
-    end
+    build_tree(coins, target)
+    |> Enum.filter(fn {_coins, _, score, _next} -> score == target end)
+    |> Enum.min_by(fn {_coins, count, score, _next} -> count end)
+    |> format
   end
 
   def build_tree(coins, target) do
     coins
-    |> Enum.reduce([], fn coin, tree ->
-      permutations(coin, tree, target)
-    end)
-    |> Enum.filter(fn {_coins, score, _next} -> score == target end)
+    |> Enum.reduce([], &permutations(&1, &2, target))
+  end
+
+  def format({coins, count, score, {}}) do
+    coins
+  end
+
+  def format({coins, count, score, _next}) do
+    coins ++ format(_next) 
   end
 
   def duplicate(_coin, 0), do: []
-  def duplicate(coin, n) do
-    (1..n) |> Enum.map(fn _ -> coin end)
+  def duplicate(coin, num_coins) do
+    (1..num_coins) |> Enum.map(fn _ -> coin end)
+  end
+
+  def permutations(coin, [], target) when coin > target do
+    [ { [], 0, 0, {} } ]
   end
 
   def permutations(coin, [], target) do
-    (0..div(target, coin))
-    |> Enum.flat_map(fn i ->
-      if coin * i <= target do
-        [ { duplicate(coin, i), coin * i, {} } ]
-      else
-        []
-      end
+    [0, div(target, coin)]
+    |> Enum.map(fn num_coins ->
+      { duplicate(coin, num_coins), num_coins, coin * num_coins, {} }
     end)
   end
 
   def permutations(coin, tree, target) do
-    (0..div(target, coin))
-    |> Enum.flat_map(fn i ->
-      if coin * i <= target do
-        tree
-        |> Enum.flat_map(fn node = {_, score, _} ->
-            if coin * i + score <= target do
-              [ { duplicate(coin, i), coin * i + score, node } ]
-            else
-              []
-            end
-          end)
-      else
-        []
-      end
-    end)
-  end
-
-  def permute([coin], target, candidate) do
-    if rem(target, coin) == 0 do
-      [candidate ++ duplicate(coin, div(target, coin))]
-    else
-      []
-    end
-  end
-
-  def permute([coin | coins], target, candidate) do
-    (0..div(target, coin))
-    |> Enum.reduce([], fn i, acc ->
-      acc ++ permute(coins, target - coin * i, candidate ++ duplicate(coin, i))
-    end)
+    tree
+    |> Enum.flat_map(fn node = {_, count, score, _} ->
+        [0, div(target - score, coin)]
+        |> Enum.map(fn i ->
+          { duplicate(coin, i), i + count, coin * i + score, node }
+        end)
+      end)
   end
 end
