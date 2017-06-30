@@ -19,23 +19,31 @@ defmodule Change do
   def generate(coins, 0), do: {:ok, []}
   def generate(coins, target) when target < 1, do: {:error, "cannot change"}
   def generate(coins, target) do
-    build_tree(coins, target)
-    |> Enum.filter(fn {_coins, _, score, _next} -> score == target end)
-    |> Enum.min_by(fn {_coins, count, score, _next} -> count end)
-    |> format
+    candidates = build_tree(coins, target)
+
+    if candidates == [] do
+      {:error, "cannot change"}
+    else
+      results = candidates
+      |> Enum.min_by(fn {_coins, _, count, score, _next} -> count end)
+      |> format
+
+      {:ok, results}
+    end
   end
 
   def build_tree(coins, target) do
     coins
-    |> Enum.reduce([], &permutations(&1, &2, target))
+    |> List.foldr([], &permutations(&1, &2, target))
+    |> Enum.filter(fn {_coins, _, _, score, _next} -> score == target end)
   end
 
-  def format({coins, count, score, {}}) do
-    coins
+  def format({coin, num, count, score, {}}) do
+    duplicate(coin, num)
   end
 
-  def format({coins, count, score, _next}) do
-    coins ++ format(_next) 
+  def format({coin, num, count, score, _next}) do
+    duplicate(coin, num) ++ format(_next) 
   end
 
   def duplicate(_coin, 0), do: []
@@ -44,22 +52,22 @@ defmodule Change do
   end
 
   def permutations(coin, [], target) when coin > target do
-    [ { [], 0, 0, {} } ]
+    [ { coin, 0, 0, 0, {} } ]
   end
 
   def permutations(coin, [], target) do
     [0, div(target, coin)]
     |> Enum.map(fn num_coins ->
-      { duplicate(coin, num_coins), num_coins, coin * num_coins, {} }
+      { coin, num_coins, num_coins, coin * num_coins, {} }
     end)
   end
 
   def permutations(coin, tree, target) do
     tree
-    |> Enum.flat_map(fn node = {_, count, score, _} ->
+    |> Enum.flat_map(fn node = {_, _, count, score, _} ->
         [0, div(target - score, coin)]
         |> Enum.map(fn i ->
-          { duplicate(coin, i), i + count, coin * i + score, node }
+          { coin, i, i + count, coin * i + score, node }
         end)
       end)
   end
