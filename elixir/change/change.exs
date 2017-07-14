@@ -35,7 +35,7 @@ defmodule Change do
   def build_tree(coins, target) do
     coins
     |> List.foldr([], &permutations(&1, &2, target))
-    |> Enum.filter(fn {_coins, _, _, score, _next} -> score == target end)
+    # |> Enum.filter(fn {_coins, _, _, score, _next} -> score == target end)
   end
 
   def format({coin, num, count, score, {}}) do
@@ -56,7 +56,7 @@ defmodule Change do
   end
 
   def permutations(coin, [], target) do
-    [0, div(target, coin)]
+    (0 .. div(target, coin))
     |> Enum.map(fn num_coins ->
       { coin, num_coins, num_coins, coin * num_coins, {} }
     end)
@@ -65,7 +65,7 @@ defmodule Change do
   def permutations(coin, tree, target) do
     tree
     |> Enum.flat_map(fn node = {_, _, count, score, _} ->
-        [0, div(target - score, coin)]
+        (0 .. div(target - score, coin))
         |> Enum.map(fn i ->
           { coin, i, i + count, coin * i + score, node }
         end)
