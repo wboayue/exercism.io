@@ -2,20 +2,15 @@ import string
 
 LETTERS_IN_ALPHABET = 26
 
-def shift(letter, key, last):
-  shifted = ord(letter) + key
-
-  if shifted > ord(last):
-    shifted -= LETTERS_IN_ALPHABET
-
-  return chr(shifted)
+def shift(letter, key, alphabets):
+  return alphabets[(alphabets.index(letter) + key) % LETTERS_IN_ALPHABET]
 
 def encode(letter, key):
   if letter in string.ascii_lowercase:
-    return shift(letter, key, 'z')
+    return shift(letter, key, string.ascii_lowercase)
 
   if letter in string.ascii_uppercase:
-    return shift(letter, key, 'Z')
+    return shift(letter, key, string.ascii_uppercase)
 
   return letter
 
