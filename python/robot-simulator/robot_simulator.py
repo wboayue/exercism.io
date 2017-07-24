@@ -16,8 +16,8 @@ def turn_towards(bearing):
 class Robot(object):
     def __init__(self, bearing=NORTH, x=0, y=0):
         self.coordinates = (x, y)
-        self._bearings = turn_towards(bearing)
-        self._instruction_to_action = {
+        self.__bearings = turn_towards(bearing)
+        self.__instruction_to_action = {
             'A': self.advance,
             'L': self.turn_left,
             'R': self.turn_right
@@ -25,7 +25,7 @@ class Robot(object):
 
     @property
     def bearing(self):
-        return self._bearings[0]
+        return self.__bearings[0]
 
     def advance(self):
         self.coordinates = (
@@ -33,11 +33,11 @@ class Robot(object):
             self.coordinates[1] + self.bearing.y)
 
     def turn_right(self):
-        self._bearings.rotate(-1)
+        self.__bearings.rotate(-1)
 
     def turn_left(self):
-        self._bearings.rotate(1)
+        self.__bearings.rotate(1)
 
     def simulate(self, instructions):
         for instruction in instructions:
-            self._instruction_to_action[instruction]()
+            self.__instruction_to_action[instruction]()
