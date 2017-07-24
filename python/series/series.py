@@ -5,4 +5,4 @@ def slices(series, slice_len):
   def slice_at(i):
     return [int(d) for d in series[i : i + slice_len]]
 
-  return [slice_at(i) for i in xrange(len(series) - slice_len + 1)]
+  return [slice_at(i) for i in range(len(series) - slice_len + 1)]
