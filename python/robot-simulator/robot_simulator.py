@@ -1,44 +1,42 @@
-from enum import Enum
+from collections import deque, namedtuple
 
-class Bearing(Enum):
-    NORTH = ('WEST', 'EAST', (0, 1))
-    SOUTH = ('EAST', 'WEST', (0, -1))
-    EAST = ('NORTH', 'SOUTH', (1, 0))
-    WEST = ('SOUTH', 'NORTH', (-1, 0))
+Bearing = namedtuple('Bearing', 'x y')
 
-    def __init__(self, left, right, delta):
-        self.left = left
-        self.right = right
-        self.delta = delta
+NORTH = Bearing(0, 1)
+SOUTH = Bearing(0, -1)
+EAST = Bearing(1, 0)
+WEST = Bearing(-1, 0)
 
-for bearing in Bearing:
-    bearing.left = Bearing[bearing.left]
-    bearing.right = Bearing[bearing.right]
-    vars()[bearing.name] = bearing
+def turn_towards(bearing):
+    bearings = deque([NORTH, EAST, SOUTH, WEST])
+    while bearings[0] != bearing:
+        bearings.rotate(1)
+    return bearings
 
 class Robot(object):
-    def __init__(self, bearing=Bearing.NORTH, x=0, y=0):
-        self.bearing = bearing
+    def __init__(self, bearing=NORTH, x=0, y=0):
+        self.__bearings = turn_towards(bearing)
         self.coordinates = (x, y)
+
+    @property
+    def bearing(self):
+        return self.__bearings[0]
 
     def advance(self):
         self.coordinates = (
-            self.coordinates[0] + self.bearing.delta[0],
-            self.coordinates[1] + self.bearing.delta[1])
+            self.coordinates[0] + self.bearing.x,
+            self.coordinates[1] + self.bearing.y)
 
     def turn_right(self):
-        self.bearing = self.bearing.right
+        self.__bearings.rotate(-1)
 
     def turn_left(self):
-        self.bearing = self.bearing.left
+        self.__bearings.rotate(1)
 
     def simulate(self, actions):
         for action in actions:
-            self.perform(action)
-
-    def perform(self, action):
-        {
-            'A': self.advance,
-            'L': self.turn_left,
-            'R': self.turn_right,
-        }[action]()
+            {
+                'A': self.advance,
+                'L': self.turn_left,
+                'R': self.turn_right,
+            }[action]()
