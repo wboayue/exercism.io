@@ -2,10 +2,7 @@ from collections import deque, namedtuple
 
 Bearing = namedtuple('Bearing', 'x y')
 
-NORTH = Bearing(0, 1)
-SOUTH = Bearing(0, -1)
-EAST = Bearing(1, 0)
-WEST = Bearing(-1, 0)
+NORTH, SOUTH, EAST, WEST = Bearing(0, 1), Bearing(0, -1), Bearing(1, 0), Bearing(-1, 0)
 
 def turn_towards(bearing):
     bearings = deque([NORTH, EAST, SOUTH, WEST])
@@ -35,8 +32,10 @@ class Robot(object):
 
     def simulate(self, actions):
         for action in actions:
-            {
-                'A': self.advance,
-                'L': self.turn_left,
-                'R': self.turn_right,
-            }[action]()
+            if action == 'A':
+                self.advance
+            elif action == 'L':
+                self.turn_left
+            elif action == 'R':
+                self.turn_right
+            else: raise ValueError('Unknow action {}'.format(action))

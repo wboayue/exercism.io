@@ -32,6 +32,10 @@ defmodule Change do
     end
   end
 
+  def search(coins, target) do
+    
+  end
+  
   def build_tree(coins, target) do
     coins
     |> List.foldr([], &permutations(&1, &2, target))
