@@ -22,5 +22,5 @@ def _generate_primes(up_to):
     yield i
 
 def _mark_composites(candidates, prime, up_to):
-  for i in range(prime, up_to+1, prime):
+  for i in range(prime*2, up_to+1, prime):
     candidates[i] = NumberType.COMPOSITE
