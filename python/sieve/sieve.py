@@ -4,7 +4,7 @@ def sieve(up_to):
   if up_to < 2:
     return []
 
-  return [x for x in _generate_primes(up_to)]
+  return list(_generate_primes(up_to))
 
 class NumberType(Enum):
   PRIME = 1
