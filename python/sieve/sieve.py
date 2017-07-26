@@ -17,10 +17,10 @@ def _generate_primes(up_to):
     if candidates[i] == NumberType.COMPOSITE:
       continue
 
-    _mark_non_primes(candidates, i, up_to)
+    _mark_composites(candidates, i, up_to)
 
     yield i
 
-def _mark_non_primes(candidates, prime, up_to):
+def _mark_composites(candidates, prime, up_to):
   for i in range(prime, up_to+1, prime):
     candidates[i] = NumberType.COMPOSITE
