@@ -1,18 +1,20 @@
-def sieve(n):
-  if n < 2:
+def sieve(up_to):
+  if up_to < 2:
     return []
 
-  primes = [2]
+  return [x for x in _generate_primes(up_to)]
 
-  for x in range(2, n+1):
-    if _is_prime(primes, x):
-      primes.append(x)
+def _generate_primes(up_to):
+  candidates = ([True] * (up_to+1))
 
-  return primes
+  for i in range(2, up_to+1):
+    if not candidates[i]:
+      continue
 
-def _is_prime(primes, x):
-  for y in primes:
-    if x % y == 0:
-      return False
-          
-  return True
+    _mark_non_primes(candidates, i, up_to)
+
+    yield i
+
+def _mark_non_primes(candidates, prime, up_to):
+  for i in range(prime, up_to+1, prime):
+    candidates[i] = False
