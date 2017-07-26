@@ -5,7 +5,7 @@ def sieve(up_to):
   return [x for x in _generate_primes(up_to)]
 
 def _generate_primes(up_to):
-  candidates = ([True] * (up_to+1))
+  candidates = [True] * (up_to+1)
 
   for i in range(2, up_to+1):
     if not candidates[i]:
