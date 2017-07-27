@@ -4,7 +4,7 @@ GROUP_SIZE = 5
 
 def encode(plain):
   cipher = _translate(plain.lower(), _make_translator('abcdefghijklmnopqrstuvwxyz'))
-  return _format_cipher(cipher)
+  return _format_cipher(cipher, GROUP_SIZE)
 
 def decode(cipher):
   return _translate(cipher, _make_translator('zyxwvutsrqponmlkjihgfedcba'))
@@ -23,5 +23,5 @@ def _make_translator(key):
 
   return table
 
-def _format_cipher(cipher):
-  return ' '.join(cipher[i:i+GROUP_SIZE] for i in range(0, len(cipher), GROUP_SIZE))
+def _format_cipher(cipher, group_size):
+  return ' '.join(cipher[i:i+group_size] for i in range(0, len(cipher), group_size))
