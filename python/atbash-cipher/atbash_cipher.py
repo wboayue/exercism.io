@@ -1,4 +1,5 @@
 from collections import defaultdict
+from textwrap import wrap
 
 GROUP_SIZE = 5
 
@@ -24,4 +25,4 @@ def _make_translator(key):
   return table
 
 def _format_cipher(cipher, group_size):
-  return ' '.join(cipher[i:i+group_size] for i in range(0, len(cipher), group_size))
+  return ' '.join(wrap(cipher, group_size))
