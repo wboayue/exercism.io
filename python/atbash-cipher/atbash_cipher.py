@@ -3,13 +3,13 @@ from collections import defaultdict
 GROUP_SIZE = 5
 
 def encode(plain):
-  cipher = _translate(plain.lower(), _make_translator('abcdefghijklmnopqrstuvwxyz'))
-  return _format_cipher(cipher, GROUP_SIZE)
+  return _format_cipher(_rotate(plain.lower()), GROUP_SIZE)
 
 def decode(cipher):
-  return _translate(cipher, _make_translator('zyxwvutsrqponmlkjihgfedcba'))
+  return _rotate(cipher)
 
-def _translate(text, mapper):
+def _rotate(text):
+  mapper = _make_translator('abcdefghijklmnopqrstuvwxyz')
   return ''.join(mapper[x] for x in text)
 
 def _make_translator(key):
