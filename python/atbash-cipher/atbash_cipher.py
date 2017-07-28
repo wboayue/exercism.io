@@ -1,34 +1,22 @@
 from collections import defaultdict
-# from bytes import maketrans
+from textwrap import wrap
 
-def _build_encoder_and_decoder():
-  mapping = zip(
-      'abcdefghijklmnopqrstuvwxyz0123456789',
-      'zyxwvutsrqponmlkjihgfedcba0123456789')
-
-  encode = defaultdict(None)
-  decode = defaultdict()
-
-  for x, y in mapping:
-    encode[x] = y
-    decode[y] = x
-
-  return (encode, decode)
-
-_ENCODER, _DECODER = _build_encoder_and_decoder()
-
-def _make_translator(table):
-  def translator(x):
-    if x in table:
-      return table[x]
-    else:
-      return ''
-  return translator
-
-def encode(plain):
-  encode = _make_translator(_ENCODER)
-  return ''.join([encode(x) for x in plain.lower()])
+def encode(plain, group_size = 5):
+  return _format_cipher(_translate(plain.lower()), group_size)
 
 def decode(cipher):
-  decode = _make_translator(_DECODER)
-  return ''.join([decode(x) for x in cipher])
+  return _translate(cipher)
+
+def _translate(text):
+  return ''.join(_flip(x) for x in text)
+
+def _flip(ch):
+  if 'a' <= ch <= 'z':
+    return chr(ord('z') - (ord(ch) - ord('a')))
+  elif '0' <= ch <= '9':
+    return ch
+  else:
+    return ''
+
+def _format_cipher(cipher, group_size):
+  return ' '.join(wrap(cipher, group_size))
