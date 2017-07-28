@@ -1,4 +1,4 @@
-from re import split
+from re import findall
 
 def abbreviate(phrase):
-  return ''.join(word[0] for word in split(r'[ -]', phrase)).upper()
+  return ''.join(findall(r'\b\w', phrase)).upper()
