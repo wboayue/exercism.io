@@ -8,9 +8,9 @@ def decode(cipher):
   return _translate(cipher)
 
 def _translate(text):
-  return ''.join(_rotate(x) for x in text)
+  return ''.join(_flip(x) for x in text)
 
-def _rotate(ch):
+def _flip(ch):
   if 'a' <= ch <= 'z':
     return chr(ord('z') - (ord(ch) - ord('a')))
   elif '0' <= ch <= '9':
