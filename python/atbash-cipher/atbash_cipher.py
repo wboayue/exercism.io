@@ -1,29 +1,22 @@
 from collections import defaultdict
 from textwrap import wrap
-import string
 
-GROUP_SIZE = 5
-
-def encode(plain):
-  return _format_cipher(_translate(plain.lower()), GROUP_SIZE)
+def encode(plain, group_size = 5):
+  return _format_cipher(_translate(plain.lower()), group_size)
 
 def decode(cipher):
   return _translate(cipher)
 
 def _translate(text):
-  mapper = _make_translator(string.ascii_lowercase)
-  return ''.join(mapper[x] for x in text)
+  return ''.join(_rotate(x) for x in text)
 
-def _make_translator(key):
-  table = defaultdict(lambda: '')
-
-  for x, y in zip(key, key[::-1]):
-    table[x] = y
-
-  for x  in string.digits:
-    table[x] = x
-
-  return table
+def _rotate(ch):
+  if 'a' <= ch <= 'z':
+    return chr(ord('z') - (ord(ch) - ord('a')))
+  elif '0' <= ch <= '9':
+    return ch
+  else:
+    return ''
 
 def _format_cipher(cipher, group_size):
   return ' '.join(wrap(cipher, group_size))
