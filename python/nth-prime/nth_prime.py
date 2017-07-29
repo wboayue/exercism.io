@@ -1,18 +1,31 @@
+from math import log
+from enum import Enum
+
 def nth_prime(n):
   if n == 0:
     raise ValueError
 
-  i, candidate, primes,  = 1, 2, []
+  limit = _approximate_limit(n)
 
-  while True:
-    if _is_prime(primes, candidate):
-      if i == n:
-        return candidate
+  return list(_generate_primes(limit))[n-1]
 
-      i += 1
-      primes.append(candidate)
+def _approximate_limit(n):
+  if n < 6:
+    n = 6
 
-    candidate += 1
+  return int(n*log(n) + n*log(log(n)))
 
-def _is_prime(primes, x):
-  return all(x % prime != 0 for prime in primes)
+def _generate_primes(up_to):
+  candidates = [False] * (up_to+1)
+
+  for i in range(2, up_to+1):
+    if candidates[i]:
+      continue
+
+    _mark_composites(candidates, i, up_to)
+
+    yield i
+
+def _mark_composites(candidates, prime, up_to):
+  for i in range(prime*2, up_to+1, prime):
+    candidates[i] = True
