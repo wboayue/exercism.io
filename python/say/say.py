@@ -21,13 +21,16 @@ def say(n):
            for i, x in enumerate(_split_into_thousands(int(n)))
            if x]
 
-  _insert_and(words)
+  words = _insert_and(words)
 
   return ' '.join(reversed(words))
 
 def _insert_and(words):
   if len(words) > 1 and not 'and' in words[0]:
+    words = list(words)
     words.insert(1, 'and')
+
+  return words
 
 def _format_word(power, n):
   if power < 1:
