@@ -1,15 +1,13 @@
-import string
+_BASE_TO_WORD = ['zero', 'one', 'two', 'three', 'four', 'five',
+                 'six', 'seven', 'eight', 'nine', 'ten',
+                 'eleven', 'twelve', 'thirtheen', 'fourteen', 'fifteen',
+                 'sixteen', 'seventeen', 'eighteen', 'nineteen', 'twenty']
 
-_BASE = ['zero', 'one', 'two', 'three', 'four', 'five',
-         'six', 'seven', 'eight', 'nine', 'ten',
-         'eleven', 'twelve', 'thirtheen', 'fourteen', 'fifteen',
-         'sixteen', 'seventeen', 'eighteen', 'nineteen', 'twenty']
+_TENS_TO_WORD = ['', 'ten', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety']
 
-_TENS = ['', 'ten', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety']
+_THOUSANDS_TO_WORD = ['', 'thousand', 'million', 'billion']
 
-_THOUSANDS = ['', 'thousand', 'million', 'billion']
-
-def say(n: int) -> string:
+def say(n):
   if n < 0:
     raise AttributeError('number must be positive')
 
@@ -20,8 +18,8 @@ def say(n: int) -> string:
     return 'zero'
 
   words = [_format_word(i, x)
-            for i, x in enumerate(_split_into_thousands(n))
-            if x]
+           for i, x in enumerate(_split_into_thousands(int(n)))
+           if x]
 
   if len(words) > 1 and not 'and' in words[0]:
     words.insert(1, 'and')
@@ -29,33 +27,32 @@ def say(n: int) -> string:
   words.reverse()
   return ' '.join(words)
 
-def _format_word(power: int, n: int) -> str:
+def _format_word(power, n):
   if power < 1:
     return '{}'.format(_to_words(n))
-  else:
-    return '{} {}'.format(_to_words(n), _THOUSANDS[power])
+
+  return '{} {}'.format(_to_words(n), _THOUSANDS_TO_WORD[power])
 
 def _to_words(n):
   if n <= 20:
-    return _BASE[int(n)]
+    return _BASE_TO_WORD[n]
 
   if n < 100:
     x, y = divmod(n, 10)
-    return '{}-{}'.format(_TENS[int(x)], _to_words(y))
+    return '{}-{}'.format(_TENS_TO_WORD[x], _to_words(y))
 
   x, y = divmod(n, 100)
   if y == 0:
-    return '{} hundred'.format(_BASE[int(x)])
+    return '{} hundred'.format(_BASE_TO_WORD[x])
 
-  return '{} hundred and {}'.format(_BASE[int(x)], _to_words(y))
+  return '{} hundred and {}'.format(_BASE_TO_WORD[x], _to_words(y))
 
 def _split_into_thousands(n):
-  x, y = divmod(n, 1000)
+  rest, chunk = divmod(n, 1000)
+  thousands = [chunk]
 
-  thousands = list([y])
-
-  while x:
-    x, y = divmod(x, 1000)
-    thousands.append(y)
+  while rest:
+    rest, chunk = divmod(rest, 1000)
+    thousands.append(chunk)
 
   return thousands
