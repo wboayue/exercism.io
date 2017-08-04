@@ -6,10 +6,7 @@ def _chunks(digits, n):
     yield [int(x) for x in digits[i:i+n]]
 
 def largest_product(digits, n):
-  if n < 0 or n > len(digits):
+  if not 0 <= n <= len(digits):
     raise ValueError('invalid span')
 
-  if n == 0:
-    return 1
-
-  return max(reduce(mul, chunk) for chunk in _chunks(digits, n))
+  return max(reduce(mul, chunk, 1) for chunk in _chunks(digits, n))
