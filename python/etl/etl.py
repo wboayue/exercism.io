@@ -1,8 +1,4 @@
 def transform(legacy_data):
-  transformed = {}
-
-  for score, letters in legacy_data.items():
-    for letter in letters:
-      transformed[letter.lower()] = score
-  
-  return transformed
+  return {letter.lower(): score
+          for score, letters in legacy_data.items()
+          for letter in letters}
