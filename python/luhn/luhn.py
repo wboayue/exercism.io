@@ -1,13 +1,13 @@
 class Luhn(object):
   def __init__(self, number):
-    self._numbers = [ch for ch in number if not ch.isspace()]
+    self._numbers = number.replace(' ', '')
 
   def is_valid(self):
-    if not (len(self._numbers) > 1 and all(c.isdigit() for c in self._numbers)):
+    if not (len(self._numbers) > 1 and self._numbers.isdigit()):
       return False
 
-    digits = map(int, self._numbers)
-  
+    digits = list(map(int, self._numbers))
+
     for i in range(len(digits)-2, -1, -2):
       digits[i] = digits[i] * 2
 
