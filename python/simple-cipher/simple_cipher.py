@@ -6,7 +6,7 @@ class Cipher(object):
         self.key = key if key else self.generate_key()
 
         if not (self.key.isalpha() and self.key.islower()):
-          raise ValueError('key must be only lowercase letters')
+            raise ValueError('key must be only lowercase letters')
 
     def encode(self, plain_text):
         normalized_text = ''.join(filter(str.isalpha, plain_text.lower()))
@@ -18,14 +18,12 @@ class Cipher(object):
     def generate_key(self):
         return ''.join(choice(ascii_lowercase) for i in range(200))
 
-    def _rotate(self, text, dir):
-        def offset(i):
-            return (ord(self.key[i%len(self.key)]) - ord('a')) * dir
+    def _rotate(self, text, direction):
+        def shift(letter, i):
+            offset = (ord(self.key[i%len(self.key)]) - ord('a')) * direction
+            return ascii_lowercase[(ord(letter)+offset-ord('a')) % 26]
 
-        def shift(ch, offset):
-            return ascii_lowercase[(ord(ch)+offset-ord('a')) % 26]
-
-        return ''.join(shift(text[i], offset(i)) for i in range(len(text)))
+        return ''.join(shift(letter, i) for i, letter in enumerate(text))
 
 class Caesar(object):
     def __init__(self):
