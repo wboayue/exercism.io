@@ -27,7 +27,7 @@ class Cipher(object):
 
 class Caesar(object):
     def __init__(self):
-        self._cipher = Cipher("ddddddddddddddddd")
+        self._cipher = Cipher('ddddddddddddddddd')
 
     def encode(self, plain_text):
         return self._cipher.encode(plain_text)
