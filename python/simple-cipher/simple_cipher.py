@@ -16,13 +16,16 @@ class Cipher(object):
         return self._rotate(cipher_text, -1)
 
     def generate_key(self):
-      return ''.join(choice(ascii_lowercase) for i in range(200))
+        return ''.join(choice(ascii_lowercase) for i in range(200))
 
     def _rotate(self, text, dir):
-      def offset(i):
-        return (ord(self.key[i%len(self.key)]) - ord('a')) * dir
+        def offset(i):
+            return (ord(self.key[i%len(self.key)]) - ord('a')) * dir
 
-      return ''.join(_shift(text[i], offset(i)) for i in range(len(text)))
+        def shift(ch, offset):
+            return ascii_lowercase[(ord(ch)+offset-ord('a')) % 26]
+
+        return ''.join(shift(text[i], offset(i)) for i in range(len(text)))
 
 class Caesar(object):
     def __init__(self):
@@ -33,11 +36,3 @@ class Caesar(object):
 
     def decode(self, cipher_text):
         return self._cipher.decode(cipher_text)
-
-def _shift(x, y):
-  x = ord(x) + y
-  if x > ord('z'):
-    x -= 26
-  if x < ord('a'):
-    x += 26
-  return chr(x)
