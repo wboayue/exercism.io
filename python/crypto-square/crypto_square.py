@@ -30,6 +30,8 @@ def _cipher(num_cols, rows):
       for y in range(len(rows)):
         if x < len(rows[y]):
           block.append(rows[y][x])
+        else:
+          break
 
       blocks.append(''.join(block))
 
