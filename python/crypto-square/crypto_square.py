@@ -21,10 +21,10 @@ def _rows(normalized):
     return (num_cols, rows)
 
 
-def _cipher(n, rows):
+def _cipher(num_cols, rows):
     blocks = []
 
-    for x in range(n):
+    for x in range(num_cols):
       block = []
 
       for y in range(len(rows)):
