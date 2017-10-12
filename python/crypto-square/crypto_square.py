@@ -1,38 +1,14 @@
-import re
 import math
 
 
-def encode(plain):
-    normalized = _normalize(plain)
-
-    if normalized == '':
-        return ''
-
-    return _cipher(*_rows(normalized))
+def encode(plain_text):
+    return _encode(_normalize(plain_text))
 
 
 def _normalize(plain):
-    return re.sub(r'[^a-z0-9]', '', plain.lower())
+    return [c for c in plain.lower() if c.isalnum()]
 
 
-def _rows(normalized):
-    num_cols = math.ceil(math.sqrt(len(normalized)))
-    rows = [normalized[i:i+num_cols] for i in range(0, len(normalized), num_cols)]
-    return (num_cols, rows)
-
-
-def _cipher(num_cols, rows):
-    blocks = []
-
-    for x in range(num_cols):
-      block = []
-
-      for y in range(len(rows)):
-        if x < len(rows[y]):
-          block.append(rows[y][x])
-        else:
-          break
-
-      blocks.append(''.join(block))
-
-    return ' '.join(blocks)
+def _encode(normalized_text):
+    num_rows = math.ceil(math.sqrt(len(normalized_text)))
+    return ' '.join(''.join(normalized_text[i::num_rows]) for i in range(num_rows))
