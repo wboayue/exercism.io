@@ -2,26 +2,30 @@
 
 Implement a clock that handles times without dates.
 
-Create a clock that is independent of date.
-
 You should be able to add and subtract minutes to it.
 
 Two clocks that represent the same time should be equal to each other.
 
-To run the tests simply run the command `go test` in the exercise directory.
+## Running the tests
 
-If the test suite contains benchmarks, you can run these with the `-bench`
-flag:
+To run the tests run the command `go test` from within the exercise directory.
 
-    go test -bench .
+If the test suite contains benchmarks, you can run these with the `--bench` and `--benchmem`
+flags:
 
-For more detailed info about the Go track see the [help
-page](http://exercism.io/languages/go).
+    go test -v --bench . --benchmem
+
+Keep in mind that each reviewer will run benchmarks on a different machine, with
+different specs, so the results from these benchmark tests may vary.
+
+## Further information
+
+For more detailed information about the Go track, including how to get help if
+you're having trouble, please visit the exercism.io [Go language page](http://exercism.io/languages/go/resources).
 
 ## Source
 
 Pairing session with Erin Drummond [https://twitter.com/ebdrummond](https://twitter.com/ebdrummond)
 
-## Submitting Incomplete Problems
+## Submitting Incomplete Solutions
 It's possible to submit an incomplete solution so you can see how others have completed the exercise.
-

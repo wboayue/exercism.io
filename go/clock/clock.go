@@ -3,8 +3,6 @@ package clock
 import "fmt"
 import "math"
 
-const testVersion = 4
-
 type Clock struct {
 	hour, minute int
 }
@@ -35,4 +33,8 @@ func (c Clock) String() string {
 func (c Clock) Add(minutes int) Clock {
 	hour, minute := normalize(c.hour, c.minute+minutes)
 	return Clock{hour, minute}
+}
+
+func (c Clock) Subtract(minutes int) Clock {
+	return c.Add(-minutes)
 }

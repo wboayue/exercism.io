@@ -1,9 +1,10 @@
 package clock
 
-// Source: exercism/x-common
-// Commit: 180638f Merge pull request #217 from ErikSchierboom/patch-2
+// Source: exercism/problem-specifications
+// Commit: b344762 clock: Add test case for exactly negative sixty minutes.
+// Problem Specifications Version: 2.4.0
 
-// Test creating a new clock with an initial time.
+// Create a new clock with an initial time
 var timeTests = []struct {
 	h, m int
 	want string
@@ -25,34 +26,42 @@ var timeTests = []struct {
 	{1, -40, "00:20"},      // negative minutes
 	{1, -160, "22:20"},     // negative minutes roll over
 	{1, -4820, "16:40"},    // negative minutes roll over continuously
+	{2, -60, "01:00"},      // negative sixty minutes is previous hour
 	{-25, -160, "20:20"},   // negative hour and minutes both roll over
 	{-121, -5810, "22:10"}, // negative hour and minutes both roll over continuously
 }
 
-// Test adding and subtracting minutes.
+// Add minutes
 var addTests = []struct {
 	h, m, a int
 	want    string
 }{
-	{10, 0, 3, "10:03"},     // add minutes
-	{6, 41, 0, "06:41"},     // add no minutes
-	{0, 45, 40, "01:25"},    // add to next hour
-	{10, 0, 61, "11:01"},    // add more than one hour
-	{0, 45, 160, "03:25"},   // add more than two hours with carry
-	{23, 59, 2, "00:01"},    // add across midnight
-	{5, 32, 1500, "06:32"},  // add more than one day (1500 min = 25 hrs)
-	{1, 1, 3500, "11:21"},   // add more than two days
-	{10, 3, -3, "10:00"},    // subtract minutes
-	{10, 3, -30, "09:33"},   // subtract to previous hour
-	{10, 3, -70, "08:53"},   // subtract more than an hour
-	{0, 3, -4, "23:59"},     // subtract across midnight
-	{0, 0, -160, "21:20"},   // subtract more than two hours
-	{6, 15, -160, "03:35"},  // subtract more than two hours with borrow
-	{5, 32, -1500, "04:32"}, // subtract more than one day (1500 min = 25 hrs)
-	{2, 20, -3000, "00:20"}, // subtract more than two days
+	{10, 0, 3, "10:03"},    // add minutes
+	{6, 41, 0, "06:41"},    // add no minutes
+	{0, 45, 40, "01:25"},   // add to next hour
+	{10, 0, 61, "11:01"},   // add more than one hour
+	{0, 45, 160, "03:25"},  // add more than two hours with carry
+	{23, 59, 2, "00:01"},   // add across midnight
+	{5, 32, 1500, "06:32"}, // add more than one day (1500 min = 25 hrs)
+	{1, 1, 3500, "11:21"},  // add more than two days
 }
 
-// Construct two separate clocks, set times, test if they are equal.
+// Subtract minutes
+var subtractTests = []struct {
+	h, m, a int
+	want    string
+}{
+	{10, 3, 3, "10:00"},    // subtract minutes
+	{10, 3, 30, "09:33"},   // subtract to previous hour
+	{10, 3, 70, "08:53"},   // subtract more than an hour
+	{0, 3, 4, "23:59"},     // subtract across midnight
+	{0, 0, 160, "21:20"},   // subtract more than two hours
+	{6, 15, 160, "03:35"},  // subtract more than two hours with borrow
+	{5, 32, 1500, "04:32"}, // subtract more than one day (1500 min = 25 hrs)
+	{2, 20, 3000, "00:20"}, // subtract more than two days
+}
+
+// Compare two clocks for equality
 type hm struct{ h, m int }
 
 var eqTests = []struct {
@@ -147,6 +156,12 @@ var eqTests = []struct {
 	{
 		hm{18, 7},
 		hm{-54, -11513},
+		true,
+	},
+	// full clock and zeroed clock
+	{
+		hm{24, 0},
+		hm{0, 0},
 		true,
 	},
 }
