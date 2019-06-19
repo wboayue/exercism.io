@@ -1,29 +1,23 @@
 package clock
 
 import "fmt"
-import "math"
+
+const (
+	minutesInDay  = minutesInHour * 24
+	minutesInHour = 60
+)
 
 type Clock struct {
 	hour, minute int
 }
 
-func floorDiv(x, y int) int {
-	return int(math.Floor(float64(x) / float64(y)))
-}
-
-func floorMod(x, y int) int {
-	return x - (floorDiv(x, y) * y)
-}
-
-func normalize(hour, minute int) (int, int) {
-	m := floorMod(minute, 60)
-	h := floorMod(hour+floorDiv(minute, 60), 24)
-	return h, m
-}
-
 func New(hour, minute int) Clock {
-	h, m := normalize(hour, minute)
-	return Clock{h, m}
+	minutes := (hour*minutesInHour + minute) % minutesInDay
+	if minutes < 0 {
+		minutes += minutesInDay
+	}
+
+	return Clock{minutes / minutesInHour, minutes % minutesInHour}
 }
 
 func (c Clock) String() string {
@@ -31,10 +25,9 @@ func (c Clock) String() string {
 }
 
 func (c Clock) Add(minutes int) Clock {
-	hour, minute := normalize(c.hour, c.minute+minutes)
-	return Clock{hour, minute}
+	return New(c.hour, c.minute+minutes)
 }
 
 func (c Clock) Subtract(minutes int) Clock {
-	return c.Add(-minutes)
+	return New(c.hour, c.minute-minutes)
 }
