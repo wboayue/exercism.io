@@ -1,28 +1,19 @@
 package acronym
 
-import "strings"
-import "unicode"
+import (
+    "regexp"
+    "strings"
+)
 
 const testVersion = 1
 
-func isSeparator(char rune) bool {
-	return char == ' ' || char == '-'
-}
-
-func isMixedCased(previous, current rune) bool {
-	return unicode.IsLower(previous) && unicode.IsUpper(current)
-}
-
-func abbreviate(phrase string) string {
-	previous := ' '
+func Abbreviate(phrase string) string {
+    re := regexp.MustCompile(`(\A|[ _-])+(\p{L})`)
 	acronym := []string{}
 
-	for _, current := range phrase {
-		if isSeparator(previous) || isMixedCased(previous, current) {
-			acronym = append(acronym, string(current))
-		}
-		previous = current
-	}
+    for _, match := range re.FindAllStringSubmatch(phrase, -1) {
+    	acronym = append(acronym, match[2])
+    }
 
 	return strings.ToUpper(strings.Join(acronym, ""))
 }
