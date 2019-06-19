@@ -7,7 +7,7 @@ const testVersion = 5
 // Calculates the Hamming difference between two DNA strands.
 func Distance(strand1, strand2 string) (int, error) {
 	if len(strand1) != len(strand2) {
-		return 0, fmt.Errorf("strands must be equal lengths")
+		return -1, fmt.Errorf("strands must be equal lengths")
 	}
 
 	hammingDistance := 0
