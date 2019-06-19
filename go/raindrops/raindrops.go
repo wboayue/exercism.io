@@ -2,8 +2,6 @@ package raindrops
 
 import "strconv"
 
-const testVersion = 2
-
 type factor struct {
 	factor int
 	output string
