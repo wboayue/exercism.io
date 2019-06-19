@@ -8,8 +8,6 @@ import (
 	"time"
 )
 
-const targetTestVersion = 4
-
 // date formats used in test data
 const (
 	fmtD  = "2006-01-02"
@@ -17,18 +15,17 @@ const (
 )
 
 func TestAddGigasecond(t *testing.T) {
-	if testVersion != targetTestVersion {
-		t.Fatalf("Found testVersion = %v, want %v.", testVersion, targetTestVersion)
-	}
 	for _, tc := range addCases {
 		in := parse(tc.in, t)
 		want := parse(tc.want, t)
 		got := AddGigasecond(in)
 		if !got.Equal(want) {
-			t.Fatalf(`AddGigasecond(%s)
+			t.Fatalf(`FAIL: %s
+AddGigasecond(%s)
    = %s
-want %s`, in, got, want)
+want %s`, tc.description, in, got, want)
 		}
+		t.Log("PASS:", tc.description)
 	}
 	t.Log("Tested", len(addCases), "cases.")
 }
@@ -47,8 +44,8 @@ func parse(s string, t *testing.T) time.Time {
 			t.Fatal(err)
 		} else {
 			t.Log(err)
-			t.Skip("(Not your problem.  " +
-				"please file issue at https://github.com/exercism/xgo.)")
+			t.Skip("(This is not your fault, and is unexpected.  " +
+				"Please file an issue at https://github.com/exercism/go.)")
 		}
 	}
 	return tt

@@ -1,23 +1,29 @@
 # Gigasecond
 
-Write a program that calculates the moment when someone has lived for 10^9 seconds.
+Calculate the moment when someone has lived for 10^9 seconds.
 
 A gigasecond is 10^9 (1,000,000,000) seconds.
 
-To run the tests simply run the command `go test` in the exercise directory.
+## Running the tests
 
-If the test suite contains benchmarks, you can run these with the `-bench`
-flag:
+To run the tests run the command `go test` from within the exercise directory.
 
-    go test -bench .
+If the test suite contains benchmarks, you can run these with the `--bench` and `--benchmem`
+flags:
 
-For more detailed info about the Go track see the [help
-page](http://exercism.io/languages/go).
+    go test -v --bench . --benchmem
+
+Keep in mind that each reviewer will run benchmarks on a different machine, with
+different specs, so the results from these benchmark tests may vary.
+
+## Further information
+
+For more detailed information about the Go track, including how to get help if
+you're having trouble, please visit the exercism.io [Go language page](http://exercism.io/languages/go/resources).
 
 ## Source
 
 Chapter 9 in Chris Pine's online Learn to Program tutorial. [http://pine.fm/LearnToProgram/?Chapter=09](http://pine.fm/LearnToProgram/?Chapter=09)
 
-## Submitting Incomplete Problems
+## Submitting Incomplete Solutions
 It's possible to submit an incomplete solution so you can see how others have completed the exercise.
-
