@@ -2,24 +2,16 @@ package hamming
 
 import "testing"
 
-const targetTestVersion = 5
-
-func TestTestVersion(t *testing.T) {
-	if testVersion != targetTestVersion {
-		t.Errorf("Found testVersion = %v, want %v.", testVersion, targetTestVersion)
-	}
-}
-
 func TestHamming(t *testing.T) {
 	for _, tc := range testCases {
 		got, err := Distance(tc.s1, tc.s2)
-		if tc.want < 0 {
+		if tc.expectError {
 			// check if err is of error type
 			var _ error = err
 
 			// we expect error
 			if err == nil {
-				t.Fatalf("Distance(%q, %q). error is nil.",
+				t.Fatalf("Distance(%q, %q); expected error, got nil.",
 					tc.s1, tc.s2)
 			}
 		} else {
@@ -30,7 +22,7 @@ func TestHamming(t *testing.T) {
 
 			// we do not expect error
 			if err != nil {
-				t.Fatalf("Distance(%q, %q) returned error: %v when expecting none.",
+				t.Fatalf("Distance(%q, %q) returned unexpected error: %v",
 					tc.s1, tc.s2, err)
 			}
 		}
@@ -41,7 +33,8 @@ func BenchmarkHamming(b *testing.B) {
 	// bench combined time to run through all test cases
 	for i := 0; i < b.N; i++ {
 		for _, tc := range testCases {
-			Distance(tc.s1, tc.s2)
+			// ignoring errors and results because we're just timing function execution
+			_, _ = Distance(tc.s1, tc.s2)
 		}
 	}
 }

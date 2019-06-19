@@ -1,81 +1,67 @@
 package hamming
 
-// Source: exercism/x-common
-// Commit: c84e435 Merge pull request #51 from soniakeys/master
+// Source: exercism/problem-specifications
+// Commit: 4119671 Hamming: Add a tests to avoid wrong recursion solution (#1450)
+// Problem Specifications Version: 2.3.0
 
 var testCases = []struct {
-	s1   string
-	s2   string
-	want int
+	s1          string
+	s2          string
+	want        int
+	expectError bool
 }{
-	{ // identical strands
-		"A",
-		"A",
-		0,
-	},
-	{ // long identical strands
-		"GGACTGA",
-		"GGACTGA",
-		0,
-	},
-	{ // complete distance in single nucleotide strands
-		"A",
-		"G",
-		1,
-	},
-	{ // complete distance in small strands
-		"AG",
-		"CT",
-		2,
-	},
-	{ // small distance in small strands
-		"AT",
-		"CT",
-		1,
-	},
-	{ // small distance
-		"GGACG",
-		"GGTCG",
-		1,
-	},
-	{ // small distance in long strands
-		"ACCAGGG",
-		"ACTATGG",
-		2,
-	},
-	{ // non-unique character in first strand
-		"AGA",
-		"AGG",
-		1,
-	},
-	{ // non-unique character in second strand
-		"AGG",
-		"AGA",
-		1,
-	},
-	{ // large distance
-		"GATACA",
-		"GCATAA",
-		4,
-	},
-	{ // large distance in off-by-one strand
-		"GGACGGATTCTG",
-		"AGGACGGATTCT",
-		9,
-	},
 	{ // empty strands
 		"",
 		"",
 		0,
+		false,
+	},
+	{ // single letter identical strands
+		"A",
+		"A",
+		0,
+		false,
+	},
+	{ // single letter different strands
+		"G",
+		"T",
+		1,
+		false,
+	},
+	{ // long identical strands
+		"GGACTGAAATCTG",
+		"GGACTGAAATCTG",
+		0,
+		false,
+	},
+	{ // long different strands
+		"GGACGGATTCTG",
+		"AGGACGGATTCT",
+		9,
+		false,
 	},
 	{ // disallow first strand longer
 		"AATG",
 		"AAA",
-		-1,
+		0,
+		true,
 	},
 	{ // disallow second strand longer
 		"ATA",
 		"AGTG",
-		-1,
+		0,
+		true,
+	},
+	{ // disallow left empty strand
+		"",
+		"G",
+		0,
+		true,
+	},
+	{ // disallow right empty strand
+		"G",
+		"",
+		0,
+		true,
 	},
 }
