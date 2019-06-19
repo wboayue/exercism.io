@@ -1,68 +1,39 @@
 # Hello World
 
-Write a function that greets the user by name, or by saying "Hello, World!" if no name is given.
+The classical introductory exercise. Just say "Hello, World!".
 
 ["Hello, World!"](http://en.wikipedia.org/wiki/%22Hello,_world!%22_program) is
-the traditional first program for beginning programming in a new language.
+the traditional first program for beginning programming in a new language
+or environment.
 
-**Note:** You can skip this exercise by running:
+The objectives are simple:
 
-    exercism skip $LANGUAGE hello-world
+- Write a function that returns the string "Hello, World!".
+- Run the test suite and make sure that it succeeds.
+- Submit your solution and check it at the website.
 
-## Specification
+If everything goes well, you will be ready to fetch your first real exercise.
 
-Write a `Hello World!` function that can greet someone given their name.  The
-function should return the appropriate greeting.
+## Running the tests
 
-For an input of "Alice", the response should be "Hello, Alice!".
+To run the tests run the command `go test` from within the exercise directory.
 
-If a name is not given, the response should be "Hello, World!"
+If the test suite contains benchmarks, you can run these with the `--bench` and `--benchmem`
+flags:
 
-## Test-Driven Development
+    go test -v --bench . --benchmem
 
-As programmers mature, they eventually want to test their code.
+Keep in mind that each reviewer will run benchmarks on a different machine, with
+different specs, so the results from these benchmark tests may vary.
 
-Here at Exercism we simulate [Test-Driven
-Development](http://en.wikipedia.org/wiki/Test-driven_development) (TDD), where
-you write your tests before writing any functionality. The simulation comes in
-the form of a pre-written test suite, which will signal that you have solved
-the problem.
+## Further information
 
-It will also provide you with a safety net to explore other solutions without
-breaking the functionality.
-
-### A typical TDD workflow on Exercism:
-
-1. Run the test file and pick one test that's failing.
-2. Write some code to fix the test you picked.
-3. Re-run the tests to confirm the test is now passing.
-4. Repeat from step 1.
-5. Submit your solution (`exercism submit /path/to/file`)
-
-## Instructions
-
-Submissions are encouraged to be general, within reason. Having said that, it's
-also important not to over-engineer a solution.
-
-It's important to remember that the goal is to make code as expressive and
-readable as we can. However, solutions to the hello-world exercise will not be
-reviewed by a person, but by rikki- the robot, who will offer an encouraging
-word.
-
-To run the tests simply run the command `go test` in the exercise directory.
-
-If the test suite contains benchmarks, you can run these with the `-bench`
-flag:
-
-    go test -bench .
-
-For more detailed info about the Go track see the [help
-page](http://exercism.io/languages/go).
+For more detailed information about the Go track, including how to get help if
+you're having trouble, please visit the exercism.io [Go language page](http://exercism.io/languages/go/resources).
 
 ## Source
 
 This is an exercise to introduce users to using Exercism [http://en.wikipedia.org/wiki/%22Hello,_world!%22_program](http://en.wikipedia.org/wiki/%22Hello,_world!%22_program)
 
-## Submitting Incomplete Problems
+## Submitting Incomplete Solutions
 It's possible to submit an incomplete solution so you can see how others have completed the exercise.
-
