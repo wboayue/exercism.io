@@ -2,8 +2,6 @@ package hamming
 
 import "fmt"
 
-const testVersion = 5
-
 // Calculates the Hamming difference between two DNA strands.
 func Distance(strand1, strand2 string) (int, error) {
 	if len(strand1) != len(strand2) {
