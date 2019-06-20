@@ -32,12 +32,7 @@ func isYell(remark string) bool {
 }
 
 func hasLetter(remark string) bool {
-	for _, r := range remark {
-		if unicode.IsLetter(r) {
-			return true
-		}
-	}
-	return false
+	return strings.IndexFunc(remark, unicode.IsLetter) >= 0
 }
 
 func isSilence(remark string) bool {
