@@ -1,10 +1,14 @@
 package bob
 
-import "strings"
-import "unicode"
+import (
+	"strings"
+	"unicode"
+)
 
 // Generates Bob's response to a remark
 func Hey(remark string) string {
+	remark = strings.TrimSpace(remark)
+
 	switch {
 	case isYell(remark) && isQuestion(remark):
 		return "Calm down, I know what I'm doing!"
@@ -20,7 +24,7 @@ func Hey(remark string) string {
 }
 
 func isQuestion(remark string) bool {
-	return strings.HasSuffix(strings.TrimRight(remark, " "), "?")
+	return strings.HasSuffix(remark, "?")
 }
 
 func isYell(remark string) bool {
@@ -37,10 +41,5 @@ func hasLetter(remark string) bool {
 }
 
 func isSilence(remark string) bool {
-	for _, r := range remark {
-		if !unicode.IsSpace(r) {
-			return false
-		}
-	}
-	return true
+	return remark == ""
 }
