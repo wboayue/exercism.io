@@ -3,6 +3,7 @@ package space
 import "fmt"
 
 const secondsInYear = 31557600
+
 type Planet string
 
 // Given an age in seconds,
