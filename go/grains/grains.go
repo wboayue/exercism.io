@@ -2,17 +2,17 @@ package grains
 
 import (
 	"fmt"
-	"math"
 	"math/big"
 )
 
 // Calculates number of grains on square
+// number of grains is 2^(x-1)
 func Square(x int) (uint64, error) {
 	if x < 1 || x > 64 {
 		return 0, fmt.Errorf("expected 1 to 64 got %d", x)
 	}
 
-	return uint64(math.Pow(2, float64(x-1))), nil
+	return 1 << uint(x-1), nil
 }
 
 // Calculates total number of grains
