@@ -1,50 +1,27 @@
 package luhn
 
 import "unicode"
-import "fmt"
 
 // Determines if number is valid per the Luhn formula
 func Valid(number string) bool {
-	digits, err := normalize(number)
-
-	if err != nil {
-		return false
-	}
-
-	if len(digits) == 1 {
-		return false
-	}
-
+	digits := []rune(number)
+	validCount := 0
 	sum := 0
 
-	for i, digit := range digits {
-		sum += checksum(i, digit)
-	}
-
-	return sum%10 == 0
-}
-
-// converts to int, removes spaces and reverses
-func normalize(number string) ([]int, error) {
-	digits := []rune(number)
-	normalizedDigits := []int{}
-	var digit rune
-
-	for i, count := 0, len(digits); i < count; i++ {
-		digit = digits[count-i-1]
-
-		if unicode.IsSpace(digit) {
+	for i := len(digits) - 1; i >= 0; i-- {
+		if unicode.IsSpace(digits[i]) {
 			continue
 		}
 
-		if !unicode.IsDigit(digit) {
-			return []int{}, fmt.Errorf("only digits are allowed. found: %v", digit)
+		if !unicode.IsDigit(digits[i]) {
+			return false
 		}
 
-		normalizedDigits = append(normalizedDigits, toInt(digit))
-	}
+  		sum += checksum(validCount, toInt(digits[i]))
+  		validCount += 1
+	} 
 
-	return normalizedDigits, nil
+	return validCount > 1 && sum%10 == 0
 }
 
 // converts rune digit to integer
