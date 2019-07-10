@@ -5,9 +5,9 @@ import "fmt"
 
 // Determines if number is valid per the Luhn formula
 func Valid(number string) bool {
-	digits, error := normalize(number)
+	digits, err := normalize(number)
 
-	if error != nil {
+	if err != nil {
 		return false
 	}
 
