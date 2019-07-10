@@ -17,11 +17,11 @@ func Valid(number string) bool {
 
 	sum := 0
 
-	for i, digit := range(digits) {
+	for i, digit := range digits {
 		sum += checksum(i, digit)
 	}
 
-	return sum % 10 == 0
+	return sum%10 == 0
 }
 
 // converts to int, removes spaces and reverses
@@ -54,10 +54,10 @@ func toInt(digit rune) int {
 
 // computes the checksum for the digit
 func checksum(i int, digit int) int {
-	if i % 2 == 0 {
+	if i%2 == 0 {
 		return digit
 	}
-	
+
 	digit *= 2
 
 	if digit > 9 {
