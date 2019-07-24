@@ -53,8 +53,8 @@ func signalWhenComplete(frequencies *ResultsChannel, wg *sync.WaitGroup) {
 func mergeResults(frequencies *ResultsChannel) FreqMap {
 	aggregate := FreqMap{}
 
-	for m := range *frequencies {
-		for letter, count := range m {
+	for result := range *frequencies {
+		for letter, count := range result {
 			aggregate[letter] += count
 		}
 	}
