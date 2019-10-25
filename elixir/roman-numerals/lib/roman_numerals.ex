@@ -1,5 +1,5 @@
-defmodule Roman do
-  @arabic_to_roman [
+defmodule RomanNumerals do
+  @arabic_factors [
     { 1000, "M" },
     { 900, "CM" },
     { 500, "D" },
@@ -18,12 +18,11 @@ defmodule Roman do
   @doc """
   Convert the number to a roman number.
   """
-  @spec numerals(pos_integer) :: String.t
-  def numerals(number) do
-    {numerals, _} = Enum.reduce(@arabic_to_roman, {"", number}, fn ({arabic, roman}, {numerals, number}) ->
-      {numerals <> String.duplicate(roman, div(number, arabic)), rem(number, arabic)}
+  @spec numeral(pos_integer) :: String.t()
+  def numeral(number) do
+    {numerals, 0} = Enum.reduce(@arabic_factors, {"", number}, fn ({factor, roman}, {numerals, number}) ->
+      {numerals <> String.duplicate(roman, div(number, factor)), rem(number, factor)}
     end)
     numerals
   end
-
 end
