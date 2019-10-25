@@ -1,27 +1,26 @@
 # Word Count
 
-Write a program that given a phrase can count the occurrences of each word in that phrase.
+Given a phrase, count the occurrences of each word in that phrase.
 
 For example for the input `"olly olly in come free"`
 
-```plain
+```text
 olly: 2
 in: 1
 come: 1
 free: 1
 ```
 
+Words are compared case-insensitively.
+The keys are lowercase.
 
 ## Running tests
 
 Execute the tests with:
 
 ```bash
-$ elixir bob_test.exs
+$ mix test
 ```
-
-(Replace `bob_test.exs` with the name of the test file.)
-
 
 ### Pending tests
 
@@ -46,9 +45,13 @@ Or, you can enable all the tests by commenting out the
 # ExUnit.configure exclude: :pending, trace: true
 ```
 
-For more detailed information about the Elixir track, please
-see the [help page](http://exercism.io/languages/elixir).
+If you're stuck on something, it may help to look at some of
+the [available resources](https://exercism.io/tracks/elixir/resources)
+out there where answers might be found.
 
 ## Source
 
 This is a classic toy problem, but we were reminded of it by seeing it in the Go Tour.
+
+## Submitting Incomplete Solutions
+It's possible to submit an incomplete solution so you can see how others have completed the exercise.

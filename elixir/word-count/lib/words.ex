@@ -18,9 +18,10 @@ defmodule Words do
   end
 
   defp count_words(words) do
-    words
-    |> Enum.group_by(&(&1))
-    |> Enum.into(%{}, fn {word, words} -> {word, Enum.count(words)} end)
+    Enum.reduce(words, %{}, &update_counts/2)
   end
 
+  defp update_counts(word, counts) do
+    Map.update(counts, word, 1, &(&1 + 1))
+  end
 end
