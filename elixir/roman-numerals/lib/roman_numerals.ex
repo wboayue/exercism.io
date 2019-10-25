@@ -20,9 +20,11 @@ defmodule RomanNumerals do
   """
   @spec numeral(pos_integer) :: String.t()
   def numeral(number) do
-    {numerals, 0} = Enum.reduce(@arabic_factors, {"", number}, fn ({factor, roman}, {numerals, number}) ->
-      {numerals <> String.duplicate(roman, div(number, factor)), rem(number, factor)}
-    end)
-    numerals
+    numeral(number, @arabic_factors)
+  end
+
+  defp numeral(0, []), do: ""
+  defp numeral(number, [{factor, roman} | factors]) do
+    String.duplicate(roman, div(number, factor)) <> numeral(rem(number, factor), factors)
   end
 end
