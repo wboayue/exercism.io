@@ -43,6 +43,23 @@ defmodule ListOps do
   def do_append([], b), do: b
 
   @spec concat([[any]]) :: [any]
-  def concat(ll) do
+  def concat([]), do: []
+  def concat(ll), do: concat(ll, [])
+
+  def concat([], acc), do: reverse(acc)
+  def concat(ll, acc) do
+    {h, t} = pluck(ll)
+    concat(t, [h|acc])
   end
+
+  defp pluck([[]|t]), do: pluck(t)
+  defp pluck([h|t]) when is_list(h), do: pluck(h, t)
+  defp pluck([h|t]), do: {h, t}
+
+  defp pluck([[]|t], acc), do: pluck(t, acc)
+  defp pluck([h|[]], acc), do: pluck(h, acc)
+  defp pluck([h|t], acc) when is_list(h), do: pluck(h, [t|acc])
+  defp pluck([h|t], acc), do: {h, [t|acc]}
+  defp pluck(h, acc), do: {h, acc}
+
 end
