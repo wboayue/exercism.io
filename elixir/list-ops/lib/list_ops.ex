@@ -35,7 +35,7 @@ defmodule ListOps do
   @type acc :: any
   @spec reduce(list, acc, (any, acc -> acc)) :: acc
   def reduce([], acc, _func), do: acc
-  def reduce([head|tail], acc, func), do: reduce(tail, func.(head, acc), func)
+  def reduce([head | tail], acc, func), do: reduce(tail, func.(head, acc), func)
 
   @spec append(list, list) :: list
   def append(a, b), do: do_append(reverse(a), b)
@@ -47,19 +47,19 @@ defmodule ListOps do
   def concat(ll), do: concat(ll, [])
 
   def concat([], acc), do: reverse(acc)
-  def concat(ll, acc) do
-    {h, t} = pluck(ll)
-    concat(t, [h|acc])
+
+  def concat(list, acc) do
+    {head, tail} = head_and_tail(list)
+    concat(tail, [head | acc])
   end
 
-  defp pluck([[]|t]), do: pluck(t)
-  defp pluck([h|t]) when is_list(h), do: pluck(h, t)
-  defp pluck([h|t]), do: {h, t}
+  defp head_and_tail([[] | tail]), do: head_and_tail(tail)
+  defp head_and_tail([head | tail]) when is_list(head), do: head_and_tail(head, tail)
+  defp head_and_tail([head | tail]), do: {head, tail}
 
-  defp pluck([[]|t], acc), do: pluck(t, acc)
-  defp pluck([h|[]], acc), do: pluck(h, acc)
-  defp pluck([h|t], acc) when is_list(h), do: pluck(h, [t|acc])
-  defp pluck([h|t], acc), do: {h, [t|acc]}
-  defp pluck(h, acc), do: {h, acc}
-
+  defp head_and_tail([[] | tail], acc), do: head_and_tail(tail, acc)
+  defp head_and_tail([head | []], acc), do: head_and_tail(head, acc)
+  defp head_and_tail([head | tail], acc) when is_list(head), do: head_and_tail(head, [tail | acc])
+  defp head_and_tail([head | tail], acc), do: {head, [tail | acc]}
+  defp head_and_tail(head, acc), do: {head, acc}
 end
