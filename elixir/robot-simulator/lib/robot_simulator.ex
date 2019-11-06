@@ -11,10 +11,10 @@ defmodule RobotSimulator do
   @spec create(direction :: atom, position :: {integer, integer}) :: any
   def create(direction \\ :north, position \\ {0, 0}) do
     cond do
-      invalid_direction?(direction) ->
+      not direction_valid?(direction) ->
         {:error, "invalid direction"}
 
-      invalid_position?(position) ->
+      not position_valid?(position) ->
         {:error, "invalid position"}
 
       true ->
@@ -22,12 +22,12 @@ defmodule RobotSimulator do
     end
   end
 
-  defp invalid_direction?(direction) do
-    not Enum.member?(@valid_directions, direction)
+  defp direction_valid?(direction) do
+    Enum.member?(@valid_directions, direction)
   end
 
-  defp invalid_position?({x, y}) when is_integer(x) and is_integer(y), do: false
-  defp invalid_position?(_), do: true
+  defp position_valid?({x, y}) when is_integer(x) and is_integer(y), do: true
+  defp position_valid?(_), do: false
 
   @doc """
   Simulate the robot's movement given a string of instructions.
@@ -46,7 +46,7 @@ defmodule RobotSimulator do
 
   defp instructions_valid?(instructions) do
     String.graphemes(instructions)
-    |> Enum.all?(&(Enum.member?(["R", "L", "A"], &1)))
+    |> Enum.all?(&Enum.member?(["R", "L", "A"], &1))
   end
 
   defp move("R", %Robot{direction: direction} = robot) do
