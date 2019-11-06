@@ -36,57 +36,45 @@ defmodule RobotSimulator do
   """
   @spec simulate(robot :: any, instructions :: String.t()) :: any
   def simulate(robot, instructions) do
+    if instructions_valid?(instructions) do
+      String.graphemes(instructions)
+      |> Enum.reduce(robot, &move/2)
+    else
+      {:error, "invalid instruction"}
+    end
+  end
+
+  defp instructions_valid?(instructions) do
     String.graphemes(instructions)
-    |> Enum.reduce(robot, &perform/2)
+    |> Enum.all?(&(Enum.member?(["R", "L", "A"], &1)))
   end
 
-  defp perform("R", %Robot{direction: :north} = robot) do
-    %{robot | direction: :east}
+  defp move("R", %Robot{direction: direction} = robot) do
+    turn_right(robot, direction)
   end
 
-  defp perform("R", %Robot{direction: :east} = robot) do
-    %{robot | direction: :south}
+  defp move("L", %Robot{direction: direction} = robot) do
+    turn_left(robot, direction)
   end
 
-  defp perform("R", %Robot{direction: :south} = robot) do
-    %{robot | direction: :west}
+  defp move("A", %Robot{direction: direction, position: position} = robot) do
+    advance(robot, direction, position)
   end
 
-  defp perform("R", %Robot{direction: :west} = robot) do
-    %{robot | direction: :north}
-  end
+  defp turn_right(robot, :north), do: %{robot | direction: :east}
+  defp turn_right(robot, :east), do: %{robot | direction: :south}
+  defp turn_right(robot, :south), do: %{robot | direction: :west}
+  defp turn_right(robot, :west), do: %{robot | direction: :north}
 
-  defp perform("L", %Robot{direction: :north} = robot) do
-    %{robot | direction: :west}
-  end
+  defp turn_left(robot, :north), do: %{robot | direction: :west}
+  defp turn_left(robot, :east), do: %{robot | direction: :north}
+  defp turn_left(robot, :south), do: %{robot | direction: :east}
+  defp turn_left(robot, :west), do: %{robot | direction: :south}
 
-  defp perform("L", %Robot{direction: :east} = robot) do
-    %{robot | direction: :north}
-  end
-
-  defp perform("L", %Robot{direction: :south} = robot) do
-    %{robot | direction: :east}
-  end
-
-  defp perform("L", %Robot{direction: :west} = robot) do
-    %{robot | direction: :south}
-  end
-
-  defp perform("A", %Robot{direction: :north, position: {x, y}} = robot) do
-    %{robot | position: {x, y + 1}}
-  end
-
-  defp perform("A", %Robot{direction: :east, position: {x, y}} = robot) do
-    %{robot | position: {x + 1, y}}
-  end
-
-  defp perform("A", %Robot{direction: :south, position: {x, y}} = robot) do
-    %{robot | position: {x, y - 1}}
-  end
-
-  defp perform("A", %Robot{direction: :west, position: {x, y}} = robot) do
-    %{robot | position: {x - 1, y}}
-  end
+  defp advance(robot, :north, {x, y}), do: %{robot | position: {x, y + 1}}
+  defp advance(robot, :south, {x, y}), do: %{robot | position: {x, y - 1}}
+  defp advance(robot, :east, {x, y}), do: %{robot | position: {x + 1, y}}
+  defp advance(robot, :west, {x, y}), do: %{robot | position: {x - 1, y}}
 
   @doc """
   Return the robot's direction.
